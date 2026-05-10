@@ -235,7 +235,7 @@ function ic.net.listen(sujet, handler) end
 --Publie un sujet a qui bont voudra l'écouter
 ---@param sujet string
 ---@param payload number | string | boolean | table | nil
----@param options table
+---@param options table | nil
 ---@return number
 function ic.net.publish(sujet, payload , options) end
 --S'inscrit pour écouter un sujet

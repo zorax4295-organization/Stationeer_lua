@@ -66,6 +66,8 @@ ui.sasControl.set()
 -- Déffinition des données
 -----------------------------------------------------
 
+local weatherState
+local currentState
 local url = {
     buttonStart = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_start.png",
     buttonCancel = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_cancel.png",
@@ -81,6 +83,16 @@ local url = {
     stateCycleEnCours = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/state_cycle_en_cours.png",
     stateReady = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/state_ready.png",
 }
+local stateCycle = {
+    idle = 0,
+    interExterDepresurisation = 1,
+    interExterPresurisation = 2,
+    ExterInterDepresurisation = 3,
+    ExterInterPresurisation = 4,
+    Maintenance = 5,
+    Interruption = 6,
+}
+
 
 -----------------------------------------------------
 -- Construction des ui
@@ -278,23 +290,58 @@ local element = {
     },
 }
 
+
+-----------------------------------------------------
+-- Déffinition des functions
+-----------------------------------------------------
+
+local function getWeatherUrl()
+    if weatherState == 2 then
+        return url.inStorm
+    elseif weatherState == 1 then
+        return url.stormIncoming
+    else
+        return url.noStorm
+    end
+end
+
+local function getStateUrl()
+    -- Priorité 1 : tempête active
+    -- Si weatherState == 2, on force stateSecurited.
+    if weatherState == 2 then
+        return url.stateSecurited
+    end
+
+    -- Priorité 2
+    if currentState == stateCycle.idle then
+        return url.stateReady
+    else
+        return url.stateCycleEnCours
+    end
+end
+
+--Actualise l'interface
+local function updateScreen()
+    element.cycleSas.weatherPanel:set_props({ url = getWeatherUrl()})
+    element.cycleSas.run.state:set_props({ url = getStateUrl() })
+end
+
+
 -----------------------------------------------------
 -- Initialisation de la puce lua
 -----------------------------------------------------
 
 --Reception de l'état de la weatherStation
 ic.net.subscribe("sasHangarVehiculaire/weatherState", function(_, payload, _, _, _)
-    if payload == 0 then
-        element.cycleSas.weatherPanel:set_props({ url = url.noStorm})
-    elseif payload == 1 then
-        element.cycleSas.weatherPanel:set_props({ url = url.stormIncoming})
-    else
-        element.cycleSas.weatherPanel:set_props({ url = url.inStorm})
-    end
+    weatherState = payload
+    updateScreen()
 end)
-ic.net.subscribe("sasHangarVehiculaire/currentState", function (sujet, payload, fromId, fromName, cache)
-    
+--Reception de l'état actuel du programme core
+ic.net.subscribe("sasHangarVehiculaire/currentState", function (_, payload, _, _, _)
+    currentState = payload
+    updateScreen()
 end)
+
 
 while true do
     yield()
