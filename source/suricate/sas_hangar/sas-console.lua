@@ -70,6 +70,8 @@ ui.sasControl.set()
 local weatherState
 local nextWeatherEventTime = 0
 local currentState
+-- true = dcy et false = cancel
+local actionButtonStart = true
 local url = {
     buttonStart = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_start.png",
     buttonCancel = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_cancel.png",
@@ -94,7 +96,22 @@ local stateCycle = {
     Maintenance = 5,
     Interruption = 6,
 }
+local buttonCycleAction = {
+    start = "start",
+    cancel = "cancel",
+    blocked = "blocked",
+}
 
+
+local function getButtonCycleAction()
+    if weatherState == 2 and currentState == stateCycle.idle then
+        return buttonCycleAction.blocked
+    elseif currentState == stateCycle.idle then
+        return buttonCycleAction.start
+    else
+        return buttonCycleAction.cancel
+    end
+end
 
 -----------------------------------------------------
 -- Construction des ui
@@ -284,6 +301,13 @@ local element = {
                         props = { text = "" },
                         style = { bg = "#00000000", text = "#FFFFFF", font_size = 14 },
                         on_click = function()
+                            local action = getButtonCycleAction()
+
+                            if action == buttonCycleAction.start then
+                                ic.net.send("ic housing core", "sasHangarVehiculaire/startCycleRequested", true)
+                            elseif action == buttonCycleAction.cancel then
+                                ic.net.send("ic housing core", "sasHangarVehiculaire/cancelCycleRequested", true)
+                            end
                         end
                     }),
                 },
@@ -355,7 +379,7 @@ end
 
 
 -----------------------------------------------------
--- Initialisation de la puce lua
+-- reception message réseau
 -----------------------------------------------------
 
 --Reception de l'état de la weatherStation

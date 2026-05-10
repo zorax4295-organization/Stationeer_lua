@@ -52,9 +52,10 @@ local bpSosHash = hash("ModularDeviceUtilityButton2x2")
 -- Définition des donnés
 ----------------------------
 
-local startCycle = false -- Permet de lancer le cycle sas valeur a modifier
 local lastSentWeatherMode
 local lastSentNextWeatherEventTime
+local startCycleRequested = false
+local cancelCycleRequested = false
 local stateCycle = {
     idle = 0,
     interExterDepresurisation = 1,
@@ -288,14 +289,33 @@ do
 end
 
 
-local buttonStartTemp = ic.find("Logic Button Round")
+-----------------------------------------------------
+-- reception message réseau
+-----------------------------------------------------
+
+ic.net.subscribe("sasHangarVehiculaire/startCycleRequested", function (_, payload, _, _, _)
+    if type(payload) ~= "boolean" then
+        print(system.log.time() .. "h " .. system.log.level("warn").."La charge utile du message réseau <<color=#FFFF00>sasHangarVehiculaire/startCycleRequested</color>> n'est pas de type <color=#FFFF00>boolean</color>.")
+        return
+    end
+    startCycleRequested = payload
+end)
+ic.net.subscribe("sasHangarVehiculaire/cancelCycleRequested", function (_, payload, _, _, _)
+    if type(payload) ~= "boolean" then
+        print(system.log.time() .. "h " .. system.log.level("warn").."La charge utile du message réseau <<color=#FFFF00>sasHangarVehiculaire/cancelCycleRequested</color>> n'est pas de type <color=#FFFF00>boolean</color>.")
+        return
+    end
+    cancelCycleRequested = payload
+end)
+
+
+
 
 while true do
     ----------------------------
     -- Lecture des donnés
     ----------------------------
 
-    local startCycle = ic.read_id(buttonStartTemp, LT.Activate) -- Intégrer le message réseau de la console
     local accessLevel = system.safe.read(housingAccess, LT.Setting, "IC Housing Access")
     local actualWeatherMode = system.safe.read(weatherStation, LT.Mode, "Weather Station")
     local nextWeatherEventTime = system.safe.read(weatherStation, LT.NextWeatherEventTime, "weather station") / 60 -- Renvoie dans combient de temps arrive la prochaine tempète en minute
@@ -310,11 +330,14 @@ while true do
     end
     
 
-    if startCycle==1 and accessLevel >= 1 then -- accessLevel 1 = accès normal et 2 = accès maintenance
-        if currentSensCycle == sensCycle.interExter then
-            cycleInterExter()
-        else
-            cycleExterInter()
+    if startCycleRequested==true then -- accessLevel 1 = accès normal et 2 = accès maintenance
+    startCycleRequested = false    
+        if accessLevel >= 1 then
+            if currentSensCycle == sensCycle.interExter then
+                cycleInterExter()
+            else
+                cycleExterInter()
+            end
         end
     end
 
