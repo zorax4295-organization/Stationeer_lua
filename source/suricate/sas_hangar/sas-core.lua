@@ -246,10 +246,11 @@ local function cycleExterInter()
         yield()
         setCurrentState(stateCycle.ExterInterPresurisation)
     end
-    
+
     if currentState == stateCycle.ExterInterPresurisation then
         local pressureInter = system.safe.read(sensorIntern, LT.Pressure, "Gas Sensor Intern")
         ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.Mode, 0) -- Pressuriser
+        yield() -- obligatoire sinon le pressureExternal n'est pas definit car trop rapide
         ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.PressureExternal, pressureInter)
         ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.On, 1)
         while
