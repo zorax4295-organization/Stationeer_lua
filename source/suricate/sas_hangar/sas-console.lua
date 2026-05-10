@@ -41,8 +41,7 @@ local ui = {
 ui.accueil.surface:get_resolution(1254, 1254)
 local size = ui.accueil.surface:size()
 
-
--- Déffinition de la taille de l'écran physique
+-- Déffinition de la taille de l'écran virtuelle
 local w = size.w
 local h = size.h
 
@@ -62,16 +61,11 @@ local container = {
 }
 local elements = {
     accueil = {
-        --panel = ui.accueil.surface:element({
-        --    id = "panel",
-        --    type = "panel",
-        --    rect = { unit = "px", x = 0, y = 0, w = w, h = h },
-        --    style = { bg = "#1E293B" },
-        --}),
-        image = ui.accueil.surface:element({
-            id = "logo", type = "image",
-            rect = { unit = "px", x = 0, y = 0, w = w, h = h },
-            props = { url = "https://example.com/image.png" },
+        label = ui.accueil.surface:element({
+            id = "title", type = "label",
+            rect = { unit = "px", x = 20, y = 10, w = 200, h = 30 },
+            props = { text = "Hello World" },
+            style = { font_size = 18, color = "#FFFFFF", align = "left" }
         }),
     },
 }
