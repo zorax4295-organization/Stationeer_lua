@@ -81,86 +81,10 @@ local stateWheater = {
 -- Définition des functions
 ----------------------------
 
--- Lance le cycle INTER -> EXTER
-local function cycleInterExter()
-    if currentState == stateCycle.interExterDepresurisation or currentState == stateCycle.idle then
-        currentState = stateCycle.interExterDepresurisation
-        ic.batch_write_name(hangarDoorHash, hangarDoorInterName, LT.Lock, 1)
-        ic.batch_write_name(hangarDoorHash, hangarDoorInterName, LT.Open, 0)
-        ic.batch_write(lightHash, LT.On, 0)
-        ic.batch_write(flashLightHash, LT.On, 1)
-        yield()
-        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.Mode, 1) -- Dépressuriser
-        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.On, 1)
-        while system.safe.read(sensor, LT.Pressure, "Gas Sensor") ~= 0 do yield() end -- Tant que la pression !=0 alors je patiente
-        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.On, 0)
-        yield()
-        currentState = stateCycle.interExterPresurisation
-    end
-
-    if currentState == stateCycle.interExterPresurisation then
-        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.Mode, 0) -- Préssuriser
-        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.On, 1)
-        while 
-            system.safe.read(sensor, LT.Pressure, "Gas Sensor") ~= system.safe.read(sensorExtern, LT.Pressure, "Gas Sensor Extern") and
-            system.safe.read(sensorExtern, LT.Pressure, "Gas Sensor Extern") >=10 -- Supérieur a 10kPa
-        do
-            yield()
-        end
-        yield()
-        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.On, 0)
-        ic.batch_write_name(hangarDoorHash, hangarDoorExterName, LT.Lock, 0)
-        ic.batch_write_name(hangarDoorHash, hangarDoorExterName, LT.Open, 1)
-        ic.batch_write(flashLightHash, LT.On, 0)
-        ic.batch_write(lightHash, LT.On, 1)
-    end
-    currentSensCycle = sensCycle.exterInter
-end
--- Lance le cycle EXTER -> INTER
-local function cycleExterInter()
-    if currentState == stateCycle.ExterInterDepresurisation or currentState == stateCycle.idle then
-        currentState = stateCycle.ExterInterDepresurisation
-        ic.batch_write_name(hangarDoorHash, hangarDoorExterName, LT.Lock, 1)
-        ic.batch_write_name(hangarDoorHash, hangarDoorExterName, LT.Open, 0)
-        ic.batch_write(lightHash, LT.On, 0)
-        ic.batch_write(flashLightHash, LT.On, 1)
-        yield()
-        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.Mode, 1) -- Dépressuriser
-        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.On, 1)
-        while system.safe.read(sensor, LT.Pressure, "Gas Sensor") ~= 0 do yield() end -- Tant que la pression !=0 alors je patiente
-        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.On, 0)
-        yield()
-        currentState = stateCycle.ExterInterPresurisation
-    end
-    
-    if currentState == stateCycle.ExterInterPresurisation then
-        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.Mode, 0) -- Pressuriser
-        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.On, 1)
-        while 
-            system.safe.read(sensor, LT.Pressure, "Gas Sensor") <= system.safe.read(sensorIntern, LT.Pressure, "Gas Sensor Extern")-0.5 and
-            system.safe.read(sensorIntern, LT.Pressure, "Gas Sensor Extern") >=10 -- Supérieur a 10kPa
-        do
-            yield()
-        end
-        yield()
-        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.On, 0)
-        ic.batch_write_name(hangarDoorHash, hangarDoorInterName, LT.Lock, 0)
-        ic.batch_write_name(hangarDoorHash, hangarDoorInterName, LT.Open, 1)
-        ic.batch_write(flashLightHash, LT.On, 0)
-        ic.batch_write(lightHash, LT.On, 1)
-    end
-    currentSensCycle = sensCycle.interExter
-end
--- fait clignoter le BP Acquiter
-local function clignotementBpAcquiter()
-    ic.batch_write(bpAcquiterHash, LT.Color, 4) -- Rouge
-    yield()
-    ic.batch_write(bpAcquiterHash, LT.Color, 5) -- Jaune
-end
 -- Test l'activation du bouton maintenance
 local function isSwitchMaintenanceEnable()
     local SwitchMaintenanceState = ic.batch_read(switchMaintenanceHash, LT.On, LBM.Maximum)
-    if SwitchMaintenanceState == 1 then
+    if SwitchMaintenanceState == 1 and system.safe.read(housingAccess, LT.Setting, "IC Housing Access") == 2 then
         return true
     else
         return false
@@ -185,8 +109,9 @@ end
 -- Mode maintenance
 local function maintenance()
     currentState = stateCycle.Maintenance
-    ic.batch_write(flashLightHash, LT.On, 1)
-    ic.batch_write(lightHash, LT.On, 0)
+    print(system.log.time().."h "..system.log.level("info").." : Maintenance déclencher")
+    ic.batch_write(flashLightHash, LT.On, 0)
+    ic.batch_write(lightHash, LT.On, 1)
     ic.batch_write(poweredVentHash, LT.On, 0)
 
     ic.batch_write(hangarDoorHash, LT.Lock, 0)
@@ -194,10 +119,10 @@ local function maintenance()
     ic.batch_write(lightHash, LT.Lock, 0)
     ic.batch_write(poweredVentHash, LT.Lock, 0)
 
-    while isSwitchMaintenanceEnable() do
+    while isSwitchMaintenanceEnable() and system.safe.read(housingAccess, LT.Setting, "IC Housing Access") == 2 do
         yield()
     end
-
+    print(system.log.time().."h "..system.log.level("info").." : fin de maintenance")
     ic.batch_write(flashLightHash, LT.On, 0)
     ic.batch_write(lightHash, LT.On, 1)
     ic.batch_write(poweredVentHash, LT.On, 0)
@@ -210,14 +135,122 @@ end
 -- Mode interruption
 local function interruption()
     currentState = stateCycle.Interruption
+    print(system.log.time().."h "..system.log.level("info").." : Intérruption déclencher")
+    ic.batch_write(flashLightHash, LT.On, 1)
+    ic.batch_write(lightHash, LT.On, 0)
+    ic.batch_write(poweredVentHash, LT.On, 0)
     while not (isAcquitterButtonActivate() and system.safe.read(housingAccess, LT.Setting, "IC Housing Access") == 2) do
-        clignotementBpAcquiter()
+        ic.batch_write(bpAcquiterHash, LT.Color, 4) -- Rouge
+        if isAcquitterButtonActivate() and system.safe.read(housingAccess, LT.Setting, "IC Housing Access") == 2 then
+            break
+        end
+        yield()
+        ic.batch_write(bpAcquiterHash, LT.Color, 5) -- Jaune
+        if isAcquitterButtonActivate() and system.safe.read(housingAccess, LT.Setting, "IC Housing Access") == 2 then
+            break
+        end
+
+
         yield()
     end
+    print(system.log.time().."h "..system.log.level("info").." : fin d'intérruption")
+    ic.batch_write(hangarDoorHash, LT.Lock, 1)
+    ic.batch_write(flashLightHash, LT.On, 0)
+    ic.batch_write(lightHash, LT.On, 1)
     ic.batch_write(bpAcquiterHash, LT.Color, 0) -- Bleu
 end
+-- Lance le cycle INTER -> EXTER
+local function cycleInterExter()
+    print(system.log.time().."h "..system.log.level("info").." : Démarage cycle interieur -> exterieur")
+    if currentState == stateCycle.interExterDepresurisation or currentState == stateCycle.idle then
+        currentState = stateCycle.interExterDepresurisation
+        ic.batch_write_name(hangarDoorHash, hangarDoorInterName, LT.Lock, 1)
+        ic.batch_write_name(hangarDoorHash, hangarDoorInterName, LT.Open, 0)
+        ic.batch_write(lightHash, LT.On, 0)
+        ic.batch_write(flashLightHash, LT.On, 1)
+        yield()
+        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.Mode, 1) -- Dépressuriser
+        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.On, 1)
+        while system.safe.read(sensor, LT.Pressure, "Gas Sensor") ~= 0 do -- Tant que la pression !=0 alors je patiente
+            if isInterruptionButtonActivate() then
+                interruption()
+                return
+            end
+            yield()
+        end
+        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.On, 0)
+        yield()
+        currentState = stateCycle.interExterPresurisation
+    end
 
-
+    if currentState == stateCycle.interExterPresurisation then
+        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.Mode, 0) -- Préssuriser
+        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.On, 1)
+        while 
+            system.safe.read(sensor, LT.Pressure, "Gas Sensor") ~= system.safe.read(sensorExtern, LT.Pressure, "Gas Sensor Extern") and
+            system.safe.read(sensorExtern, LT.Pressure, "Gas Sensor Extern") >=10 -- Supérieur a 10kPa
+        do
+            if isInterruptionButtonActivate() then
+                interruption()
+                return
+            end
+            yield()
+        end
+        yield()
+        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.On, 0)
+        ic.batch_write_name(hangarDoorHash, hangarDoorExterName, LT.Lock, 0)
+        ic.batch_write_name(hangarDoorHash, hangarDoorExterName, LT.Open, 1)
+        ic.batch_write(flashLightHash, LT.On, 0)
+        ic.batch_write(lightHash, LT.On, 1)
+    end
+    currentSensCycle = sensCycle.exterInter
+end
+-- Lance le cycle EXTER -> INTER
+local function cycleExterInter()
+    print(system.log.time().."h "..system.log.level("info").." : Démarage cycle exterieur -> interieur")
+    if currentState == stateCycle.ExterInterDepresurisation or currentState == stateCycle.idle then
+        currentState = stateCycle.ExterInterDepresurisation
+        ic.batch_write_name(hangarDoorHash, hangarDoorExterName, LT.Lock, 1)
+        ic.batch_write_name(hangarDoorHash, hangarDoorExterName, LT.Open, 0)
+        ic.batch_write(lightHash, LT.On, 0)
+        ic.batch_write(flashLightHash, LT.On, 1)
+        yield()
+        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.Mode, 1) -- Dépressuriser
+        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.On, 1)
+        while system.safe.read(sensor, LT.Pressure, "Gas Sensor") ~= 0 do -- Tant que la pression !=0 alors je patiente
+            if isInterruptionButtonActivate() then
+                interruption()
+                return
+            end
+            yield()
+        end
+        ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.On, 0)
+        yield()
+        currentState = stateCycle.ExterInterPresurisation
+    end
+    
+    if currentState == stateCycle.ExterInterPresurisation then
+        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.Mode, 0) -- Pressuriser
+        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.On, 1)
+        while 
+            system.safe.read(sensor, LT.Pressure, "Gas Sensor") <= system.safe.read(sensorIntern, LT.Pressure, "Gas Sensor Extern")-0.5 and
+            system.safe.read(sensorIntern, LT.Pressure, "Gas Sensor Extern") >=10 -- Supérieur a 10kPa
+        do
+            if isInterruptionButtonActivate() then
+                interruption()
+                return
+            end
+            yield()
+        end
+        yield()
+        ic.batch_write_name(poweredVentHash, poweredVentInterName, LT.On, 0)
+        ic.batch_write_name(hangarDoorHash, hangarDoorInterName, LT.Lock, 0)
+        ic.batch_write_name(hangarDoorHash, hangarDoorInterName, LT.Open, 1)
+        ic.batch_write(flashLightHash, LT.On, 0)
+        ic.batch_write(lightHash, LT.On, 1)
+    end
+    currentSensCycle = sensCycle.interExter
+end
 
 ----------------------------
 -- Init du système
