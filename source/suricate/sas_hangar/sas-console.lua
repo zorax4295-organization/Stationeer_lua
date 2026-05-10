@@ -7,9 +7,9 @@
 ------------------------------------------------------------------------------------------------
 
 
-----------------------------
+-----------------------------------------------------
 -- import de la librairie
-----------------------------
+-----------------------------------------------------
 
 local scriptedScreen= require("scriptedScreen")
 
@@ -32,9 +32,9 @@ local function createScreen(name)
     }
 end
 
-------------------------
+-----------------------------------------------------
 -- Création des écran
-------------------------
+-----------------------------------------------------
 
 --Liste toute les page 
 local ui = {
@@ -43,9 +43,9 @@ local ui = {
     setting = createScreen("setting"),
 }
 
-------------------------
+-----------------------------------------------------
 -- Déffinition d'une résolution virtuelle
-------------------------
+-----------------------------------------------------
 
 ui.accueil.surface:get_resolution(460, 460)
 local size = ui.accueil.surface:size()
@@ -54,11 +54,31 @@ local size = ui.accueil.surface:size()
 local w = size.w
 local h = size.h
 
+-----------------------------------------------------
+-- Initialisation des ecran
+-----------------------------------------------------
 
 ui.accueil.clear()
 ui.sasControl.clear()
 ui.accueil.set()
 ui.sasControl.set()
+
+-----------------------------------------------------
+-- Initialisation des URL
+-----------------------------------------------------
+local url = {
+    buttonStart = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_start.png",
+    buttonCancel = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_cancel.png",
+    buttonStartBlocked = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_start_blocked.png",
+    buttonSettingBlue = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_setting_blue.png",
+    buttonMenuBlue = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_menu_blue.png",
+    buttonMenuOrange = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_menu_orange.png",
+    buttonMenuRed = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_menu_red.png",
+    noStorm = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/no_storm.png",
+    stormIncoming = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/storm_incoming.png",
+    inStorm = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/in_storm.png",
+}
+
 
 --Permet l'imbriquation d'elements dans des container
 local container = {
@@ -103,14 +123,14 @@ local element = {
         weatherPanel = ui.sasControl.surface:element({
             id = "weatherPanel", type = "image",
             rect = { unit = "px", x = 0, y = 0, w = w, h = 108 },
-            props = { url = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/no_storm.png" },
+            props = { url = url.noStorm },
         }),
         menu = {
             buttonSetting = {
                 image = container.sasControl.menu:element({
                     id = "imageButtonSetting_sasControl", type = "image",
                     rect = { unit = "px", x = 311, y = 0, w = 149, h = 50 },
-                    props = { url = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_setting_blue.png" },
+                    props = { url = url.buttonSettingBlue },
                 }),
                 button = container.sasControl.menu:element({
                     id = "buttonSetting_sasControl", type = "button",
@@ -126,7 +146,7 @@ local element = {
                 image = container.sasControl.menu:element({
                     id = "imageButtonMenu_sasControl", type = "image",
                     rect = { unit = "px", x = 0, y = 0, w = 57, h = 50 },
-                    props = { url = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/menu_blue.png" },
+                    props = { url = url.buttonMenuBlue },
                 }),
                 button = container.sasControl.menu:element({
                     id = "buttonMenu_sasControl", type = "button",
@@ -142,7 +162,7 @@ local element = {
             image = ui.sasControl.surface:element({
                 id = "imageButtonCycle_sasControl", type = "image",
                 rect = { unit = "px", x = 76, y = 337, w = 307, h = 60 },
-                props = { url = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/button_start.png" },
+                props = { url = url.buttonStart },
             }),
             button = ui.sasControl.surface:element({
                 id = "buttonCycle_sasControl", type = "button",
