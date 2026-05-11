@@ -319,7 +319,7 @@ while true do
 
     local accessLevel = system.safe.read(housingAccess, LT.Setting, "IC Housing Access")
     local actualWeatherMode = system.safe.read(weatherStation, LT.Mode, "Weather Station")
-    local nextWeatherEventTime = system.safe.read(weatherStation, LT.NextWeatherEventTime, "weather station") / 60 -- Renvoie dans combient de temps arrive la prochaine tempète en minute
+    local nextWeatherEventTime = system.safe.read(weatherStation, LT.NextWeatherEventTime, "weather station") -- Renvoie dans combient de temps arrive la prochaine tempète en seconde
 
     setCurrentWeather(actualWeatherMode, nextWeatherEventTime) --Envoie les valeur actualiser a l'ecran
 

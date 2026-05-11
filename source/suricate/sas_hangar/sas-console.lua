@@ -108,6 +108,8 @@ local function getButtonCycleAction()
         return buttonCycleAction.blocked
     elseif currentState == stateCycle.idle then
         return buttonCycleAction.start
+    elseif currentState == stateCycle.Maintenance or currentState == stateCycle.Interruption then
+        return nil
     else
         return buttonCycleAction.cancel
     end
@@ -371,7 +373,11 @@ end
 local function updateScreen()
     element.cycleSas.weatherPanel:set_props({ url = getWeatherUrl()})
     if nextWeatherEventTime ~= 0 then
-        element.cycleSas.labelNextWeatherEventTime:set_props({ text = "Arrivée estimée : " .. nextWeatherEventTime .. " secondes" })
+        if nextWeatherEventTime <= 60 then
+            element.cycleSas.labelNextWeatherEventTime:set_props({ text = "Arrivée estimée : " .. nextWeatherEventTime .. " secondes" })
+        else
+            element.cycleSas.labelNextWeatherEventTime:set_props({ text = "Arrivée estimée : " .. nextWeatherEventTime/60 .. " minute" })
+        end
     else        
         element.cycleSas.labelNextWeatherEventTime:set_props({ text = "" })
     end
