@@ -82,8 +82,7 @@ local stateWheater = {
 ----------------------------
 -- Définition des functions
 ----------------------------
-
--- Test l'activation du bouton maintenance
+-- Définit le current state
 local function setCurrentState(newState)
     if currentState ~= newState then
         currentState = newState
@@ -101,6 +100,7 @@ local function setCurrentWeather(actualWeatherMode, nextWeatherEventTime)
         lastSentNextWeatherEventTime = nextWeatherEventTime
     end
 end
+-- Test l'activation du bouton maintenance
 local function isSwitchMaintenanceEnable()
     local SwitchMaintenanceState = ic.batch_read(switchMaintenanceHash, LT.On, LBM.Maximum)
     if SwitchMaintenanceState == 1 and system.safe.read(housingAccess, LT.Setting, "IC Housing Access") == 2 then
@@ -109,6 +109,7 @@ local function isSwitchMaintenanceEnable()
         return false
     end
 end
+-- Est ce que le bouton SOS est activer
 local function isInterruptionButtonActivate()
     local bpSosState = ic.batch_read(bpSosHash, LT.Activate, LBM.Maximum)
     if bpSosState == 1 then
@@ -117,6 +118,7 @@ local function isInterruptionButtonActivate()
         return false
     end
 end
+-- Est ce que le bouton acquiter sos est activer
 local function isAcquitterButtonActivate()
     local bpAcquiterstate = ic.batch_read(bpAcquiterHash, LT.Activate, LBM.Maximum)
     if bpAcquiterstate == 1 then
