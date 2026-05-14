@@ -81,6 +81,8 @@ local url = {
     stateSecurited = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/state_securited.png",
     stateCycleEnCours = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/state_cycle_en_cours.png",
     stateReady = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/state_ready.png",
+    stateMaintenance = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/state_maintenance.png",
+    stateInterruption = "https://raw.githubusercontent.com/zorax4295-organization/Galacticon/refs/heads/suricate/sas/hangar/source/.ressource/sas_hangar_vehiculaire/state_interruption.png",
 }
 local stateCycle = {
     idle = 0,
@@ -348,11 +350,9 @@ local function getStateUrl()
     if currentState == stateCycle.idle then
         return url.stateReady
     elseif currentState == stateCycle.Maintenance then
-        print(system.log.time() .. "h " .. system.log.level("warn").." Image state maintenance manquante")
-        return nil
+        return url.stateMaintenance
     elseif currentState == stateCycle.Interruption then
-        print(system.log.time() .. "h " .. system.log.level("warn").." Image state Interruption manquante")
-        return nil
+        return url.stateInterruption
     else
         return url.stateCycleEnCours
     end
