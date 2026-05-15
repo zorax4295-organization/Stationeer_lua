@@ -14,6 +14,14 @@
 --- Switch du sens du sas
 -----------------------------------
 
+
+----------------------------
+-- Définition des constante
+----------------------------
+
+local targetPressureExternal = 2 --kPa
+
+
 ----------------------------
 -- import de la librairie
 ----------------------------
@@ -31,13 +39,12 @@ local LBM = ic.enums.LogicBatchMethod
 local housingAccess = 0
 local sensor = 1
 local sensorIntern = 2
-local sensorExtern = 3
-local weatherStation = 4
-local pipeAnalizer = 5
+local weatherStation = 3
+local pipeAnalizer = 4
 local flashLightHash = hash("StructureFlashingLight")
 local hangarDoorHash = hash("StructureGlassDoor")
-local hangarDoorInterName = hash("Glass Door inter")
-local hangarDoorExterName = hash("Glass Door exter")
+local hangarDoorInterName = hash("Hangar Door Inter")
+local hangarDoorExterName = hash("Hangar Door Exter")
 local poweredVentHash = hash("StructureActiveVent")
 local poweredVentInterName = hash("Active Vent inter")
 local poweredVentExterName = hash("Active Vent exter")
@@ -289,8 +296,8 @@ local function cycleInterExter()
         ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.Mode, 0) -- Préssuriser
         ic.batch_write_name(poweredVentHash, poweredVentExterName, LT.On, 1)
         while 
-            system.safe.read(sensor, LT.Pressure, "Gas Sensor") ~= system.safe.read(sensorExtern, LT.Pressure, "Gas Sensor Extern") and
-            system.safe.read(sensorExtern, LT.Pressure, "Gas Sensor Extern") >=10 -- Supérieur a 10kPa
+            system.safe.read(sensor, LT.Pressure, "Gas Sensor") >= targetPressureExternal and
+            targetPressureExternal >=10 -- Supérieur a 10kPa
         do
             refreshPressurGauge()
             if isInterruptionButtonActivate() then
