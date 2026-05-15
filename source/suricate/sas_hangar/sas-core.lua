@@ -42,13 +42,13 @@ local sensorIntern = 2
 local weatherStation = 3
 local pipeAnalizer = 4
 local flashLightHash = hash("StructureFlashingLight")
-local hangarDoorHash = hash("StructureGlassDoor")
+local hangarDoorHash = hash("StructureMediumHangerDoor")
 local hangarDoorInterName = hash("Hangar Door Inter")
 local hangarDoorExterName = hash("Hangar Door Exter")
-local poweredVentHash = hash("StructureActiveVent")
-local poweredVentInterName = hash("Active Vent inter")
-local poweredVentExterName = hash("Active Vent exter")
-local lightHash = hash("StructureLightRound")
+local poweredVentHash = hash("StructurePoweredVentLarge")
+local poweredVentInterName = hash("Powered Vent Large Inter")
+local poweredVentExterName = hash("Powered Vent Large Exter")
+local lightHash = hash("StructureLightLongWide")
 
 local bpAcquiterHash = hash("ModularDeviceSquareButton")
 local switchMaintenanceHash = hash("ModularDeviceFlipCoverSwitch")
@@ -479,6 +479,10 @@ while true do
         cancelToExter()
     elseif currentState == stateCycle.cancelToInter then
         cancelToInter()
+    elseif currentState == stateCycle.Maintenance then
+        maintenance()
+    elseif currentState == stateCycle.Interruption then
+        interruption()
     elseif currentState == stateCycle.interExterDepresurisation or currentState == stateCycle.interExterPresurisation then
         cycleInterExter()
     elseif currentState == stateCycle.ExterInterDepresurisation or currentState == stateCycle.ExterInterPresurisation then
