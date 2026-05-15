@@ -12,7 +12,7 @@
 -----------------------------------------------------
 
 local system = require("system")
-local scriptedScreen= require("scriptedScreen")
+local scriptedScreen = require("scriptedScreen")
 
 
 -- Déffinition des parametre de chaque écran
@@ -330,6 +330,15 @@ local element = {
 -- Déffinition des functions
 -----------------------------------------------------
 
+local function getColorBorderTitleCycleSas()
+    if weatherState == 2 then
+        return "#D00000"
+    elseif weatherState == 1 then
+        return "#E08A00"
+    else
+        return "#0bc1f4"
+    end
+end
 local function getWeatherUrl()
     if weatherState == 2 then
         return url.inStorm
@@ -372,6 +381,8 @@ end
 --Actualise l'interface
 local function updateScreen()
     element.cycleSas.weatherPanel:set_props({ url = getWeatherUrl()})
+
+    -- Actualise le temps avant l'arriver de la tempête
     if nextWeatherEventTime > 0 then
         if nextWeatherEventTime <= 60 then
             element.cycleSas.labelNextWeatherEventTime:set_props({ text = "Arrivée estimée : " .. nextWeatherEventTime .. " secondes" })
@@ -383,9 +394,15 @@ local function updateScreen()
     else
         element.cycleSas.labelNextWeatherEventTime:set_props({ text = "" })
     end
-    element.cycleSas.run.state:set_props({ url = getStateUrl() })
-    element.cycleSas.run.info.buttonCycle.image:set_props({ url = getButtonCycleUrl() })
 
+    -- Actualise l'état du sas
+    element.cycleSas.run.state:set_props({ url = getStateUrl() })
+    -- Actualise le bouton cycle
+    element.cycleSas.run.info.buttonCycle.image:set_props({ url = getButtonCycleUrl() })
+    -- Actualise le contour du titre de la page cycleSas
+    element.cycleSas.run.title.border:set_style(getColorBorderTitleCycleSas())
+
+    
     -- Actualisation des gauges de pression
     if actualRoomPressure >= 1000 then
         element.cycleSas.run.info.room.gaugePressureRoom:set_props({ value = actualRoomPressure / 1000, max = 60, unit = " MPa" })

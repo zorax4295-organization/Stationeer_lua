@@ -1,5 +1,18 @@
 --@module scriptedScreen
 
+---@class RectElement
+---@field x number
+---@field y number
+---@field w number
+---@field h number
+---@field style table
+---@field top table
+---@field right table
+---@field bottom table
+---@field left table
+---@field set_props fun(self: RectElement, x:number?, y:number?, w:number?, h:number?)
+---@field set_style fun(self: RectElement, color:string?, thickness:number?)
+
 local scriptedScreen = {}
 scriptedScreen.element = {}
 
@@ -11,11 +24,10 @@ scriptedScreen.element = {}
 ---@param h number
 ---@param color string
 ---@param thickness number
----@return nil
+---@return RectElement
 function scriptedScreen.element.createRect(parent, id, x, y, w, h, color, thickness)
     thickness = thickness or 2
     color = color or "#000000"
-
     local rect = {
         x = x, y = y, w = w, h = h,
         style = {
