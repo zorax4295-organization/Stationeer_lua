@@ -22,6 +22,22 @@ system.utils={}
 function system.log.time()
     return "Day " .. util.days_past()-1 .. " | " .. util.clock_time("HH")
 end
+--Transforme un entier 0 ou 1 en un boolean si la valeur n'est pas coorect renvoie la valeur sans transformation
+---@param value integer
+function system.utils.toBolean(value)
+    if type(value) ~= "number" then
+        print(system.log.time().."h "..system.log.level("warn").." : value n'est pas de type number")
+        return value
+    elseif value ~= 0 and value ~= 1 then
+        print(system.log.time().."h "..system.log.level("warn").." : value doit être 0 ou 1")
+        return value
+    end
+
+    if value == 1 then
+        return true
+    end
+    return false
+end
 
 --Renvoie un niveau de log formater
 ---@overload fun(value: "info"|"warn"|"fatal"|"debug"): string
