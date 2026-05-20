@@ -36,12 +36,12 @@ while true do
     local isSunPresent = toBolean(system.safe.read(daylightSensor, LT.Activate, "Daylight Sensor"))
 
     if isSunPresent then
-        for _, value in pairs(lightHash) do
-            ic.batch_write(value, LT.On , 0)
+        for key, value in pairs(lightHash) do
+            system.safe.batch_write(value, LT.On, 0, LBM.Maximum, key)
         end
     else
-        for _, value in pairs(lightHash) do
-            ic.batch_write(value, LT.On , 1)
+        for key, value in pairs(lightHash) do
+            system.safe.batch_write(value, LT.On, 1, LBM.Maximum, key)
         end
     end
     sleep(4)

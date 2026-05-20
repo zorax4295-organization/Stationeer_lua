@@ -7,10 +7,8 @@ system.utils={}
 
 ---@class LogicType
 ---@class LogicSlotType
----@class PrefabHash
 ---@class Average
 ---@class LogicBatchMethod
----@class NameHash
 
 
 ----------------------------
@@ -244,7 +242,7 @@ end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur <p>
 --La méthode sert a definir quelle valeur pour le retour est prise en compte la Max Min ect
----@param hash PrefabHash
+---@param hash integer
 ---@param logicType LogicType
 ---@param value number
 ---@param methode LogicBatchMethod -- definie quelle valeur pour le retour est prise en compte
@@ -260,8 +258,8 @@ function system.safe.batch_write(hash, logicType, value, methode, nameDevice)
 end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur
----@param hash PrefabHash
----@param nameHash NameHash
+---@param hash integer
+---@param nameHash integer
 ---@param logicType LogicType
 ---@param value number
 ---@param methode LogicBatchMethod -- definie quelle valeur pour le retour est prise en compte
@@ -277,7 +275,7 @@ function system.safe.batch_write_name(hash, nameHash, logicType, value, methode,
 end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur
----@param hash PrefabHash
+---@param hash integer
 ---@param slot integer
 ---@param slotType LogicSlotType
 ---@param value number
@@ -294,8 +292,8 @@ function system.safe.batch_write_slot(hash, slot, slotType, value, methode, name
 end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur
----@param hash PrefabHash
----@param nameHash NameHash
+---@param hash integer
+---@param nameHash integer
 ---@param slot integer
 ---@param slotType LogicSlotType
 ---@param value number
@@ -318,7 +316,7 @@ end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur <p>
 --La méthode sert a definir quelle valeur pour le retour est prise en compte la Max Min ect
----@param hash PrefabHash
+---@param hash integer
 ---@param logicType LogicType
 ---@param methode LogicBatchMethod -- definie quelle méthode de lecture
 ---@param nameDevice string|nil -- nom de l'appareil renvoyer dans les log en cas d'erreur
@@ -334,8 +332,8 @@ end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur <p>
 --La méthode sert a definir quelle valeur pour le retour est prise en compte la Max Min ect
----@param hash PrefabHash
----@param nameHash NameHash
+---@param hash integer
+---@param nameHash integer
 ---@param logicType LogicType
 ---@param methode LogicBatchMethod -- definie quelle méthode de lecture
 ---@param nameDevice string|nil -- nom de l'appareil renvoyer dans les log en cas d'erreur
@@ -351,7 +349,7 @@ end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur <p>
 --La méthode sert a definir quelle valeur pour le retour est prise en compte la Max Min ect
----@param hash PrefabHash
+---@param hash integer
 ---@param slot integer
 ---@param slotType LogicSlotType
 ---@param methode LogicBatchMethod -- definie quelle méthode de lecture
@@ -368,8 +366,8 @@ end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur <p>
 --La méthode sert a definir quelle valeur pour le retour est prise en compte la Max Min ect
----@param hash PrefabHash
----@param nameHash NameHash
+---@param hash integer
+---@param nameHash integer
 ---@param slot integer
 ---@param slotType LogicSlotType
 ---@param methode LogicBatchMethod -- definie quelle méthode de lecture
