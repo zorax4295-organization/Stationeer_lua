@@ -5,7 +5,12 @@ ic = {}
 
 ---@class NaN
 
-
+ic.enums = {
+    LogicType = {},
+    LogicBatchMethod = {},
+    LogicSlotType = {},
+    LogicReagentMode = {},
+}
 
 --Permet d'écrire sur un périphériques
 ---@param device integer
