@@ -7,7 +7,12 @@ ic = {}
 
 ic.enums = {
     LogicType = {},
-    LogicBatchMethod = {},
+    LogicBatchMethod = {
+        Maximum = {},
+        Minimum = {},
+        Average = {},
+        Sum = {},
+    },
     LogicSlotType = {},
     LogicReagentMode = {},
 }
