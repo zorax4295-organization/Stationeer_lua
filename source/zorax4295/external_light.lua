@@ -1,0 +1,56 @@
+
+----------------------------
+-- import de la librairie
+----------------------------
+
+local system = require("system")
+
+----------------------------
+-- Définition des appareil
+----------------------------
+
+local daylightSensor = 0
+local lightHash = {
+    wallLight = hash("StructureWallLight"),
+    LightLong = hash("StructureLightLong"),
+    LightLongAngled = hash("StructureLightLongAngled"),
+    LightLongWide = hash("StructureLightLongWide"),
+    LightRound = hash("StructureLightRound"),
+    LightRoundSmall = hash("StructureLightRoundSmall"),
+    LightRoundAngled = hash("StructureLightRoundAngled"),
+}
+
+----------------------------
+-- Définition des données
+----------------------------
+
+local LT = ic.enums.LogicType
+local LBM = ic.enums.LogicBatchMethod
+
+--alias de toBolean dans system
+local toBolean = system.utils.toBolean
+
+
+----------------------------
+-- Init du system
+----------------------------
+for _, value in pairs(lightHash) do
+    ic.batch_write(value, LT.Lock, 1)
+end
+
+
+
+while true do
+    local isSunPresent = toBolean(system.safe.read(daylightSensor, LT.Activate, "Daylight Sensor"))
+
+    if isSunPresent then
+        for _, value in pairs(lightHash) do
+            ic.batch_write(value, LT.On, 0)
+        end
+    else
+        for _, value in pairs(lightHash) do
+            ic.batch_write(value, LT.On, 1)
+        end
+    end
+    sleep(4)
+end

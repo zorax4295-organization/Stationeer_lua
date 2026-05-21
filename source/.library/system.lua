@@ -7,10 +7,8 @@ system.utils={}
 
 ---@class LogicType
 ---@class LogicSlotType
----@class PrefabHash
 ---@class Average
 ---@class LogicBatchMethod
----@class NameHash
 
 
 ----------------------------
@@ -21,6 +19,22 @@ system.utils={}
 ---@return string
 function system.log.time()
     return "Day " .. util.days_past()-1 .. " | " .. util.clock_time("HH")
+end
+--Transforme un entier 0 ou 1 en un boolean si la valeur n'est pas coorect renvoie la valeur sans transformation
+---@param value integer
+function system.utils.toBolean(value)
+    if type(value) ~= "number" then
+        print(system.log.time().."h "..system.log.level("warn").." : value n'est pas de type number")
+        return value
+    elseif value ~= 0 and value ~= 1 then
+        print(system.log.time().."h "..system.log.level("warn").." : value doit être 0 ou 1")
+        return value
+    end
+
+    if value == 1 then
+        return true
+    end
+    return false
 end
 
 --Renvoie un niveau de log formater
@@ -228,7 +242,7 @@ end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur <p>
 --La méthode sert a definir quelle valeur pour le retour est prise en compte la Max Min ect
----@param hash PrefabHash
+---@param hash integer
 ---@param logicType LogicType
 ---@param value number
 ---@param methode LogicBatchMethod -- definie quelle valeur pour le retour est prise en compte
@@ -244,8 +258,8 @@ function system.safe.batch_write(hash, logicType, value, methode, nameDevice)
 end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur
----@param hash PrefabHash
----@param nameHash NameHash
+---@param hash integer
+---@param nameHash integer
 ---@param logicType LogicType
 ---@param value number
 ---@param methode LogicBatchMethod -- definie quelle valeur pour le retour est prise en compte
@@ -261,7 +275,7 @@ function system.safe.batch_write_name(hash, nameHash, logicType, value, methode,
 end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur
----@param hash PrefabHash
+---@param hash integer
 ---@param slot integer
 ---@param slotType LogicSlotType
 ---@param value number
@@ -278,8 +292,8 @@ function system.safe.batch_write_slot(hash, slot, slotType, value, methode, name
 end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur
----@param hash PrefabHash
----@param nameHash NameHash
+---@param hash integer
+---@param nameHash integer
 ---@param slot integer
 ---@param slotType LogicSlotType
 ---@param value number
@@ -302,7 +316,7 @@ end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur <p>
 --La méthode sert a definir quelle valeur pour le retour est prise en compte la Max Min ect
----@param hash PrefabHash
+---@param hash integer
 ---@param logicType LogicType
 ---@param methode LogicBatchMethod -- definie quelle méthode de lecture
 ---@param nameDevice string|nil -- nom de l'appareil renvoyer dans les log en cas d'erreur
@@ -318,8 +332,8 @@ end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur <p>
 --La méthode sert a definir quelle valeur pour le retour est prise en compte la Max Min ect
----@param hash PrefabHash
----@param nameHash NameHash
+---@param hash integer
+---@param nameHash integer
 ---@param logicType LogicType
 ---@param methode LogicBatchMethod -- definie quelle méthode de lecture
 ---@param nameDevice string|nil -- nom de l'appareil renvoyer dans les log en cas d'erreur
@@ -335,7 +349,7 @@ end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur <p>
 --La méthode sert a definir quelle valeur pour le retour est prise en compte la Max Min ect
----@param hash PrefabHash
+---@param hash integer
 ---@param slot integer
 ---@param slotType LogicSlotType
 ---@param methode LogicBatchMethod -- definie quelle méthode de lecture
@@ -352,8 +366,8 @@ end
 
 --Écriture protéger d'une valeur sur des appareils avec gestion d'erreur <p>
 --La méthode sert a definir quelle valeur pour le retour est prise en compte la Max Min ect
----@param hash PrefabHash
----@param nameHash NameHash
+---@param hash integer
+---@param nameHash integer
 ---@param slot integer
 ---@param slotType LogicSlotType
 ---@param methode LogicBatchMethod -- definie quelle méthode de lecture
