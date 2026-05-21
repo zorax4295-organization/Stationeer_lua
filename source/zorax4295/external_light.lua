@@ -31,17 +31,25 @@ local LBM = ic.enums.LogicBatchMethod
 local toBolean = system.utils.toBolean
 
 
+----------------------------
+-- Init du system
+----------------------------
+for _, value in pairs(lightHash) do
+    ic.batch_write(value, LT.Lock, 1)
+end
+
+
 
 while true do
     local isSunPresent = toBolean(system.safe.read(daylightSensor, LT.Activate, "Daylight Sensor"))
 
     if isSunPresent then
-        for key, value in pairs(lightHash) do
-            system.safe.batch_write(value, LT.On, 0, LBM.Maximum, key)
+        for _, value in pairs(lightHash) do
+            ic.batch_write(value, LT.On, 0)
         end
     else
-        for key, value in pairs(lightHash) do
-            system.safe.batch_write(value, LT.On, 1, LBM.Maximum, key)
+        for _, value in pairs(lightHash) do
+            ic.batch_write(value, LT.On, 1)
         end
     end
     sleep(4)
