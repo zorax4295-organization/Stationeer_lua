@@ -20,22 +20,7 @@ system.utils={}
 function system.log.time()
     return "Day " .. util.days_past()-1 .. " | " .. util.clock_time("HH")
 end
---Transforme un entier 0 ou 1 en un boolean si la valeur n'est pas coorect renvoie la valeur sans transformation
----@param value integer
-function system.utils.toBolean(value)
-    if type(value) ~= "number" then
-        print(system.log.time().."h "..system.log.level("warn").." : value n'est pas de type number")
-        return value
-    elseif value ~= 0 and value ~= 1 then
-        print(system.log.time().."h "..system.log.level("warn").." : value doit être 0 ou 1")
-        return value
-    end
 
-    if value == 1 then
-        return true
-    end
-    return false
-end
 
 --Renvoie un niveau de log formater
 ---@overload fun(value: "info"|"warn"|"fatal"|"debug"): string
@@ -233,6 +218,42 @@ function system.utils.color(color, message)
     end
     print(system.log.time().."h "..system.log.level("warn").." : Couleur invalide")
     return message
+end
+
+--Transforme un entier 0 ou 1 en un boolean si la valeur n'est pas coorect renvoie la valeur sans transformation
+---@param value integer
+function system.utils.toBolean(value)
+    if type(value) ~= "number" then
+        print(system.log.time().."h "..system.log.level("warn").." : value n'est pas de type number")
+        return value
+    elseif value ~= 0 and value ~= 1 then
+        print(system.log.time().."h "..system.log.level("warn").." : value doit être 0 ou 1")
+        return value
+    end
+
+    if value == 1 then
+        return true
+    end
+    return false
+end
+
+function system.utils.inRange(relativeMin, relativeMax, value)
+    if type(relativeMin) ~= "number" then
+        print(system.log.time().."h "..system.log.level("warn").." : relativeMin n'est pas de type number")
+        return false
+    elseif type(relativeMax) ~= "number" then
+        print(system.log.time().."h "..system.log.level("warn").." : relativeMax n'est pas de type number")
+        return false
+    elseif type(value) ~= "number" then
+        print(system.log.time().."h "..system.log.level("warn").." : value n'est pas de type number")
+        return false
+    end
+
+    if value >= relativeMin and value <= relativeMax then
+        return true
+    end
+    
+    return false
 end
 
 
