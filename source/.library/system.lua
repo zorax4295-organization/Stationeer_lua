@@ -237,11 +237,15 @@ function system.utils.toBolean(value)
     return false
 end
 
-function system.utils.inRange(relativeMin, relativeMax, value)
-    if type(relativeMin) ~= "number" then
+--Condition pour tester si une valeur se trouve plus ou moin dans une plage absolut
+---@param min number
+---@param max number
+---@param value number | NaN
+function system.utils.inRangeAbsolute(min, max, value)
+    if type(min) ~= "number" then
         print(system.log.time().."h "..system.log.level("warn").." : relativeMin n'est pas de type number")
         return false
-    elseif type(relativeMax) ~= "number" then
+    elseif type(max) ~= "number" then
         print(system.log.time().."h "..system.log.level("warn").." : relativeMax n'est pas de type number")
         return false
     elseif type(value) ~= "number" then
@@ -249,10 +253,61 @@ function system.utils.inRange(relativeMin, relativeMax, value)
         return false
     end
 
-    if value >= relativeMin and value <= relativeMax then
+    if value >= min and value <= max then
         return true
     end
-    
+
+    return false
+end
+
+--Condition pour tester si une valeur se trouve plus ou moin dans une plage par rapport a une cible
+---@param target number
+---@param margin number
+---@param value number | NaN
+function system.utils.inRangeMarge(target, margin, value)
+    if type(target) ~= "number" then
+        print(system.log.time().."h "..system.log.level("warn").." : target n'est pas de type number")
+        return false
+    elseif type(margin) ~= "number" then
+        print(system.log.time().."h "..system.log.level("warn").." : margin n'est pas de type number")
+        return false
+    elseif type(value) ~= "number" then
+        print(system.log.time().."h "..system.log.level("warn").." : value n'est pas de type number")
+        return false
+    end
+
+    if value >= target - margin and value <= target + margin then
+        return true
+    end
+
+    return false
+end
+
+--Condition pour tester si une valeur se trouve plus ou moin dans une plage d'angle par rapport a une cible
+---@param target number
+---@param margin number
+---@param value number | NaN
+function system.utils.inRangeAngle(target, margin, value)
+    if type(target) ~= "number" then
+        print(system.log.time().."h "..system.log.level("warn").." : target n'est pas de type number")
+        return false
+    elseif type(margin) ~= "number" then
+        print(system.log.time().."h "..system.log.level("warn").." : margin n'est pas de type number")
+        return false
+    elseif type(value) ~= "number" or value ~= value then
+        print(system.log.time().."h "..system.log.level("warn").." : value n'est pas de type number ou vaut NaN")
+        return false
+    end
+
+    target = target % 360
+    value = value % 360
+
+    local diff = math.abs(value - target)
+
+    if diff <= margin or diff >= 360 - margin then
+        return true
+    end
+
     return false
 end
 
