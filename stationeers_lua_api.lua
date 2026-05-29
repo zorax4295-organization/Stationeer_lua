@@ -1,6 +1,16 @@
 ---@meta -- permet d'avoir l'autocompletion sans que le fichier ai besoin d'etre ouvert
 
 
+--Appellé automatiquement par le jeu lors d'une sauvegarde ou d'un power-off. Doit retourner une string ou nil.
+---@return string | nil
+function serialize() end
+
+--Appellé automatiquement par le jeu après le chargement. Reçoit la string retournée par serialize(). S'exécute après le premier tour du while true.
+---@param blob string
+function deserialize(blob) end
+
+
+
 ic = {}
 
 ---@class NaN
@@ -150,6 +160,30 @@ ic.enums = {
     LogicSlotType = {},
     LogicReagentMode = {},
 }
+
+
+--Stocke une string. Retourne true en cas de succès. Les clés commençant par __ sont réservées
+---@param key string -- max 128 characters
+---@param value string | number | boolean | table | nil -- max 8192 characters
+---@return boolean
+function ic.persist.set(key, value) end
+--Retourne la string ou nil si absente
+---@param key string
+---@return string | nil
+function ic.persist.get(key) end
+--Retourne true si la clé existe
+---@param key string
+---@return boolean
+function ic.persist.has(key) end
+--Supprime une clé. Retourne true si elle existait.
+---@param key string
+---@return boolean
+function ic.persist.delete(key) end
+--Supprime toutes les clés de cette puce (y compris l’ancien blob serialize). Retourne true si quelque chose était stocké.
+---@return boolean
+function ic.persist.clear() end
+
+
 
 --Permet d'écrire sur un périphériques
 ---@param device integer
@@ -391,3 +425,42 @@ function ic.net.subscribe(sujet, handler) end
 ---@param sujet string
 ---@return nil
 function ic.net.unsubscribe(sujet) end
+
+
+
+
+--- commentaire pour comprendre la nouvelle serialisation des donné et les problème de l'ancienne :
+--- avec serialize et deserialize on a un problème deserialize s'execute a la toute fin du script donc dans se code
+--- local currentState
+
+--- function deserialize(blob)
+---     currentState = ... -- restauré ici
+--- end
+
+-- FAUX : s'exécute à l'étape 3, avant deserialize (étape 4)
+-- currentState est encore nil ici
+--- if currentState == states.idle then ... end
+
+--- while true do
+    -- CORRECT : après le premier yield(), les prochains tours
+    -- voient currentState restauré
+---     if currentState == states.idle then ... end
+---     yield()
+--- end
+
+--- Pour palier a sa un nouvelle ordre de chargement :
+--- KV hydraté — ic.persist est chargé en mémoire
+--- Compilation du source
+--- Init — le code module-level s'exécute, y compris le premier tour du while true
+--- deserialize(blob) — s'exécute après l'init comme avant
+--- Boucle tick — reprend normalement
+--- 
+--- Voici les syntaxe des nouvelle fonction disponible :
+--- ic.persist.set("key", "maValeur")   -- sauvegarder des donné de la même maniere qu'avec serilize
+--- ic.persist.get("key")               -- lire
+--- ic.persist.has("key")               -- vérifier si la clé existe
+--- ic.persist.delete("key")            -- supprimer une clé
+--- ic.persist.clear()                    -- supprimer tout
+--- 
+--- 
+--- ATTENTION : serialize est apeler lors de la sauvgarde du monde se n'est pas le cas de ic.persist.set il est donc fortement recommender de la mettre dans la fonction tick(dt)
