@@ -30,9 +30,9 @@ local pumpFuel = {
     },
 }
 local umbilicalHash = {
-    gas = hash(""),
-    power = hash(""),
-    chute = hash(""),
+    gas = hash("StructureGasUmbilicalMale"),
+    power = hash("StructurePowerUmbilicalMale"),
+    chute = hash("StructureChuteUmbilicalMale"),
 }
 
 
