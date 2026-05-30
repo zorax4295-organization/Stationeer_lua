@@ -381,6 +381,11 @@ function hash(nameHash) end
 ---@return string | nil
 function prefab_name(hash) end
 
+--Permet de faire patienter le programme pendant 1 tick soit 0.5s
+function yield() end
+--Permet de faire patienter le programme pendant n seconde ou 0.5 = 1 tick
+---@param time number
+function sleep(time) end
 
 
 
