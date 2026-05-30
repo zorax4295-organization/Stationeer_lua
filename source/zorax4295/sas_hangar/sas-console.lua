@@ -439,7 +439,14 @@ end
 
 -- Sauvgarde l'id de la dernière page utilisé
 function serialize()
-    return currentUi
+    local saved ={
+        currentUi = currentUi,
+    }
+    local ok, json = pcall(util.json.encode, saved)
+    if not ok then
+        return nil
+    end
+    return json
 end
 
 --En Lua, dans un if, tout ce qui n’est pas nil ou false est considéré comme true.
@@ -447,12 +454,18 @@ end
 --Si la table existe sa renvoie la table et non nil ou false donc la condition ne passe pas
 
 function deserialize(blob)
-    if type(blob) ~= "string" or not ui[blob] then --ui[blob] lit la valeur de blob (ex: blob="auto" => ui.auto), ui.blob cherche la cle fixe "blob"; donc [] sert quand le nom est variable
-        print(system.log.time().."h "..system.log.level("warn").." : Echec de la Reconstruction des donnés blob n'est pas de type string")
+    if type(blob) ~= "string" or blob == "" then
+        print(system.log.time().."h "..system.log.level("warn").." : Echec de la Reconstruction des donnés blob n'est pas de type string ou est vide")
         return
     end
-    currentUi = blob
-    ui[blob].set()
+
+    local ok, decoded = pcall(util.json.decode, blob)
+    if not ok or type(decoded) ~= "table" then
+        print(system.log.time().."h "..system.log.level("warn").." : Echec de la Reconstruction des donnés blob n'est pas de type table")
+        return
+    end
+
+    if type(decoded.currentUi) == "string" and ui[decoded.currentUi] then ui[decoded.currentUi].set() end --ui[decoded.currentUi] lit la valeur de blob (ex: decoded.currentUi="auto" => ui.auto), ui.blob cherche la cle fixe "blob"; donc [] sert quand le nom est variable
 end
 
 
