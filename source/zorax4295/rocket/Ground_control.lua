@@ -13,6 +13,7 @@
 ----------------------------
 
 local system = require("system")
+local toBolean = system.utils.toBolean
 
 ----------------------------
 -- Définition des donnés
@@ -21,19 +22,43 @@ local system = require("system")
 local LT = ic.enums.LogicType
 local LBM = ic.enums.LogicBatchMethod
 
-local pumpFuel = {
-    id = ic.find("Display Pump direction"),
+local housingAccessId = ic.find("")
 
-    displayDirection = {
-        remplissage = pack_ascii6("<---"), --Encode en ascii6 pour pouvoir affiché le texte sur un LED DISPLAY
-        vidange = pack_ascii6("--->"),
-    },
-}
+local pumpFuelId = ic.find("Turbo Pump Fuel")
+local didodePumpStateId = ic.find("Diode state pump")
+local gaugePressureTankId = ic.find("Gauge Pressure tank")
+local sensorFuelId = ic.find("Pipe Analyzer Fuel")
+local upLinkId = ic.find("Uplink")
+local bridgeHash = hash("StructureAccessBridge")
 local umbilicalHash = {
     gas = hash("StructureGasUmbilicalMale"),
     power = hash("StructurePowerUmbilicalMale"),
     chute = hash("StructureChuteUmbilicalMale"),
 }
+local display = {
+    directionPumpId = ic.find("Display direction pump"),
+    umbilicalFuelId = ic.find("Display State Umbilical FUEL"),
+    umbilicalPowerId = ic.find("Display State Umbilical Power"),
+    umbilicalCargoId = ic.find("Display State Umbilical Cargo"),
+    cargoQuantityId = ic.find("Display Stockage n reagent"),
+    rocketStateId = ic.find("Display state rocket"),
+    displayDirectionPumpFuel = {
+        id = ic.find("Display direction pump"),
+        remplissage = pack_ascii6("<---"), --Renvoie <---
+        vidange = pack_ascii6("--->"), -- Renvoie --->
+    },
+}
+
+
+----------------------------
+-- Définition des function
+----------------------------
+
+local function updateDisplayPumpFuel()
+    local directionPump = system.safe.readId(pumpFuelId, LT.Mode, "Turbo Pump Fuel")
+    local IsPumpFuelOn = toBolean(system.safe.readId(pumpFuelId, LT.On, "Turbo Pump Fuel"))
+end
+
 
 
 while true do
