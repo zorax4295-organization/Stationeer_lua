@@ -380,6 +380,14 @@ function hash(nameHash) end
 ---@param hash integer
 ---@return string | nil
 function prefab_name(hash) end
+--Permet d'encoder une chaine de caractère en ascii6 utile pour afficher du texte sur un led display
+---@param str string
+---@return number
+function pack_ascii6(str) end
+--Permet de décoder un number en une chaine de caractère
+---@param num number
+---@return string
+function unpack_ascii6(num) end
 
 --Permet de faire patienter le programme pendant 1 tick soit 0.5s
 function yield() end
@@ -430,7 +438,6 @@ function ic.net.subscribe(sujet, handler) end
 ---@param sujet string
 ---@return nil
 function ic.net.unsubscribe(sujet) end
-
 
 
 
