@@ -140,7 +140,7 @@ end
 ---@param nameDevice string|nil -- nom de l'appareil renvoyer dans les log en cas d'erreur
 ---@return number
 function system.safe.readId(deviceId, logicType, nameDevice)
-    local value = ic.read(deviceId, logicType)
+    local value = ic.read_id(deviceId, logicType)
     if value==nil then
         print(system.log.time().."h "..system.log.level("fatal").." : Device manquant : [<color=#FFFF00>"..(nameDevice==nil and "Unknow" or nameDevice).."</color>].")
         error("Device manquant : [<color=#FFFF00>"..(nameDevice==nil and "Unknow" or nameDevice).."</color>].") -- Permet de faire crash et de renvoyer l'erreur
