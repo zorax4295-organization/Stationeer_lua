@@ -14,6 +14,7 @@ function deserialize(blob) end
 ic = {}
 
 ---@class NaN
+---@class json
 
 ic.enums = {
     LogicType = {
@@ -161,7 +162,6 @@ ic.enums = {
     LogicReagentMode = {},
 }
 
-
 --Stocke une string. Retourne true en cas de succès. Les clés commençant par __ sont réservées
 ---@param key string -- max 128 characters
 ---@param value string | number | boolean | table | nil -- max 8192 characters
@@ -182,7 +182,6 @@ function ic.persist.delete(key) end
 --Supprime toutes les clés de cette puce (y compris l’ancien blob serialize). Retourne true si quelque chose était stocké.
 ---@return boolean
 function ic.persist.clear() end
-
 
 
 --Permet d'écrire sur un périphériques
@@ -380,6 +379,7 @@ function hash(nameHash) end
 ---@param hash integer
 ---@return string | nil
 function prefab_name(hash) end
+
 --Permet d'encoder une chaine de caractère en ascii6 utile pour afficher du texte sur un led display
 ---@param str string
 ---@return number
@@ -438,6 +438,15 @@ function ic.net.subscribe(sujet, handler) end
 ---@param sujet string
 ---@return nil
 function ic.net.unsubscribe(sujet) end
+
+
+util = {}
+util.json = {}
+
+-- Permet d'encoder des donné en json pour les sauvgarder
+---@param data table | boolean | string | number | nil
+---@return json
+function util.json.encode (data) end
 
 
 
