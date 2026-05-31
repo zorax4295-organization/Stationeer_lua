@@ -111,4 +111,33 @@
 			"system.safe.writeSlotId(${1:deviceId}, ${2:Slot}, ${3:SlotType}, ${4:value}, ${5:NameDeviceLog})",
 		],
 	},
+
+	// =====================
+	// Lecture
+	// =====================
+	"ic.persist.safeRead": {
+		"prefix": "safeRead",
+		"body": [
+			"system.safe.read(${1:device}, ${2:LogicType}, ${3:NameDeviceLog})",
+		],
+	},
+	"ic.persist.safeReadId": {
+		"prefix": "safeReadId",
+		"body": [
+			"system.safe.readId(${1:deviceId}, ${2:LogicType}, ${3:NameDeviceLog})",
+		],
+	},
+	"ic.persist.safeReadSlot": {
+		"prefix": "safeReadSlot",
+		"body": [
+			"system.safe.readSlot(${1:device}, ${2:Slot}, ${3:SlotType}, ${4:NameDeviceLog})",
+		],
+	},
+	"ic.persist.safeReadSlotId": {
+		"prefix": "safeReadSlotId",
+		"body": [
+			"system.safe.readSlotId(${1:deviceId}, ${2:Slot}, ${3:SlotType}, ${4:NameDeviceLog})",
+		],
+	},
+
 }
