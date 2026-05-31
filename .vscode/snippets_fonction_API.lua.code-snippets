@@ -5,6 +5,15 @@
 			"print(system.log.time() .. \"h \" .. system.log.level(${1:Level}) .. \" : ${0}\")",
 		],
 	},
+	"tick": {
+		"prefix": "tick",
+		"body": [
+			"function tick(dt)",
+			"    ${0}",
+			"end",
+		],
+	},
+
 
 	// =====================
 	// NOUVELLE PERSISTENCE

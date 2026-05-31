@@ -396,6 +396,9 @@ function yield() end
 ---@param time number
 function sleep(time) end
 
+--S'éxecute a chaque tick du jeux
+function tick(dt) end
+
 
 
 
