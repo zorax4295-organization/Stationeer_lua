@@ -117,15 +117,15 @@ end
 ----------------------------
 -- Init du system
 ----------------------------
-
-system.safe.writeId(ventExterId, LT.On, 0, "Vent Exterieur")
-system.safe.writeId(ventInterId, LT.On, 0, "Vent Interieur")
-ic.batch_write(flashLightHash, LT.On, 0)
-ic.batch_write(lightHash, LT.On, 1)
-system.safe.writeId(alarmId, LT.Color , 4)
-system.safe.writeId(displayState, LT.Mode, 10, "Led Display State") --Définition du led display en mode string
-system.safe.writeId(displayPressure, LT.Mode, 14, "Led Display Pressure") --Définition du led display en mode pressure
-
+do
+    system.safe.writeId(ventExterId, LT.On, 0, "Vent Exterieur")
+    system.safe.writeId(ventInterId, LT.On, 0, "Vent Interieur")
+    ic.batch_write(flashLightHash, LT.On, 0)
+    ic.batch_write(lightHash, LT.On, 1)
+    system.safe.writeId(alarmId, LT.Color , 4)
+    system.safe.writeId(displayState, LT.Mode, 10, "Led Display State") --Définition du led display en mode string
+    system.safe.writeId(displayPressure, LT.Mode, 14, "Led Display Pressure") --Définition du led display en mode pressure
+end
 
 function tick(dt) --S'execute a chaque tick du jeux
     refreshPressureDisplay()
@@ -139,7 +139,11 @@ while true do
     local dcy = system.safe.readId(buttonDepartCycleId, LT.Activate, "Button Depart Cycle")
     system.safe.writeId(displayState, LT.Setting, displayStateValue.idle, "Led Display State")
 
-    if actualCode == code and (actualAccessLevel == accessLevel.granted or actualAccessLevel == accessLevel.maintenance) and dcy == 1 then
+    
+    if actualCode == code
+        and (actualAccessLevel == accessLevel.granted or actualAccessLevel == accessLevel.maintenance)
+        and dcy == 1
+    then
         print(system.log.time() .. system.log.level("info") .. " : ServerDoor Access " .. system.utils.color("Green", "Granted"))
         if actualSensCycle == sensCycle.depressurizing then
             depressurizing()
