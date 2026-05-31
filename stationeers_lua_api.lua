@@ -12,6 +12,7 @@ function deserialize(blob) end
 
 
 ic = {}
+ic.persist = {}
 
 ---@class NaN
 ---@class json
