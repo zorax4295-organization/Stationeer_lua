@@ -18,8 +18,8 @@
 			"end"
 		],
 	},
-	"ic.persist.get": {
-		"prefix": "persist.get",
+	"ic.persist.load": {
+		"prefix": "persist.load",
 		"body": [
 			"local function loadData(${1:key})",
 			"    if not ic.persist.has(key) then return nil end",
