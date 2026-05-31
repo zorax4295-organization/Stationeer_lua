@@ -87,25 +87,25 @@
 	// Écriture
 	// =====================
 
-	"ic.persist.safeWrite": {
+	"ic.write.safeWrite": {
 		"prefix": "safeWrite",
 		"body": [
 			"system.safe.write(${1:device}, ${2:LogicType}, ${3:value}, ${4:NameDeviceLog})",
 		],
 	},
-	"ic.persist.safeWriteId": {
+	"ic.write.safeWriteId": {
 		"prefix": "safeWriteId",
 		"body": [
 			"system.safe.writeId(${1:deviceId}, ${2:LogicType}, ${3:value}, ${4:NameDeviceLog})",
 		],
 	},
-	"ic.persist.safeWriteSlot": {
+	"ic.write.safeWriteSlot": {
 		"prefix": "safeWriteSlot",
 		"body": [
 			"system.safe.writeSlot(${1:device}, ${2:Slot}, ${3:SlotType}, ${4:value}, ${5:NameDeviceLog})",
 		],
 	},
-	"ic.persist.safeWriteSlotId": {
+	"ic.write.safeWriteSlotId": {
 		"prefix": "safeWriteSlotId",
 		"body": [
 			"system.safe.writeSlotId(${1:deviceId}, ${2:Slot}, ${3:SlotType}, ${4:value}, ${5:NameDeviceLog})",
@@ -115,29 +115,64 @@
 	// =====================
 	// Lecture
 	// =====================
-	"ic.persist.safeRead": {
+	"ic.read.safeRead": {
 		"prefix": "safeRead",
 		"body": [
 			"system.safe.read(${1:device}, ${2:LogicType}, ${3:NameDeviceLog})",
 		],
 	},
-	"ic.persist.safeReadId": {
+	"ic.read.safeReadId": {
 		"prefix": "safeReadId",
 		"body": [
 			"system.safe.readId(${1:deviceId}, ${2:LogicType}, ${3:NameDeviceLog})",
 		],
 	},
-	"ic.persist.safeReadSlot": {
+	"ic.read.safeReadSlot": {
 		"prefix": "safeReadSlot",
 		"body": [
 			"system.safe.readSlot(${1:device}, ${2:Slot}, ${3:SlotType}, ${4:NameDeviceLog})",
 		],
 	},
-	"ic.persist.safeReadSlotId": {
+	"ic.read.safeReadSlotId": {
 		"prefix": "safeReadSlotId",
 		"body": [
 			"system.safe.readSlotId(${1:deviceId}, ${2:Slot}, ${3:SlotType}, ${4:NameDeviceLog})",
 		],
 	},
 
+
+	// =====================
+	// Utilitaire
+	// =====================
+
+	"ic.utils.color": {
+		"prefix": "color",
+		"body": [
+			"system.utils.color(${1:color}, ${2:message})",
+		],
+	},
+	"ic.utils.toBolean": {
+		"prefix": "toBolean",
+		"body": [
+			"system.utils.toBolean(${1:value})",
+		],
+	},
+	"ic.utils.inRangeAbsolute": {
+		"prefix": "inRangeAbsolute",
+		"body": [
+			"system.utils.inRangeAbsolute(${1:min}, ${2:max}, ${3:value})",
+		],
+	},
+	"ic.utils.inRangeMarge": {
+		"prefix": "inRangeMarge",
+		"body": [
+			"system.utils.inRangeMarge(${1:target}, ${2:margin}, ${3:value})",
+		],
+	},
+	"ic.utils.inRangeAngle": {
+		"prefix": "inRangeAngle",
+		"body": [
+			"system.utils.inRangeAngle(${1:target}, ${2:margin}, ${3:value})",
+		],
+	},
 }
