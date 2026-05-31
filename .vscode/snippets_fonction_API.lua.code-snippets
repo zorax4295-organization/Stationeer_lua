@@ -5,6 +5,11 @@
 			"print(system.log.time() .. \"h \" .. system.log.level(${1:Level}) .. \" : ${0}\")",
 		],
 	},
+
+	// =====================
+	// NOUVELLE PERSISTENCE
+	// =====================
+
 	"ic.persist.set": {
 		"prefix": "persist.set",
 		"body": [
@@ -43,6 +48,11 @@
 			"ic.persist.clear()",
 		],
 	},
+
+	// =====================
+	// ANCIENNE PERSISTENCE
+	// =====================
+
 	"serialize": {
 		"prefix": "serialize",
 		"body": [
@@ -70,6 +80,35 @@
 			"        print(system.log.time() .. \"h \" .. system.log.level(\"warn\") .. \" : Echec de la Reconstruction des donnés blob n'est pas de type : \" .. system.utils.color(\"Yellow\", \"table\"))",
 			"    end",
 			"end",
+		],
+	},
+
+	// =====================
+	// Écriture
+	// =====================
+
+	"ic.persist.safeWrite": {
+		"prefix": "safeWrite",
+		"body": [
+			"system.safe.write(${1:device}, ${2:LogicType}, ${3:value}, ${4:NameDeviceLog})",
+		],
+	},
+	"ic.persist.safeWriteId": {
+		"prefix": "safeWriteId",
+		"body": [
+			"system.safe.writeId(${1:deviceId}, ${2:LogicType}, ${3:value}, ${4:NameDeviceLog})",
+		],
+	},
+	"ic.persist.safeWriteSlot": {
+		"prefix": "safeWriteSlot",
+		"body": [
+			"system.safe.writeSlot(${1:device}, ${2:Slot}, ${3:SlotType}, ${4:value}, ${5:NameDeviceLog})",
+		],
+	},
+	"ic.persist.safeWriteSlotId": {
+		"prefix": "safeWriteSlotId",
+		"body": [
+			"system.safe.writeSlotId(${1:deviceId}, ${2:Slot}, ${3:SlotType}, ${4:value}, ${5:NameDeviceLog})",
 		],
 	},
 }
