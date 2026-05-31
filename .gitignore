@@ -1,5 +1,4 @@
-.vscode/*
-!.vscode/snippets_fonction_API.lua.code-snippets
+.vscode/settings.json
 .claude/
 skill/
 CLAUDE.md
