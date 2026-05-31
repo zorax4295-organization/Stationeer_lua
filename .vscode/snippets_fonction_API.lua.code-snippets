@@ -31,4 +31,45 @@
 			"end",
 		],
 	},
+	"ic.persist.delete": {
+		"prefix": "persist.delete",
+		"body": [
+			"ic.persist.delete(${1:key})",
+		],
+	},
+	"ic.persist.clear": {
+		"prefix": "persist.clear",
+		"body": [
+			"ic.persist.clear()",
+		],
+	},
+	"serialize": {
+		"prefix": "serialize",
+		"body": [
+			"function serialize()",
+			"    return util.json.encode({",
+			"        value1 = value1,",
+			"        value2 = value2,",
+			"    })",
+			"end",
+		],
+	},
+	"deserialize": {
+		"prefix": "deserialize",
+		"body": [
+			"function deserialize(blob)",
+			"    if type(blob) ~= \"string\" then",
+			"        print(system.log.time() .. \"h \" .. system.log.level(\"warn\") .. \" : Echec de la Reconstruction des donnés blob n'est pas de type : \" .. system.utils.color(\"Yellow\", \"string\"))",
+			"        return",
+			"    end",
+			"    local ok, data = pcall(util.json.decode, blob)",
+			"    if ok and type(data) == \"table\" then",
+			"        value1 = data.value1",
+			"        value2 = data.value2",
+			"    else",
+			"        print(system.log.time() .. \"h \" .. system.log.level(\"warn\") .. \" : Echec de la Reconstruction des donnés blob n'est pas de type : \" .. system.utils.color(\"Yellow\", \"table\"))",
+			"    end",
+			"end",
+		],
+	},
 }
