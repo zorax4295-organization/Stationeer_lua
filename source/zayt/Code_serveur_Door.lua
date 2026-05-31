@@ -80,7 +80,7 @@ local function pressurizing()
     system.safe.writeId(ventInterId, LT.Mode, 0, "Vent Exterieur")
     system.safe.writeId(ventInterId, LT.On, 1, "Vent Exterieur")
 
-    while system.safe.readId(gasSensorId, LT.Pressure, "Gas Sensor Interieur") <= system.safe.readId(gasSensorExterId, LT.Pressure, "Gas Sensor Exterieur") do
+    while not system.utils.inRangeMarge(system.safe.readId(gasSensorExterId, LT.Pressure, "Gas Sensor Exterieur"), 0.5, system.safe.readId(gasSensorId, LT.Pressure, "Gas Sensor Interieur")) do
         yield()
     end
 
