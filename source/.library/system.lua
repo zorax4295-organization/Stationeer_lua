@@ -198,7 +198,7 @@ function system.utils.color(color, message)
     elseif color == "Orange" then
         return "<color=#FF662B>" .. message .. "</color>"
     elseif color == "Yellow" then
-        return "<color=#FFBC1B>" .. message .. "</color>"
+        return "<color=#FFFF00>" .. message .. "</color>"
     elseif color == "Green" then
         return "<color=#3F9B39>" .. message .. "</color>"
     elseif color == "Grey" then
