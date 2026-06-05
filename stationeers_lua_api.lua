@@ -12,6 +12,7 @@ function deserialize(blob) end
 
 
 ic = {}
+ic.persist = {}
 
 ---@class NaN
 ---@class json
@@ -394,6 +395,9 @@ function yield() end
 --Permet de faire patienter le programme pendant n seconde ou 0.5 = 1 tick
 ---@param time number
 function sleep(time) end
+
+--S'éxecute a chaque tick du jeux
+function tick(dt) end
 
 
 

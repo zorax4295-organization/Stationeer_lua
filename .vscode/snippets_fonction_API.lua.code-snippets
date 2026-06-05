@@ -1,0 +1,187 @@
+{
+	"print": {
+		"prefix": "print",
+		"body": [
+			"print(system.log.time() .. \"h \" .. system.log.level(${1:Level}) .. \" : ${0}\")",
+		],
+	},
+	"tick": {
+		"prefix": "tick",
+		"body": [
+			"function tick(dt)",
+			"    ${0}",
+			"end",
+		],
+	},
+
+
+	// =====================
+	// NOUVELLE PERSISTENCE
+	// =====================
+
+	"ic.persist.set": {
+		"prefix": "persist.set",
+		"body": [
+			"local function saveData(${1:key}, ${2:value})",
+			"    ic.persist.set(${3:key}, util.json.encode(${4:value}))",
+			"end"
+		],
+	},
+	"ic.persist.load": {
+		"prefix": "persist.load",
+		"body": [
+			"local function loadData(${1:key})",
+			"    if not ic.persist.has(key) then return nil end",
+			"    local brut = ic.persist.get(key)",
+			"    if type(brut) ~= \"string\" then return nil end",
+			"    local ok, data = pcall(util.json.decode, brut)",
+			"",
+			"    if ok and type(data) == \"table\" then",
+			"        value1 = data.value1",
+			"        value2 = data.value2",
+			"    else",
+			"        print(system.log.time() .. \"h \" .. system.log.level(\"info\") .. \" : Echec de la Reconstruction des donnés data n'est pas de type table\")",
+			"    end",
+			"end",
+		],
+	},
+	"ic.persist.delete": {
+		"prefix": "persist.delete",
+		"body": [
+			"ic.persist.delete(${1:key})",
+		],
+	},
+	"ic.persist.clear": {
+		"prefix": "persist.clear",
+		"body": [
+			"ic.persist.clear()",
+		],
+	},
+
+	// =====================
+	// ANCIENNE PERSISTENCE
+	// =====================
+
+	"serialize": {
+		"prefix": "serialize",
+		"body": [
+			"function serialize()",
+			"    return util.json.encode({",
+			"        value1 = value1,",
+			"        value2 = value2,",
+			"    })",
+			"end",
+		],
+	},
+	"deserialize": {
+		"prefix": "deserialize",
+		"body": [
+			"function deserialize(blob)",
+			"    if type(blob) ~= \"string\" then",
+			"        print(system.log.time() .. \"h \" .. system.log.level(\"warn\") .. \" : Echec de la Reconstruction des donnés blob n'est pas de type : \" .. system.utils.color(\"Yellow\", \"string\"))",
+			"        return",
+			"    end",
+			"    local ok, data = pcall(util.json.decode, blob)",
+			"    if ok and type(data) == \"table\" then",
+			"        value1 = data.value1",
+			"        value2 = data.value2",
+			"    else",
+			"        print(system.log.time() .. \"h \" .. system.log.level(\"warn\") .. \" : Echec de la Reconstruction des donnés blob n'est pas de type : \" .. system.utils.color(\"Yellow\", \"table\"))",
+			"    end",
+			"end",
+		],
+	},
+
+	// =====================
+	// Écriture
+	// =====================
+
+	"ic.write.safeWrite": {
+		"prefix": "safeWrite",
+		"body": [
+			"system.safe.write(${1:device}, ${2:LogicType}, ${3:value}, ${4:NameDeviceLog})",
+		],
+	},
+	"ic.write.safeWriteId": {
+		"prefix": "safeWriteId",
+		"body": [
+			"system.safe.writeId(${1:deviceId}, ${2:LogicType}, ${3:value}, ${4:NameDeviceLog})",
+		],
+	},
+	"ic.write.safeWriteSlot": {
+		"prefix": "safeWriteSlot",
+		"body": [
+			"system.safe.writeSlot(${1:device}, ${2:Slot}, ${3:SlotType}, ${4:value}, ${5:NameDeviceLog})",
+		],
+	},
+	"ic.write.safeWriteSlotId": {
+		"prefix": "safeWriteSlotId",
+		"body": [
+			"system.safe.writeSlotId(${1:deviceId}, ${2:Slot}, ${3:SlotType}, ${4:value}, ${5:NameDeviceLog})",
+		],
+	},
+
+	// =====================
+	// Lecture
+	// =====================
+	"ic.read.safeRead": {
+		"prefix": "safeRead",
+		"body": [
+			"system.safe.read(${1:device}, ${2:LogicType}, ${3:NameDeviceLog})",
+		],
+	},
+	"ic.read.safeReadId": {
+		"prefix": "safeReadId",
+		"body": [
+			"system.safe.readId(${1:deviceId}, ${2:LogicType}, ${3:NameDeviceLog})",
+		],
+	},
+	"ic.read.safeReadSlot": {
+		"prefix": "safeReadSlot",
+		"body": [
+			"system.safe.readSlot(${1:device}, ${2:Slot}, ${3:SlotType}, ${4:NameDeviceLog})",
+		],
+	},
+	"ic.read.safeReadSlotId": {
+		"prefix": "safeReadSlotId",
+		"body": [
+			"system.safe.readSlotId(${1:deviceId}, ${2:Slot}, ${3:SlotType}, ${4:NameDeviceLog})",
+		],
+	},
+
+
+	// =====================
+	// Utilitaire
+	// =====================
+
+	"ic.utils.color": {
+		"prefix": "color",
+		"body": [
+			"system.utils.color(${1:color}, ${2:message})",
+		],
+	},
+	"ic.utils.toBolean": {
+		"prefix": "toBolean",
+		"body": [
+			"system.utils.toBolean(${1:value})",
+		],
+	},
+	"ic.utils.inRangeAbsolute": {
+		"prefix": "inRangeAbsolute",
+		"body": [
+			"system.utils.inRangeAbsolute(${1:min}, ${2:max}, ${3:value})",
+		],
+	},
+	"ic.utils.inRangeMarge": {
+		"prefix": "inRangeMarge",
+		"body": [
+			"system.utils.inRangeMarge(${1:target}, ${2:margin}, ${3:value})",
+		],
+	},
+	"ic.utils.inRangeAngle": {
+		"prefix": "inRangeAngle",
+		"body": [
+			"system.utils.inRangeAngle(${1:target}, ${2:margin}, ${3:value})",
+		],
+	},
+}
