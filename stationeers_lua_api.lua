@@ -399,6 +399,78 @@ function sleep(time) end
 --S'éxecute a chaque tick du jeux
 function tick(dt) end
 
+-- Décale les bits de la valeur A de N positions vers la gauche.
+---@param a number
+---@param n number
+---@return number
+function bit_sll(a, n) end
+
+--bit_or(a, b) compare les bits de A et B un par un.
+--Pour chaque position de bit :
+--si A = 1 OU B = 1 → résultat = 1
+--sinon → résultat = 0
+-- | Example
+--A =  0101
+--B =  0011
+--OR = 0111
+---@param a number
+---@param b number
+---@return number
+function bit_or(a, b) end
+
+--bit_and(a, b) compare les bits de A et B un par un.
+--Pour chaque position de bit :
+--si A = 1 ET B = 1 → résultat = 1
+--sinon → résultat = 0
+-- | Example
+--A =  0101
+--B =  0011
+--AND = 0001
+---@param a number
+---@param b number
+---@return number
+function bit_and(a, b) end
+
+--bit_xor(a, b) compare les bits de A et B un par un.
+--Pour chaque position de bit :
+--Le résultat est 1 uniquement si les deux valeurs sont différentes
+--sinon → résultat = 0
+-- | Example
+--A =  0101
+--B =  0011
+--XOR = 0110
+---@param a number
+---@param b number
+---@return number
+function bit_xor(a, b) end
+
+--bit_nor(a, b) compare les bits de A et B un par un.
+--Pour chaque position de bit :
+--Le résultat est 1 uniquement si les deux valeurs sont égal a 0
+--sinon → résultat = 0
+-- | Example
+--A =  0101
+--B =  0011
+--NOR = 1000
+---@param a number
+---@param b number
+---@return number
+function bit_nor(a, b) end
+
+--bit_not(a, b) compare les bits de A et B un par un.
+--Pour chaque position de bit :
+--Renoie l'inverse donc si a=1 alors 0 si a=0 alors 1
+--sinon → résultat = 0
+-- | Example
+--A =  01
+--NOT = 10
+---@param a number
+---@return number
+function bit_not(a) end
+
+
+
+
 
 
 
