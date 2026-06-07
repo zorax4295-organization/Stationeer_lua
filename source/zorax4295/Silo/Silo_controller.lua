@@ -122,9 +122,9 @@ end
 -- Init du système
 ----------------------------
 
-for key, silo in pairs(siloId) do
-    system.safe.writeId(silo.icfind, LT.On, 1, "Silo - " .. key)
-    system.safe.writeId(silo.icfind, LT.Lock, 0, "Silo - " .. key)
+for key, value in pairs(siloId) do
+    system.safe.writeId(value.id, LT.On, 1, "Silo - " .. key)
+    system.safe.writeId(value.id, LT.Lock, 0, "Silo - " .. key)
 end
 for key, id in pairs(stackerId) do
     system.safe.writeId(id, LT.On, 1, "Stacker - " .. key)
