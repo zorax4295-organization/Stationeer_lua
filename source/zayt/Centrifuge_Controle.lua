@@ -1,5 +1,5 @@
 -------------Objectif----------------
----transposer les états des centrifuges sur des diodes
+---transposer les états des centrifuges sur des diodes *
 ---ON/OFF général
 ---Couper l'arriver du MIX
 ---Ouverture des centrifuge quand elles sont pleines
@@ -43,10 +43,11 @@ local centriLightId = {
 
 local LT = ic.enums.LogicType
 
+print(system.log.time() .. "h " .. system.log.level("debug") .. " : fonction colorLed = " .. tostring(system.utils.colorLed))
 local lightState = {
-    powerOff = system.utils.colorLed("Red"),
-    powerOn = system.utils.colorLed("Green"),
-    error = system.utils.colorLed("Yellow"),
+    powerOff = 4, -- Rouge
+    powerOn = 2, -- Vert
+    error = 5, -- Jaune
 }
 
 local state = {
@@ -61,6 +62,18 @@ debug = {
 }
 
 local centrifugesError = {
+    A = {},
+    B = {},
+    C = {},
+    D = {},
+}
+local centrifugesPowerState = {
+    A = {},
+    B = {},
+    C = {},
+    D = {},
+}
+local lightLastOn = {
     A = {},
     B = {},
     C = {},
@@ -113,7 +126,7 @@ local function getLightIds()
         end
     end)
 end
-
+--obtien la variable error des centrifuges
 local function getErrorCentrifuges()
     forNCentrifuge(function(key, i)
         if centrifugesId[key][i] == nil then
@@ -123,6 +136,50 @@ local function getErrorCentrifuges()
 
         local isCentrifugesError = system.utils.toBolean(system.safe.readId(centrifugesId[key][i], LT.Error, "Centrifuge " .. key .. i))
         centrifugesError[key][i] = isCentrifugesError
+    end)
+end
+local function getPowerStateCentrifuges()
+    forNCentrifuge(function(key, i)
+        if centrifugesId[key][i] == nil then
+            print(system.log.time() .. "h " .. system.log.level("warn") .. " : Impossible de lire le LogicType On : Centrifuge " .. system.utils.color("Yellow", key .. i) .. " manquante.")
+            return
+        end
+
+        local isCentrifugeOn = system.utils.toBolean(system.safe.readId(centrifugesId[key][i], LT.On, "Centrifuge " .. key .. i))
+        centrifugesPowerState[key][i] = isCentrifugeOn
+    end)
+end
+local function actualiseLight()
+    forNCentrifuge(function(key, i)
+        local lightId = centriLightId[key][i]
+        local isCentrifugesError = centrifugesError[key][i]
+        local isCentrifugeOn = centrifugesPowerState[key][i]
+        local isLightLastOn = lightLastOn[key][i]
+
+        if lightId == nil then
+            print(system.log.time() .. "h " .. system.log.level("warn") .. " : Impossible de lire le LogicType On : Light " .. system.utils.color("Yellow", key .. i) .. " manquante.")
+            return
+        end
+        if isCentrifugesError == nil or isCentrifugeOn == nil then
+            if isLightLastOn ~= system.safe.readId(lightId, LT.On, "Light State Centrifuge " .. key .. i) then
+                system.safe.writeId(lightId, LT.Color, 1, "Light State Centrifuge " .. key .. i) -- Gris
+                system.safe.writeId(lightId, LT.On, 0, "Light State Centrifuge " .. key .. i)
+                lightLastOn[key][i] = system.utils.toBolean(system.safe.read(lightId, LT.On , "Light State Centrifuge " .. key .. i))
+            end
+            return
+        end
+
+        
+        system.safe.writeId(lightId, LT.On, 1, "Light State Centrifuge " .. key .. i)
+        if isCentrifugesError then
+            system.safe.writeId(lightId, LT.Color, 5, "Light State Centrifuge " .. key .. i) -- Jaune
+        else
+            if isCentrifugeOn then
+                system.safe.writeId(lightId, LT.Color, 2, "Light State Centrifuge " .. key .. i) -- Vert
+            else
+                system.safe.writeId(lightId, LT.Color, 4, "Light State Centrifuge " .. key .. i) -- Rouge
+            end
+        end
     end)
 end
 
@@ -137,5 +194,7 @@ getLightIds()
 
 while true do
     getErrorCentrifuges()
+    getPowerStateCentrifuges()
+    actualiseLight()
     yield()
 end
