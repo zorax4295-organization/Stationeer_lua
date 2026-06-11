@@ -77,6 +77,8 @@ local valveSiloOut = {
 }
 local sorterOresId = ic.find("Logic Sorter ores")
 local sorterBeltsId = ic.find("Logic Sorter belts")
+local loaderId = ic.find("Loader unfiltred mining belt")
+local unloaderId = ic.find("Unloader mining belt")
 
 
 ----------------------------
@@ -84,6 +86,7 @@ local sorterBeltsId = ic.find("Logic Sorter belts")
 ----------------------------
 
 local LT = ic.enums.LogicType
+local LST = ic.enums.LogicSlotType
 
 local ores = {
     iron = {hash = hash("ItemIronOre"), operationEqual = 0, operationNotEqual = 0},
@@ -99,6 +102,7 @@ local ores = {
 local belts = {
     miningBelt = {hash = hash("ItemMiningBeltMKII"), operationEqual = 0},
     miningBeltMk2 = {hash = hash("ItemMiningBelt"), operationEqual = 0},
+    hardMiningBackPack = {hash = hash("ItemHardMiningBackPack"), operationEqual = 0},
 }
 local adress = 0
 
@@ -122,12 +126,33 @@ local function refreshQuantitySilo()
     end
 end
 
+--Permet de lire le loader et de faire sortire la mining belts
+local function checkLoader()
+    local isPayloadOccupied = system.utils.toBolean(system.safe.readSlotId(loaderId, 0, LST.Occupied, "Loader"))
+    local isRecipientOccupied = system.utils.toBolean(system.safe.readSlotId(loaderId, 1, LST.Occupied, "Loader"))
+    local isExportOccupied = system.utils.toBolean(system.safe.readSlotId(loaderId, 1, LST.Occupied, "Loader"))
+
+    if isExportOccupied then
+        system.safe.writeId(unloaderId, LT.On, 0, "Unloader")
+    else
+        system.safe.writeId(unloaderId, LT.On, 1, "Unloader")
+    end
+
+    sleep(1)
+    if isRecipientOccupied and not isPayloadOccupied then
+        system.safe.writeId(loaderId, LT.Open, 1, "Loader")
+        yield()
+        system.safe.writeId(loaderId, LT.Open, 0, "Loader")
+    end
+end
 
 
 
 ----------------------------
 -- Init du système
 ----------------------------
+
+system.safe.writeId(loaderId, LT.Mode, 1, "Loader")
 
 for key, value in pairs(siloId) do
     system.safe.writeId(value.id, LT.On, 1, "Silo - " .. key)
@@ -143,7 +168,6 @@ for key, id in pairs(valveSiloOut) do
     system.safe.writeId(id, LT.Lock, 0, "Valve Silo Out - " .. key)
     system.safe.writeId(id, LT.Setting, 0, "Valve Silo Out - " .. key)
 end
-
 
 do
     --Encodage de chaque mots numerique
@@ -175,8 +199,11 @@ do
     end
 
     --Ecriture des mots numerique de chaque belts dans le sorter belts pres de l'unloader
-    adress = 0
+    system.safe.writeId(sorterBeltsId, LT.On, 1, "Logic Sorter ores")
+    system.safe.writeId(sorterBeltsId, LT.Lock, 1, "Logic Sorter ores")
+    system.safe.writeId(sorterBeltsId, LT.Mode, 1, "Logic Sorter ores")
     mem_clear_id(sorterBeltsId)
+    adress = 0
     for _, value in pairs(belts) do
         mem_put_id(sorterBeltsId, adress, value.operationEqual)
         adress = adress + 1
@@ -187,5 +214,6 @@ end
 
 while true do
     refreshQuantitySilo()
+    checkLoader()
     yield()
 end
