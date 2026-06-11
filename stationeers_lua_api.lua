@@ -159,7 +159,19 @@ ic.enums = {
         Average = {},
         Sum = {},
     },
-    LogicSlotType = {},
+    LogicSlotType = {
+        Occupied = {},
+        OccupantHash = {},
+        Quantity = {},
+        Dammage = {},
+        Class = {},
+        MaxQuantity = {},
+        PrefabHash = {},
+        SortingClass = {},
+        ReferenceId = {},
+        FreeSlots = {},
+        TotalSlots = {},
+    },
     LogicReagentMode = {},
 }
 
