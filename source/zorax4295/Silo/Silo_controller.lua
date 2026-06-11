@@ -75,6 +75,8 @@ local valveSiloOut = {
     silver = ic.find("Chute Valve Left - Silver"),
     cobalt = ic.find("Chute Valve Left - Cobalt"),
 }
+local sorterOresId = ic.find("Logic Sorter ores")
+local sorterBeltsId = ic.find("Logic Sorter belts")
 
 
 ----------------------------
@@ -84,16 +86,21 @@ local valveSiloOut = {
 local LT = ic.enums.LogicType
 
 local ores = {
-    iron = {hash = hash("ItemIronOre"), operation = 0},
-    copper = {hash = hash("ItemCopperOre"), operation = 0},
-    gold = {hash = hash("ItemGoldOre"), operation = 0},
-    silicon = {hash = hash("ItemSiliconOre"), operation = 0},
-    coal = {hash = hash("ItemCoalOre"), operation = 0},
-    lead = {hash = hash("ItemLeadOre"), operation = 0},
-    nickel = {hash = hash("ItemNickelOre"), operation = 0},
-    silver = {hash = hash("ItemSilverOre"), operation = 0},
-    cobalt = {hash = hash("ItemCobaltOre"), operation = 0},
+    iron = {hash = hash("ItemIronOre"), operationEqual = 0, operationNotEqual = 0},
+    copper = {hash = hash("ItemCopperOre"), operationEqual = 0, operationNotEqual = 0},
+    gold = {hash = hash("ItemGoldOre"), operationEqual = 0, operationNotEqual = 0},
+    silicon = {hash = hash("ItemSiliconOre"), operationEqual = 0, operationNotEqual = 0},
+    coal = {hash = hash("ItemCoalOre"), operationEqual = 0, operationNotEqual = 0},
+    lead = {hash = hash("ItemLeadOre"), operationEqual = 0, operationNotEqual = 0},
+    nickel = {hash = hash("ItemNickelOre"), operationEqual = 0, operationNotEqual = 0},
+    silver = {hash = hash("ItemSilverOre"), operationEqual = 0, operationNotEqual = 0},
+    cobalt = {hash = hash("ItemCobaltOre"), operationEqual = 0, operationNotEqual = 0},
 }
+local belts = {
+    miningBelt = {hash = hash("ItemMiningBeltMKII"), operationEqual = 0},
+    miningBeltMk2 = {hash = hash("ItemMiningBelt"), operationEqual = 0},
+}
+local adress = 0
 
 ----------------------------
 -- Définition des functions
@@ -137,16 +144,42 @@ for key, id in pairs(valveSiloOut) do
     system.safe.writeId(id, LT.Setting, 0, "Valve Silo Out - " .. key)
 end
 
---Encodage de chaque mots numerique dans la table operations
+
 do
-    for _, value in pairs(ores) do
-        value.operation = encodeSorterOperation(1, value.hash)
+    --Encodage de chaque mots numerique
+    do
+        for _, value in pairs(ores) do
+            value.operationEqual = encodeSorterOperation(1, value.hash)
+            value.operationNotEqual = encodeSorterOperation(2, value.hash)
+        end
+        for _, value in pairs(belts) do
+            value.operationEqual = encodeSorterOperation(1, value.hash)
+        end
     end
+    --Ecriture de chaque mots numerique dans les sorter des silo
     for key, id in pairs(sorterId) do
         system.safe.writeId(id, LT.On, 1, "Sorter - " .. key)
         system.safe.writeId(id, LT.Lock, 1, "Sorter - " .. key)
         mem_clear_id(id)
-        mem_put_id(id, 0, ores[key].operation)
+        mem_put_id(id, 0, ores[key].operationEqual)
+    end
+
+
+    --Ecriture des mots numerique de chaque minerais dans le sorter ores pres de l'unloader
+    system.safe.writeId(sorterOresId, LT.On, 1, "Logic Sorter ores")
+    system.safe.writeId(sorterOresId, LT.Lock, 1, "Logic Sorter ores")
+    mem_clear_id(sorterOresId)
+    for _, value in pairs(ores) do
+        mem_put_id(sorterOresId, adress, value.operationNotEqual)
+        adress = adress + 1
+    end
+
+    --Ecriture des mots numerique de chaque belts dans le sorter belts pres de l'unloader
+    adress = 0
+    mem_clear_id(sorterBeltsId)
+    for _, value in pairs(belts) do
+        mem_put_id(sorterBeltsId, adress, value.operationEqual)
+        adress = adress + 1
     end
 end
 
