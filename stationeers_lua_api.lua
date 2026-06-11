@@ -517,7 +517,7 @@ function ic.net.listen(sujet, handler) end
 ---@param options table | nil
 ---@return number
 function ic.net.publish(sujet, payload , options) end
---S'inscrit pour écouter un sujet
+--S'inscrit pour écouter un sujet publier par publish
 ---@param sujet string
 ---@param handler fun(sujet:string, payload:number | string | boolean | table | nil, fromId:integer, fromName:string, cache:boolean)
 ---@return nil
