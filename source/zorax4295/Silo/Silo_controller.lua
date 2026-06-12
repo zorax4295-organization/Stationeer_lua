@@ -1,4 +1,4 @@
------------------Explication LogicSorter-------------------
+----------------------Explication LogicSorter-------------------------
 --Le sorter Dispose de plusieur instruction par exemple le HashEquals
 --Sa valeur que on lui envoie se décompose en 3 partie
 --Du byte 0-7 ses reserver a l'OP_CODE
@@ -15,7 +15,12 @@
 --Maintenant on l'insere dans le sorter avec
 --mem_put_id(sorterId, 0, ResolvedCableOperation)
 --Chaque adress mémoire peut contenir une instruction on peut avoir 32 adress au maximum donc 32 instruction allant de l'adress 0-31
------------------------------------------------------------
+-----------------------Model request ores RPC-------------------------
+---{
+---    {type = "iron", quantity = 50},
+---    {type = "copper", quantity = 100},
+---}
+----------------------------------------------------------------------
 
 
 
@@ -42,7 +47,7 @@ local sorterId = {
     silver = ic.find("Sorter - Silver"),
     cobalt = ic.find("Sorter - Cobalt"),
 }
-local siloId = {
+local silo = {
     iron = {id = ic.find("Silo - Iron"), quantity = 0},
     copper = {id = ic.find("Silo - Copper"), quantity = 0},
     gold = {id = ic.find("Silo - Gold"), quantity = 0},
@@ -106,6 +111,7 @@ local belts = {
 }
 local adress = 0
 
+
 ----------------------------
 -- Définition des functions
 ----------------------------
@@ -120,17 +126,16 @@ local function encodeSorterOperation(op_code, hash)
 end
 
 local function refreshQuantitySilo()
-    for key, value in pairs(siloId) do
+    for key, value in pairs(silo) do
         local quantity = system.safe.readId(value.id, LT.Quantity, "Silo - " .. key)
         value.quantity = quantity
     end
 end
-
 --Permet de lire le loader et de faire sortire la mining belts
 local function checkLoader()
     local isPayloadOccupied = system.utils.toBolean(system.safe.readSlotId(loaderId, 0, LST.Occupied, "Loader"))
     local isRecipientOccupied = system.utils.toBolean(system.safe.readSlotId(loaderId, 1, LST.Occupied, "Loader"))
-    local isExportOccupied = system.utils.toBolean(system.safe.readSlotId(loaderId, 1, LST.Occupied, "Loader"))
+    local isExportOccupied = system.utils.toBolean(system.safe.readSlotId(loaderId, 2, LST.Occupied, "Loader"))
 
     if isExportOccupied then
         system.safe.writeId(unloaderId, LT.On, 0, "Unloader")
@@ -149,12 +154,76 @@ end
 
 
 ----------------------------
+-- Définition des functions réseaux
+----------------------------
+
+--Permet de recevoir des requete de minerais
+---@class OreRequest
+---@field type string
+---@field quantity integer
+---@param payload OreRequest[]
+ic.net.register("silo/ores_request", function(payload, fromId, fromName)
+    local retour = {}
+    if type(payload) ~= "table" then
+        print(system.log.time() .. "h " .. system.log.level("warn") .. " : Le programme " .. system.utils.color("Yellow", fromName) .. " n'a pas envoyer un payload de type " .. system.utils.color("Yellow", "table"))
+        return nil
+    end
+
+    for index, value in ipairs(payload) do
+        do --Test si le model de donné dans payload est correct
+            if type(value.type) ~= "string" then
+                print(system.log.time() .. "h " .. system.log.level("warn") .. " : Le type de minerais n'est pas un string a l'index " .. system.utils.color("Yellow", tostring(index)))
+                retour[value.type] = false
+                goto nextIndex
+            elseif ores[value.type] == nil then -- test si le type de minerais est valide en se basant sur les clé de la table ores
+                print(system.log.time() .. "h " .. system.log.level("warn") .. " : Le type de minerais n'est pas valide a l'index " .. system.utils.color("Yellow", tostring(index)) .. " valeur actuel : " .. system.utils.color("Yellow", value.type))
+                retour[value.type] = false
+                goto nextIndex
+            end
+
+            if type(value.quantity) ~= "number" then
+                print(system.log.time() .. "h " .. system.log.level("warn") .. " : La quantiter de minerais n'est pas un nombre a l'index " .. system.utils.color("Yellow", tostring(index)))
+                retour[value.type] = false
+                goto nextIndex
+            elseif value.quantity % 1 ~= 0 then -- Test si la quantity est bien un nombre entier
+                print(system.log.time() .. "h " .. system.log.level("warn") .. " : La quantiter de minerais n'est pas un nombre entier a l'index " .. system.utils.color("Yellow", tostring(index) .. "le type attentu est un nombre entier"))
+                retour[value.type] = false
+                goto nextIndex
+            elseif value.quantity <= 0 then
+                print(system.log.time() .. "h " .. system.log.level("warn") .. " : La quantiter de minerais est <= 0 a l'index " .. system.utils.color("Yellow", tostring(index)) .. "valeur attendu > 0")
+                retour[value.type] = false
+                goto nextIndex
+            end
+        end
+
+
+        local quantity = silo[value.type].quantity
+        local valveSiloOutId = valveSiloOut[value.type]
+
+        if quantity < value.quantity then
+            print(system.log.time() .. "h " .. system.log.level("warn") .. " : Quantity de minerais de " .. system.utils.color("Yellow", value.type) .. " insuffisante")
+            retour[value.type] = false
+            goto nextIndex
+        end
+        retour[value.type] = true
+
+        system.safe.writeId(valveSiloOutId, LT.Setting, value.quantity, "Chute Valve Left - " .. system.utils.color("Yellow", value.type))
+        yield()
+        system.safe.writeId(valveSiloOutId, LT.Open, quantity, "Chute Valve Left - " .. system.utils.color("Yellow", value.type))
+
+        ::nextIndex::
+    end
+    return retour
+end)
+
+
+----------------------------
 -- Init du système
 ----------------------------
 
 system.safe.writeId(loaderId, LT.Mode, 1, "Loader")
 
-for key, value in pairs(siloId) do
+for key, value in pairs(silo) do
     system.safe.writeId(value.id, LT.On, 1, "Silo - " .. key)
     system.safe.writeId(value.id, LT.Lock, 0, "Silo - " .. key)
 end
