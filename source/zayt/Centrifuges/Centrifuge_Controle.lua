@@ -27,48 +27,35 @@ local centrifugesId = {
     A = {},
     B = {},
     C = {},
-    D = {},
+    --D = {},
 }
 -- Light qui affiche l'état de la centrifuge
 local centriLightId = {
     A = {},
     B = {},
     C = {},
-    D = {},
+    --D = {},
 }
 local centriGeneralPowerButtonId = {
-    A = nil,
-    B = nil,
-    C = nil,
-    D = nil,
+    A = 0,
+    B = 0,
+    C = 0,
+    --D = 0,
 }
-
-
 local centriGeneralPowerLightId = {
-    A = nil,
-    B = nil,
-    C = nil,
-    D = nil,
-}
-local centriGeneralMIXButtonId = {
-    A = nil,
-    B = nil,
-    C = nil,
-    D = nil,
-}
-local centriGeneralMIXLightId = {
-    A = nil,
-    B = nil,
-    C = nil,
-    D = nil,
+    A = 0,
+    B = 0,
+    C = 0,
+    --D = 0,
 }
 ----------------------------
 -- Définition des données
 ----------------------------
 
 local LT = ic.enums.LogicType
+local LST = ic.enums.LogicSlotType
 
-print(system.log.time() .. "h " .. system.log.level("debug") .. " : fonction colorLed = " .. tostring(system.utils.colorLed))
+
 local lightState = {
     powerOff = system.utils.colorLed("Red"), -- Rouge
     powerOn = 2, -- Vert
@@ -80,8 +67,8 @@ local state = {
     auto = 2,
     debug = 3,
 }
-local currentState = state.debug
-debug = {
+local currentState = state.manu
+local debug = {
     getCentrifugeIds = false,
     getLightIds = false,
 }
@@ -90,30 +77,20 @@ local centrifugesError = {
     A = {},
     B = {},
     C = {},
-    D = {},
+    --D = {},
 }
 local centrifugesPowerState = {
     A = {},
     B = {},
     C = {},
-    D = {},
-}
-local centrifugesGeneralPowerState = {
-    A = {},
-    B = {},
-    C = {},
-    D = {},
+    --D = {},
 }
 local lightLastOn = {
     A = {},
     B = {},
     C = {},
-    D = {},
+    --D = {},
 }
-
-
-
-
 
 ----------------------------
 -- Définition des functions
@@ -165,7 +142,7 @@ local function getButtonGeneralPowerIds()
     for key, value in pairs(centriGeneralPowerButtonId) do
         local id = ic.find("Power Button " .. key)
 
-         if id == nil then
+        if id == nil then
             print(system.log.time() .. "h " .. system.log.level("warn") .. " : Power Button " .. system.utils.color("Yellow", key ) .. " manquante.")
             goto continue
         end
@@ -178,25 +155,22 @@ local function getButtonGeneralPowerIds()
     end
 end
 
-local function getButtonGeneralMIXIds()
-    for key, value in pairs(centriGeneralMIXButtonId) do
-        local id = ic.find("MIX Button " .. key)
+local function getLightGeneralPowerIds()
+     for key, value in pairs(centriGeneralPowerLightId) do
+        local id = ic.find("Power Light " .. key)
 
-         if id == nil then
-            print(system.log.time() .. "h " .. system.log.level("warn") .. " : MIX Button " .. system.utils.color("Yellow", key ) .. " manquante.")
+        if id == nil then
+            print(system.log.time() .. "h " .. system.log.level("warn") .. " : Power Light " .. system.utils.color("Yellow", key ) .. " manquante.")
             goto continue
         end
 
-        centriGeneralMIXButtonId[key] = id
-        if currentState == state.debug and debug.getButtonGeneralMIXIds == true then
-           print(system.log.time().. "h " .. system.log.level("debug") .. " : MIX Button " .. system.utils.color("Red", key) .. " : "  .. " id = " .. tostring(centriGeneralMIXButtonId[key]))
+        centriGeneralPowerLightId[key] = id
+        if currentState == state.debug and debug.getLightGeneralPowerIds == true then
+           print(system.log.time().. "h " .. system.log.level("debug") .. " : Power Light " .. system.utils.color("Red", key) .. " : "  .. " id = " .. tostring(centriGeneralPowerLightId[key]))
         end 
         ::continue::
     end
 end
-
-
-
 
 --obtien la variable error des centrifuges
 local function getErrorCentrifuges()
@@ -264,35 +238,51 @@ end
 local function setPowerGeneral()
     for key, _ in pairs(centriGeneralPowerButtonId) do
         local buttonId = centriGeneralPowerButtonId[key]
+        local lightId = centriGeneralPowerLightId[key]
         if buttonId == nil then
             goto nextKey
         end
 
         local isOn = system.utils.toBolean(system.safe.readId(buttonId, LT.On, "Power Button " .. key))
 
- 
+
+
         for i, id in pairs(centrifugesId[key]) do
-            if id ~= nil then
-                if isOn then
-                system.safe.writeId(id, LT.On, 1)
+            if id == nil then
+                goto nextCentrifuge
+            end
+
+            if isOn then
+                system.safe.writeId(id, LT.On, 1, "Centrifuges " .. key .. i)
+                system.safe.writeId(lightId, LT.Color, system.utils.colorLed("Green"), "Power Light " .. key)
             else
-                system.safe.writeId(id, LT.On, 0)
+                system.safe.writeId(id, LT.On, 0, "Centrifuges " .. key .. i)
+                system.safe.writeId(lightId, LT.Color, system.utils.colorLed("Red"), "Power Light " .. key)
             end
-            end
+            ::nextCentrifuge::
         end
         ::nextKey::
     end
 end
+local function automatedVidange()
+    forNCentrifuge(function(key, i)
 
-local function stopMIX()
-     for key, _ in pairs(centriGeneralMIXButtonId) do
-        local buttonMIXId = centriGeneralMIXButtonId[key]
-        if buttonMIXId == nil then
-            goto continue
+        local centrifugesId = centrifugesId[key][i]
+        local isCentrifugesError = centrifugesError[key][i]
+
+        if isCentrifugesError then
+
+
+
+
+            system.safe.writeId(centrifugesId, LT.Open, 1)
+            while system.safe.readSlotId(centrifugesId, 1, LST.Occupied, "centrifuge " .. key .. i) == 0 do yield() end --Patiente jusqu'a l'arrêt de la centrifuges
+            while system.safe.readSlotId(centrifugesId, 1, LST.Occupied, "centrifuge " .. key .. i) == 1 do yield() end --Patiente jusqu'a la vidange de la centrifuges
+            system.safe.writeId(centrifugesId, LT.Open, 0)
         end
-        ::continue::
-    end
+    end)
 end
+
 ----------------------------
 -- Init du system
 ----------------------------
@@ -300,7 +290,7 @@ end
 getCentrifugeIds()
 getLightIds()
 getButtonGeneralPowerIds()
-getButtonGeneralMIXIds()
+getLightGeneralPowerIds()
 
 
 while true do
@@ -308,6 +298,6 @@ while true do
     getPowerStateCentrifuges()
     actualiseLight()
     setPowerGeneral()
-    stopMIX()
+    automatedVidange()
     yield()
 end
