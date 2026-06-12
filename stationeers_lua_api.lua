@@ -485,18 +485,18 @@ function ic.net.id() end
 function ic.net.peers() end
 --Enovie un message a une cible précise soit par id soit par nom
 ---@param target integer | string
----@param channel string
+---@param sujet string
 ---@param payload number | string | boolean | table | nil
 ---@return nil
-function ic.net.send(target, channel, payload) end
+function ic.net.send(target, sujet, payload) end
 --Enovie un message a tout le monde sur le réseau et renvoie le nombre de puce aillent reçus le message
----@param channel string
+---@param sujet string
 ---@param payload number | string | boolean | table | nil
 ---@return integer
-function ic.net.broadcast(channel, payload) end
+function ic.net.broadcast(sujet, payload) end
 --Reçois un message envoyer par send ou broadcast
 ---@param sujet string
----@param handler fun(fromId:integer, fromName:string, payload:number | string | boolean | table | nil)
+---@param handler string | fun(fromId:integer, fromName:string, payload:number | string | boolean | table | nil) --Execute la function lors de la reception d'une message
 ---@return nil
 function ic.net.listen(sujet, handler) end
 
@@ -506,15 +506,32 @@ function ic.net.listen(sujet, handler) end
 ---@param options table | nil
 ---@return number
 function ic.net.publish(sujet, payload , options) end
---S'inscrit pour écouter un sujet
+--S'inscrit pour écouter un sujet publier par publish
 ---@param sujet string
----@param handler fun(sujet:string, payload:number | string | boolean | table | nil, fromId:integer, fromName:string, cache:boolean)
+---@param handler string | fun(sujet:string, payload:number | string | boolean | table | nil, fromId:integer, fromName:string, isRetained:boolean) --Execute la function lors de la reception d'une message
 ---@return nil
 function ic.net.subscribe(sujet, handler) end
 --Se désincrit d'un sujet
 ---@param sujet string
 ---@return nil
 function ic.net.unsubscribe(sujet) end
+
+--Permet d'enregistrer une requete RPC sur le server
+---@param sujet string
+---@param handler function --fonction anonyme retournant une valeur
+function ic.net.register(sujet, handler) end
+--Permet de se désenregistrer d'une requete RPC
+---@param sujet string
+function ic.net.unregister(sujet) end
+--Permet d'envoyer une requete RPC a une cible et de recevoir la reponse
+---@param target string
+---@param sujet string
+---@param payload number | string | boolean | table | nil
+---@param response function
+---@param timeout number --En seconde par defaut 10s max 120s
+function ic.net.request(target, sujet, payload, response , timeout) end
+
+
 
 
 util = {}
