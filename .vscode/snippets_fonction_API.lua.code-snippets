@@ -224,6 +224,10 @@
 		"prefix": "net.subscribe",
 		"body": [
 			"local function handler(sujet, payload, fromId, fromName, isRetained)",
+			"    if type(payload) == \"table\" then",
+			"        print(system.log.time() .. \"h \" .. system.log.level(\"warn\") .. \" : Le payload du message réseaux [\" .. system.utils.color(\"Yellow\", sujet) .. \"] n'est pas de type table\")",
+			"        return",
+			"    end",
 			"    ${0}",
 			"end",
 			"ic.net.subscribe(${1:sujet}, ${2:\"handler\"})",
