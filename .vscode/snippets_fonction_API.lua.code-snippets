@@ -204,7 +204,7 @@
 	"ic.net.listen": {
 		"prefix": "net.listen",
 		"body": [
-			"function handler(fromId, fromName, payload)",
+			"local function handler(fromId, fromName, payload)",
 			"    ${0}",
 			"end",
 			"ic.net.listen(${1:sujet}, ${2:\"handler\"})",
