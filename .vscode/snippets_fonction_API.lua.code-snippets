@@ -223,7 +223,7 @@
 	"ic.net.subscribe": {
 		"prefix": "net.subscribe",
 		"body": [
-			"function handler(sujet, payload, fromId, fromName, isRetained)",
+			"local function handler(sujet, payload, fromId, fromName, isRetained)",
 			"    ${0}",
 			"end",
 			"ic.net.subscribe(${1:sujet}, ${2:\"handler\"})",
