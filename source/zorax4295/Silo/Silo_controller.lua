@@ -214,22 +214,6 @@ ic.net.register("silo/ores_request", function(payload, fromId, fromName)
     end
     return retour
 end)
-do --Publie les quantity de minerais
-    ic.net.publish("silo/ores_quantity", {
-        iron = silo.iron.quantity,
-        copper = silo.copper.quantity,
-        gold = silo.gold.quantity,
-        silicon = silo.silicon.quantity,
-        coal = silo.coal.quantity,
-        lead = silo.lead.quantity,
-        nickel = silo.nickel.quantity,
-        silver = silo.silver.quantity,
-        cobalt = silo.cobalt.quantity,
-    }, {
-        retain = true, --Mémorise le dernier message publié pour ce sujet. Tout nouvel abonné recevra immédiatement cette valeur même si elle a été publiée avant son abonnement.
-        ttl = 20, --Temps de conservation du message retenu, en secondes. Après expiration, le message n'est plus distribué aux nouveaux abonnés.
-    })
-end
 
 
 ----------------------------
@@ -299,5 +283,21 @@ end
 while true do
     refreshQuantitySilo()
     checkLoader()
+    do --Publie les quantity de minerais
+        ic.net.publish("silo/ores_quantity", {
+            iron = silo.iron.quantity,
+            copper = silo.copper.quantity,
+            gold = silo.gold.quantity,
+            silicon = silo.silicon.quantity,
+            coal = silo.coal.quantity,
+            lead = silo.lead.quantity,
+            nickel = silo.nickel.quantity,
+            silver = silo.silver.quantity,
+            cobalt = silo.cobalt.quantity,
+        }, {
+            retain = true, --Mémorise le dernier message publié pour ce sujet. Tout nouvel abonné recevra immédiatement cette valeur même si elle a été publiée avant son abonnement.
+            ttl = 20, --Temps de conservation du message retenu, en secondes. Après expiration, le message n'est plus distribué aux nouveaux abonnés.
+        })
+    end
     yield()
 end
