@@ -44,9 +44,9 @@ local centriLightId = {
 local LT = ic.enums.LogicType
 
 local lightState = {
-    powerOff = 4,
-    powerOn = 2,
-    error = 3,
+    powerOff = system.utils.colorLed("Red"),
+    powerOn = system.utils.colorLed("Green"),
+    error = system.utils.colorLed("Yellow"),
 }
 
 local state = {
@@ -54,57 +54,88 @@ local state = {
     auto = 2,
     debug = 3,
 }
-local currentState = state.manu
+local currentState = state.debug
+debug = {
+    getCentrifugeIds = false,
+    getLightIds = false,
+}
+
+local centrifugesError = {
+    A = {},
+    B = {},
+    C = {},
+    D = {},
+}
 
 
-
-
-----------------------------
--- Définition des données
-----------------------------
 
 
 ----------------------------
 -- Définition des functions
 ----------------------------
 
-local function collectCentrifugeIds()
+--Permet d'iterer sur le nombre de centrifuge actuel
+---@param action function
+local function forNCentrifuge(action)
     for key, _ in pairs(centrifugesId) do --Itere sur les rangé
         for i = 1, nCentrifugeuseMax do -- itere sur chaque centrifuges
-            local id = ic.find("Centrifuge " .. key .. i) -- récupère l'Id de la centrifuge
-            centrifugesId[key][i] = id -- écrit l'Id dans la table centrifuge Id
-        end
-    end
-
-    if currentState == state.debug then
-        for key, _ in pairs(centrifugesId) do
-            for i = 1, nCentrifugeuseMax do
-                print(system.log.time() .. system.log.level("debug") .. " : Centrifuge " .. system.utils.color("Red", key) .. " : " .. i .. " id = " .. tostring(centrifugesId[key][i]))
-            end
+            action(key, i)
         end
     end
 end
 
-local function collectLightIds()
-    for key, _ in pairs(centriLightId) do
-        for i = 1, nCentrifugeuseMax do
-            local id = ic.find("Light State Centrifuge " .. key .. i)
-            centriLightId[key][i] = id
+local function getCentrifugeIds()
+    forNCentrifuge(function(key, i)
+        local id = ic.find("Centrifuge " .. key .. i) -- récupère l'Id de la centrifuge
+        if id == nil then
+            print(system.log.time() .. "h " .. system.log.level("warn") .. " : Centrifuge " .. system.utils.color("Yellow", key .. i) .. " manquante.")
+            return
         end
-    end
 
-    if currentState == state.debug then
-        for key, _ in pairs(centriLightId) do
-            for i = 1, nCentrifugeuseMax do
-            print(system.log.time() .. system.log.level("debug") .. " : Light State Centrifuge " .. system.utils.color("Red", key) .. " : " .. i .. " id = " .. tostring(centriLightId[key][i]))
-            end
+        centrifugesId[key][i] = id -- écrit l'Id dans la table centrifuge Id
+        if currentState == state.debug and debug.getCentrifugeIds == true then
+            print(system.log.time() .. "h " .. system.log.level("debug") .. " : Centrifuge " .. system.utils.color("Yellow", key .. i) .. " id = " .. tostring(centrifugesId[key][i]))
         end
-    end
+    end)
 end
+
+local function getLightIds()
+    forNCentrifuge(function(key, i)
+        local id = ic.find("Light State Centrifuge " .. key .. i)
+        if id == nil then
+            print(system.log.time() .. "h " .. system.log.level("warn") .. " : Light State Centrifuge " .. system.utils.color("Yellow", key .. i) .. " manquante.")
+            return
+        end
+
+        centriLightId[key][i] = id
+        if currentState == state.debug and debug.getLightIds == true then
+            print(system.log.time().. "h " .. system.log.level("debug") .. " : Light State Centrifuge " .. system.utils.color("Red", key) .. " : " .. i .. " id = " .. tostring(centriLightId[key][i]))
+        end
+    end)
+end
+
+local function getErrorCentrifuges()
+    forNCentrifuge(function(key, i)
+        if centrifugesId[key][i] == nil then
+            print(system.log.time() .. "h " .. system.log.level("warn") .. " : Impossible de lire le LogicType Error : Centrifuge " .. system.utils.color("Yellow", key .. i) .. " manquante.")
+            return
+        end
+
+        local isCentrifugesError = system.utils.toBolean(system.safe.readId(centrifugesId[key][i], LT.Error, "Centrifuge " .. key .. i))
+        centrifugesError[key][i] = isCentrifugesError
+    end)
+end
+
 
 ----------------------------
 -- Init du system
 ----------------------------
 
-collectCentrifugeIds()
-collectLightIds()
+getCentrifugeIds()
+getLightIds()
+
+
+while true do
+    getErrorCentrifuges()
+    yield()
+end
