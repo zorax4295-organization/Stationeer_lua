@@ -283,7 +283,11 @@
 			"    id = \"${2:id}\", type = \"label\",",
 			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
 			"    props = { text = \"${7:label}\", z_index = ${8:0} },",
-			"    style = { font_size = ${9:taille de police}, color = \"#FFFFFF\", align = \"left\" },",
+			"    style = {",
+			"        font_size = ${9:taille_de_police},",
+			"        color = \"#FFFFFF\",",
+			"        align = \"left\",",
+			"    },",
 			"})"
 		],
 	},
@@ -294,7 +298,11 @@
 			"    id = \"${2:id}\", type = \"panel\",",
 			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
 			"    props = { z_index = ${7:0} },",
-			"    style = { bg = \"${8:#0F172A}\", gradient = \"#FFFFFF\", gradient_dir = \"horizontal\" },",
+			"    style = {",
+			"        bg = \"${8:#0F172A}\",",
+			"        gradient = \"#FFFFFF\",",
+			"        gradient_dir = \"horizontal\",",
+			"    },",
 			"})"
 		],
 	},
@@ -503,6 +511,16 @@
 			"        label_color = \"${18:#64748B}\",",
 			"        needle_color = \"${19:#FFFFFF}\", --Couleur de l'aiguille",
 			"    },",
+			"})"
+		],
+	},
+	"element.image": {
+		"prefix": "image",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"image\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { url = \"${7:url}\" },",
 			"})"
 		],
 	},
