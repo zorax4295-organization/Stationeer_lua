@@ -184,4 +184,86 @@
 			"system.utils.inRangeAngle(${1:target}, ${2:margin}, ${3:value})",
 		],
 	},
+
+	// =====================
+	// Réseaux
+	// =====================
+
+	"ic.net.send": {
+		"prefix": "net.send",
+		"body": [
+			"ic.net.send(${1:target}, ${2:sujet}, ${3:payload})",
+		],
+	},
+	"ic.net.broadcast": {
+		"prefix": "net.broadcast",
+		"body": [
+			"ic.net.broadcast(${1:sujet}, ${2:payload})",
+		],
+	},
+	"ic.net.listen": {
+		"prefix": "net.listen",
+		"body": [
+			"local function handler(fromId, fromName, payload)",
+			"    ${0}",
+			"end",
+			"ic.net.listen(${1:sujet}, ${2:\"handler\"})",
+		],
+	},
+
+	"ic.net.publish": {
+		"prefix": "net.publish",
+		"body": [
+			"ic.net.publish(${1:sujet}, ${2:payload}, {",
+			"    retain = ${3:boolean}, --Mémorise le dernier message publié pour ce sujet. Tout nouvel abonné recevra immédiatement cette valeur même si elle a été publiée avant son abonnement.",
+			"    ttl = ${4:number}, --Temps de conservation du message retenu, en secondes. Après expiration, le message n'est plus distribué aux nouveaux abonnés.",
+			"})",
+		],
+	},
+	"ic.net.subscribe": {
+		"prefix": "net.subscribe",
+		"body": [
+			"local function handler(sujet, payload, fromId, fromName, isRetained)",
+			"    if type(payload) ~= \"table\" then",
+			"        print(system.log.time() .. \"h \" .. system.log.level(\"warn\") .. \" : Le payload du message réseaux [\" .. system.utils.color(\"Yellow\", sujet) .. \"] n'est pas de type table\")",
+			"        return",
+			"    end",
+			"    ${0}",
+			"end",
+			"ic.net.subscribe(${1:sujet}, ${2:\"handler\"})",
+		],
+	},
+	"ic.net.unsubscribe": {
+		"prefix": "net.unsubscribe",
+		"body": [
+			"ic.net.unsubscribe(${1:sujet})",
+		],
+	},
+
+	"ic.net.register": {
+		"prefix": "net.register",
+		"body": [
+			"ic.net.register(${1:sujet}, function(payload, fromId, fromName)",
+			"    ${0}",
+			"    return",
+			"end)",
+		],
+	},
+	"ic.net.unregister": {
+		"prefix": "net.unregister",
+		"body": [
+			"ic.net.unregister(${1:sujet})",
+		],
+	},
+	"ic.net.request": {
+		"prefix": "net.request",
+		"body": [
+			"ic.net.request(${1:target}, ${2:sujet}, ${3:payload},",
+			"    function(payload, fromId, fromName)",
+			"        ${0}",
+			"    end,",
+			"    10",
+			")",
+		],
+	},
 }
