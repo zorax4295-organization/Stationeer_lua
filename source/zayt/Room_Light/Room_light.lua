@@ -29,6 +29,10 @@ local lightName = {
     D = hash("Wall Light Room D"),
     E = hash("Wall Light Room E"),
 }
+local ledId = {
+    A = ic.find("LED A"),
+    B = ic.find("LED B"),
+}
 
 ----------------------------
 -- Définition des données
@@ -94,6 +98,19 @@ local function setOccupationStateToLight()
     end
 end
 
+local function setOccupationStateToLed()
+    for key, value in pairs(occupationState) do
+        if ledId[key] == nil then goto continue end
+
+        if value ~= true then
+            system.safe.writeId(ledId[key], LT.On, 1, "led")
+        else
+            system.safe.writeId(ledId[key], LT.On, 0, "led")
+        end
+    end
+    ::continue::
+end
+
 
 ----------------------------
 -- Init du system
@@ -104,5 +121,6 @@ getSensorId()
 while true do
     getOccupationState()
     setOccupationStateToLight()
+    setOccupationStateToLed()
     yield()
 end
