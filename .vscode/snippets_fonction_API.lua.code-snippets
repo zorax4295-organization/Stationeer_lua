@@ -266,4 +266,262 @@
 			")",
 		],
 	},
+
+
+	// =====================
+	// ScriptedScreens
+	// =====================
+
+	// =====================
+	// Display Elements
+	// =====================
+
+	"element.label": {
+		"prefix": "label",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"label\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { text = \"${7:label}\", z_index = ${8:0} },",
+			"    style = {",
+			"        font_size = ${9:taille_de_police},",
+			"        color = \"#FFFFFF\",",
+			"        align = \"left\",",
+			"    },",
+			"})"
+		],
+	},
+	"element.panel": {
+		"prefix": "panel",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"panel\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { z_index = ${7:0} },",
+			"    style = {",
+			"        bg = \"${8:#0F172A}\",",
+			"        gradient = \"#FFFFFF\",",
+			"        gradient_dir = \"horizontal\",",
+			"    },",
+			"})"
+		],
+	},
+	"element.progress_bar": {
+		"prefix": "progress_bar",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"progress\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { value = ${7:value}, min = ${8:value}, max = ${9:value}, direction = ${10:direction}, z_index = ${11:0} },",
+			"    style = {",
+			"        bg = \"${12:#1E293B}\", -- Couleur d’arrière-plan du suivi",
+			"        fill = \"${13:#22C55E}\", -- Couleur de remplissage de base",
+			"        color_stops = {",
+			"            { 0.5, \"#EAB308\" }, -- yellow from 50%",
+			"            { 0.8, \"#EF4444\" }, -- red from 80%",
+			"        },",
+			"    },",
+			"})"
+		],
+	},
+	"element.icons": {
+		"prefix": "icons",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"icon\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { name = ${7:icon}, z_index = ${8:0} },",
+			"    style = { tint = \"${9:#3B82F6}\"},",
+			"})"
+		],
+	},
+	"element.spinner": {
+		"prefix": "spinner",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"spinner\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { z_index = ${7:0} },",
+			"    style = {",
+			"        color = \"${8:#38BDF8}\", --Arc color",
+			"        thickness = 4, --Épaisseur de l'arc en pixels (4 par défaut)",
+			"        speed = 2, --Rotations per second (default 2)",
+			"        arc_length = 0.3, --Fraction du cercle complet (par défaut 0,3)",
+			"        track_color = \"#38BDF8\", --Couleur de la piste d’arrière-plan",
+			"    },",
+			"})"
+		],
+	},
+	"element.line": {
+		"prefix": "line",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"line\",",
+			"    props = {",
+			"        x1 = ${3:x1}, y1 = ${4:y1},",
+			"        x2 = ${5:x2}, y2 = ${6:y2},",
+			"        z_index = ${7:0},",
+			"    },",
+			"    style = {",
+			"        color = \"${8:#334155}\", --Arc color",
+			"        thickness = 2, --Épaisseur en pixels (2 par défaut)",
+			"    },",
+			"})"
+		],
+	},
+	"element.button": {
+		"prefix": "button",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"button\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { text = \"${7:label}\", z_index = ${8:0} },",
+			"    style = { bg = \"${9:#0334155F172A}\", text = \"${10:#FFFFFF}\", font_size = ${11:14} },",
+			"    on_click = function(playerName)$0",
+			"    end",
+			"})"
+		],
+	},
+	"element.checkbox": {
+		"prefix": "button checkbox",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"checkbox\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { text = \"${7:label}\", checked = \"false\", z_index = ${8:0} },",
+			"    style = { bg = \"${9:#000000}\", text = \"${10:#FFFFFF}\", check_color = \"${11:#FFFFFF}\", font_size = ${12:14} },",
+			"    on_click = function(player)$0",
+			"    end",
+			"})"
+		],
+	},
+	"element.radio": {
+		"prefix": "button radio",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"radio\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { text = \"${7:label}\", selected = \"false\", z_index = ${8:0} },",
+			"    style = { bg = \"${9:#000000}\", text = \"${10:#FFFFFF}\", radio_color = \"${11:#FFFFFF}\", font_size = ${12:14} },",
+			"    on_click = function(player)$0",
+			"    end",
+			"})"
+		],
+	},
+	"element.toggle": {
+		"prefix": "button toggle",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"toggle\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { value = \"${7:false}\" },",
+			"    style = {",
+			"        on_color = \"${8:#22C55E}\",",
+			"        off_color = \"${9:#334155}\",",
+			"        knob = \"${10:#FFFFFF}\",",
+			"    },",
+			"    on_click = function(player)$0",
+			"    end",
+			"})"
+		],
+	},
+	"element.slider": {
+		"prefix": "slider",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"slider\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = {",
+			"        value = \"${7:0.5}\",",
+			"        min = \"${8:0}\",",
+			"        max = \"${9:1}\",",
+			"        direction = ${10:direction},",
+			"    },",
+			"    style = {",
+			"        bg = \"${11:#1E293B}\",",
+			"        fill = \"${12:#3B82F6}\", --Couleur de la partie remplie",
+			"        handle = \"${13:#FFFFFF}\", --Couleur de la poignée",
+			"    },",
+			"    on_change = function(value, player)$0",
+			"    end",
+			"})"
+		],
+	},
+	"element.textinput": {
+		"prefix": "textinput",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"textinput\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = {",
+			"        value = \"\",",
+			"        placeholder = \"${7:Enter name...}\",",
+			"        title = \"${8:Name}\",",
+			"    },",
+			"    style = {",
+			"        bg = \"${9:#0F172A}\",",
+			"        text = \"${10:#E2E8F0}\",",
+			"        placeholder_color = \"${11:#475569}\",",
+			"        font_size = ${12:12},",
+			"    },",
+			"    on_change = function(value, player)$0",
+			"    end",
+			"})"
+		],
+	},
+	"element.scrollview": {
+		"prefix": "scrollview",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"scrollview\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = {",
+			"        content_height = \"${7:500}\" --Hauteur totale du contenu déroulable en pixels (par défaut 500)",
+			"    },",
+			"    style = {",
+			"        bg = \"${8:#0F172A}\",",
+			"        scrollbar_bg = \"${9:#1E293B}\", --Couleur de la piste de la barre de défilement",
+			"        scrollbar_handle = \"${10:#475569}\", --Couleur de la poignée de la barre de défilement",
+			"        scroll_speed = \"${11:30}\", --Sensibilité au défilement (par défaut 20)",
+			"        padding_bottom = ${12:20}, --Rembourrage supplémentaire en bas du contenu (par défaut 20)",
+			"    },",
+			"})"
+		],
+	},
+	"element.gauge": {
+		"prefix": "gauge",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"gauge\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = {",
+			"        value = ${7:101.3},",
+			"        min = ${8:0},",
+			"        max = ${9:200},",
+			"        warn = ${10:0.65},",
+			"        danger = ${11:0.85},",
+			"        label = \"${12:pressure}\",",
+			"        unit = \"${13: kPa}\",",
+			"    },",
+			"    style = {",
+			"        bg = \"${14:#111827}\",",
+			"        arc_thickness = ${15:8}, --Épaisseur de l'anneau d'arc en pixels (par défaut 10)",
+			"        font_size = ${16:12},",
+			"        value_color = \"${17:#E2E8F0}\",",
+			"        label_color = \"${18:#64748B}\",",
+			"        needle_color = \"${19:#FFFFFF}\", --Couleur de l'aiguille",
+			"    },",
+			"})"
+		],
+	},
+	"element.image": {
+		"prefix": "image",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"image\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { url = \"${7:url}\" },",
+			"})"
+		],
+	},
 }
