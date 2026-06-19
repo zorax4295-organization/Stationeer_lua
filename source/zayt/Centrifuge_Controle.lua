@@ -7,6 +7,12 @@
 
 
 ----------------------------
+-- Définition des constantes
+----------------------------
+
+local nCentrifugeuseMax = 20
+
+----------------------------
 -- import de la librairie
 ----------------------------
 
@@ -17,14 +23,14 @@ local system = require("system")
 ----------------------------
 
 
-local centrifuges = {
+local centrifugesId = {
     A = {},
     B = {},
     C = {},
     D = {},
 }
 -- Light qui affiche l'état de la centrifuge
-local centriLight = {
+local centriLightId = {
     A = {},
     B = {},
     C = {},
@@ -35,7 +41,20 @@ local centriLight = {
 -- Définition des données
 ----------------------------
 
-local nCentrifugeuseMax = 20
+local LT = ic.enums.LogicType
+
+local lightState = {
+    powerOff = 4,
+    powerOn = 2,
+    error = 3,
+}
+
+local state = {
+    manu = 1,
+    auto = 2,
+    debug = 3,
+}
+local currentState = state.manu
 
 
 
@@ -50,24 +69,36 @@ local nCentrifugeuseMax = 20
 ----------------------------
 
 local function collectCentrifugeIds()
-    for key, _ in pairs(centrifuges) do --Itere sur les rangé
+    for key, _ in pairs(centrifugesId) do --Itere sur les rangé
         for i = 1, nCentrifugeuseMax do -- itere sur chaque centrifuges
-            local id = ic.find("Centrifuge " .. key .. i)
-            centrifuges[key][i] = id
+            local id = ic.find("Centrifuge " .. key .. i) -- récupère l'Id de la centrifuge
+            centrifugesId[key][i] = id -- écrit l'Id dans la table centrifuge Id
         end
     end
 
-    for i = 1, 20 do
-        print(system.log.time() .. system.log.level("debug") .. " : Centrifuge" .. system.utils.color("Red", "A") .. " : " .. i .. " id = " .. tostring(centrifuges.A[i]))
+    if currentState == state.debug then
+        for key, _ in pairs(centrifugesId) do
+            for i = 1, nCentrifugeuseMax do
+                print(system.log.time() .. system.log.level("debug") .. " : Centrifuge " .. system.utils.color("Red", key) .. " : " .. i .. " id = " .. tostring(centrifugesId[key][i]))
+            end
+        end
     end
-    for i = 1, 20 do
-        print(system.log.time() .. system.log.level("debug") .. " : Centrifuge" .. system.utils.color("Orange", "B") .. " : " .. i .. " id = " .. tostring(centrifuges.B[i]))
+end
+
+local function collectLightIds()
+    for key, _ in pairs(centriLightId) do
+        for i = 1, nCentrifugeuseMax do
+            local id = ic.find("Light State Centrifuge " .. key .. i)
+            centriLightId[key][i] = id
+        end
     end
-    for i = 1, 20 do
-        print(system.log.time() .. system.log.level("debug") .. " : Centrifuge" .. system.utils.color("Yellow", "C") .. " : " .. i .. " id = " .. tostring(centrifuges.C[i]))
-    end
-    for i = 1, 20 do
-        print(system.log.time() .. system.log.level("debug") .. " : Centrifuge" .. system.utils.color("Green", "D") .. " : " .. i .. " id = " .. tostring(centrifuges.D[i]))
+
+    if currentState == state.debug then
+        for key, _ in pairs(centriLightId) do
+            for i = 1, nCentrifugeuseMax do
+            print(system.log.time() .. system.log.level("debug") .. " : Light State Centrifuge " .. system.utils.color("Red", key) .. " : " .. i .. " id = " .. tostring(centriLightId[key][i]))
+            end
+        end
     end
 end
 
@@ -76,3 +107,4 @@ end
 ----------------------------
 
 collectCentrifugeIds()
+collectLightIds()
