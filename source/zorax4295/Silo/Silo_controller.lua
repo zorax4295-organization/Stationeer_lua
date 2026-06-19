@@ -208,7 +208,6 @@ ic.net.register("silo/ores_request", function(payload, fromId, fromName)
         retour[value.type] = true
 
         system.safe.writeId(valveSiloOutId, LT.Setting, value.quantity, "Chute Valve Left - " .. system.utils.color("Yellow", value.type))
-        yield()
         system.safe.writeId(valveSiloOutId, LT.Open, quantity, "Chute Valve Left - " .. system.utils.color("Yellow", value.type))
 
         ::nextIndex::
