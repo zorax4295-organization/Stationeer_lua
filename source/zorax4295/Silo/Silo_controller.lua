@@ -24,12 +24,35 @@
 -- import de la librairie
 ----------------------------
 
---local system = require("system")
+local system = require("system")
 
 
 ----------------------------
 -- Définition des appareil
 ----------------------------
+
+local sorterId = {
+    iron = ic.find("Sorter - Iron"),
+    copper = ic.find("Sorter - Copper"),
+    gold = ic.find("Sorter - Gold"),
+    silicon = ic.find("Sorter - Silicon"),
+    coal = ic.find("Sorter - Coal"),
+    lead = ic.find("Sorter - Lead"),
+    nickel = ic.find("Sorter - Nickel"),
+    silver = ic.find("Sorter - Silver"),
+    cobalt = ic.find("Sorter - Cobalt"),
+}
+local siloId = {
+    iron = ic.find("Silo - Iron"),
+    copper = ic.find("Silo - Copper"),
+    gold = ic.find("Silo - Gold"),
+    silicon = ic.find("Silo - Silicon"),
+    coal = ic.find("Silo - Coal"),
+    lead = ic.find("Silo - Lead"),
+    nickel = ic.find("Silo - Nickel"),
+    silver = ic.find("Silo - Silver"),
+    cobalt = ic.find("Silo - Cobalt"),
+}
 
 
 ----------------------------
@@ -39,40 +62,57 @@
 local LT = ic.enums.LogicType
 
 local ores = {
-    iron = "iron",
-    copper = "copper",
-    gold = "gold",
-    silicon = "silicon",
-    coal = "coal",
-    lead = "lead",
-    nickel = "nickel",
-    silver = "silver",
-    cobalt = "cobalt",
+    iron = {hash = hash("ItemIronOre"), operation = 0},
+    copper = {hash = hash("ItemCopperOre"), operation = 0},
+    gold = {hash = hash("ItemGoldOre"), operation = 0},
+    silicon = {hash = hash("ItemSiliconOre"), operation = 0},
+    coal = {hash = hash("ItemCoalOre"), operation = 0},
+    lead = {hash = hash("ItemLeadOre"), operation = 0},
+    nickel = {hash = hash("ItemNickelOre"), operation = 0},
+    silver = {hash = hash("ItemSilverOre"), operation = 0},
+    cobalt = {hash = hash("ItemCobaltOre"), operation = 0},
 }
 
---local devices = device_list()
+----------------------------
+-- Définition des functions
+----------------------------
 
---for i, dev in ipairs(devices) do
---    print(dev.display_name)
---end
-
-
---ic.net.send("Logic Mirror test reseaux", "test/reseau", true)
-
-
-local sorterId = ic.find("Sorter test")
-local cableHash = hash("ItemCableCoil")
-local cableHeavyHash = hash("ItemCableCoilHeavy")
-ic.write_id(sorterId, LT.On, 1)
-ic.write_id(sorterId, LT.Mode, 1)
+--Permet d'encoder un hash en une valeur numerique unique pour les instruction
+---@param op_code 1 | 2
+---@param hash number
+local function encodeSorterOperation(op_code, hash)
+    local operationHash = bit_sll(hash, 8)
+    local resolvedOperation = bit_or(operationHash, op_code)
+    return resolvedOperation
+end
 
 
-local cableOperation = bit_sll(cableHash, 8)
-local ResolvedCableOperation = bit_or(cableOperation, 1)
 
-local cableHeavyOperation = bit_sll(cableHeavyHash, 8)
-local ResolvedCableHeavyOperation = bit_or(cableHeavyOperation, 1)
 
-mem_clear_id(sorterId)
-mem_put_id(sorterId, 0, ResolvedCableOperation)
-mem_put_id(sorterId, 31, ResolvedCableHeavyOperation)
+----------------------------
+-- Init du système
+----------------------------
+
+for _, id in pairs(siloId) do
+    system.safe.writeId(id, LT.On, 1)
+    system.safe.writeId(id, LT.Lock, 1)
+end
+
+--Encodage de chaque mots numerique dans la table operations
+do
+    for _, value in pairs(ores) do
+        value.operation = encodeSorterOperation(1, value.hash)
+    end
+    for key, id in pairs(sorterId) do
+        system.safe.writeId(id, LT.On, 1)
+        system.safe.writeId(id, LT.Lock, 1)
+        mem_clear_id(id)
+        mem_put_id(id, 0, ores[key].operation)
+    end
+end
+
+
+
+while true do
+    yield()
+end
