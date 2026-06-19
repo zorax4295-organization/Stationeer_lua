@@ -19,6 +19,7 @@ ic.persist = {}
 
 ic.enums = {
     LogicType = {
+        Color = {},
         On = {},
         Lock = {},
         Activate = {},
