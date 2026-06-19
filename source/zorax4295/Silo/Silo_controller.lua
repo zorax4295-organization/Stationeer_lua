@@ -43,15 +43,37 @@ local sorterId = {
     cobalt = ic.find("Sorter - Cobalt"),
 }
 local siloId = {
-    iron = ic.find("Silo - Iron"),
-    copper = ic.find("Silo - Copper"),
-    gold = ic.find("Silo - Gold"),
-    silicon = ic.find("Silo - Silicon"),
-    coal = ic.find("Silo - Coal"),
-    lead = ic.find("Silo - Lead"),
-    nickel = ic.find("Silo - Nickel"),
-    silver = ic.find("Silo - Silver"),
-    cobalt = ic.find("Silo - Cobalt"),
+    iron = {id = ic.find("Silo - Iron"), quantity = 0},
+    copper = {id = ic.find("Silo - Copper"), quantity = 0},
+    gold = {id = ic.find("Silo - Gold"), quantity = 0},
+    silicon = {id = ic.find("Silo - Silicon"), quantity = 0},
+    coal = {id = ic.find("Silo - Coal"), quantity = 0},
+    lead = {id = ic.find("Silo - Lead"), quantity = 0},
+    nickel = {id = ic.find("Silo - Nickel"), quantity = 0},
+    silver = {id = ic.find("Silo - Silver"), quantity = 0},
+    cobalt = {id = ic.find("Silo - Cobalt"), quantity = 0},
+}
+local stackerId = {
+    iron = ic.find("Stacker - Iron"),
+    copper = ic.find("Stacker - Copper"),
+    gold = ic.find("Stacker - Gold"),
+    silicon = ic.find("Stacker - Silicon"),
+    coal = ic.find("Stacker - Coal"),
+    lead = ic.find("Stacker - Lead"),
+    nickel = ic.find("Stacker - Nickel"),
+    silver = ic.find("Stacker - Silver"),
+    cobalt = ic.find("Stacker - Cobalt"),
+}
+local valveSiloOut = {
+    iron = ic.find("Chute Valve Left - Iron"),
+    copper = ic.find("Chute Valve Left - Copper"),
+    gold = ic.find("Chute Valve Left - Gold"),
+    silicon = ic.find("Chute Valve Left - Silicon"),
+    coal = ic.find("Chute Valve Left - Coal"),
+    lead = ic.find("Chute Valve Left - Lead"),
+    nickel = ic.find("Chute Valve Left - Nickel"),
+    silver = ic.find("Chute Valve Left - Silver"),
+    cobalt = ic.find("Chute Valve Left - Cobalt"),
 }
 
 
@@ -86,6 +108,13 @@ local function encodeSorterOperation(op_code, hash)
     return resolvedOperation
 end
 
+local function refreshQuantitySilo()
+    for key, value in pairs(siloId) do
+        local quantity = system.safe.readId(value.id, LT.Quantity, "Silo - " .. key)
+        value.quantity = quantity
+    end
+end
+
 
 
 
@@ -93,9 +122,19 @@ end
 -- Init du système
 ----------------------------
 
-for _, id in pairs(siloId) do
+for _, silo in pairs(siloId) do
+    system.safe.writeId(silo.icfind, LT.On, 1)
+    system.safe.writeId(silo.icfind, LT.Lock, 0)
+end
+for _, id in pairs(stackerId) do
     system.safe.writeId(id, LT.On, 1)
     system.safe.writeId(id, LT.Lock, 1)
+    system.safe.writeId(id, LT.Setting, 500)
+end
+for _, id in pairs(valveSiloOut) do
+    system.safe.writeId(id, LT.On, 1)
+    system.safe.writeId(id, LT.Lock, 0)
+    system.safe.writeId(id, LT.Setting, 0)
 end
 
 --Encodage de chaque mots numerique dans la table operations
@@ -114,5 +153,6 @@ end
 
 
 while true do
+    refreshQuantitySilo()
     yield()
 end
