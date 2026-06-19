@@ -122,19 +122,19 @@ end
 -- Init du système
 ----------------------------
 
-for _, silo in pairs(siloId) do
-    system.safe.writeId(silo.icfind, LT.On, 1)
-    system.safe.writeId(silo.icfind, LT.Lock, 0)
+for key, silo in pairs(siloId) do
+    system.safe.writeId(silo.icfind, LT.On, 1, "Silo - " .. key)
+    system.safe.writeId(silo.icfind, LT.Lock, 0, "Silo - " .. key)
 end
-for _, id in pairs(stackerId) do
-    system.safe.writeId(id, LT.On, 1)
-    system.safe.writeId(id, LT.Lock, 1)
-    system.safe.writeId(id, LT.Setting, 500)
+for key, id in pairs(stackerId) do
+    system.safe.writeId(id, LT.On, 1, "Stacker - " .. key)
+    system.safe.writeId(id, LT.Lock, 1, "Stacker - " .. key)
+    system.safe.writeId(id, LT.Setting, 500, "Stacker - " .. key)
 end
-for _, id in pairs(valveSiloOut) do
-    system.safe.writeId(id, LT.On, 1)
-    system.safe.writeId(id, LT.Lock, 0)
-    system.safe.writeId(id, LT.Setting, 0)
+for key, id in pairs(valveSiloOut) do
+    system.safe.writeId(id, LT.On, 1, "Valve Silo Out - " .. key)
+    system.safe.writeId(id, LT.Lock, 0, "Valve Silo Out - " .. key)
+    system.safe.writeId(id, LT.Setting, 0, "Valve Silo Out - " .. key)
 end
 
 --Encodage de chaque mots numerique dans la table operations
@@ -143,8 +143,8 @@ do
         value.operation = encodeSorterOperation(1, value.hash)
     end
     for key, id in pairs(sorterId) do
-        system.safe.writeId(id, LT.On, 1)
-        system.safe.writeId(id, LT.Lock, 1)
+        system.safe.writeId(id, LT.On, 1, "Sorter - " .. key)
+        system.safe.writeId(id, LT.Lock, 1, "Sorter - " .. key)
         mem_clear_id(id)
         mem_put_id(id, 0, ores[key].operation)
     end
