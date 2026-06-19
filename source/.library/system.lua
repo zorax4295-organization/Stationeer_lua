@@ -187,7 +187,7 @@ end
 
 
 --Renvoie un string colorier
----@param color "Blue" | "Red" | "Orange" | "Yellow" | "Green" | "Gray" | "White" | "Black" | "Brown" | "Pink" | "Purple" | "Khaki"
+---@param color "Blue" | "Red" | "Orange" | "Yellow" | "Green" | "Grey" | "White" | "Black" | "Brown" | "Pink" | "Purple" | "Khaki"
 ---@param message string
 ---@return string
 function system.utils.color(color, message)
@@ -201,7 +201,7 @@ function system.utils.color(color, message)
         return "<color=#FFBC1B>" .. message .. "</color>"
     elseif color == "Green" then
         return "<color=#3F9B39>" .. message .. "</color>"
-    elseif color == "Gray" then
+    elseif color == "Grey" then
         return "<color=#7B7B7B>" .. message .. "</color>"
     elseif color == "White" then
         return "<color=#E7E7E7>" .. message .. "</color>"
@@ -235,6 +235,38 @@ function system.utils.toBolean(value)
         return true
     end
     return false
+end
+
+--Renvoie un nombre corespondant a la couleur du logicType Color dans stationeers
+--Return white si la couleur n'est pas valide
+---@param color "Blue" | "Red" | "Orange" | "Yellow" | "Green" | "Grey" | "White" | "Black" | "Brown" | "Pink" | "Purple" | "Khaki"
+function system.utils.colorLed(color)
+    if color == "Blue" then
+        return 0
+    elseif color == "Grey" then
+        return 1
+    elseif color == "Green" then
+        return 2
+    elseif color == "Orange" then
+        return 3
+    elseif color == "Red" then
+        return 4
+    elseif color == "Yellow" then
+        return 5
+    elseif color == "White" then
+        return 6
+    elseif color == "Black" then
+        return 7
+    elseif color == "Brown" then
+        return 8
+    elseif color == "Khaki" then
+        return 9
+    elseif color == "Pink" then
+        return 10
+    elseif color == "Purple" then
+        return 11
+    end
+    return 6
 end
 
 --Condition pour tester si une valeur se trouve plus ou moin dans une plage absolut
@@ -316,7 +348,7 @@ end
 
 
 
---Écriture protéger d'une valeur sur des appareils avec gestion d'erreur <p>
+--Écriture protéger d'une valeur sur des appareils avec gestion d'erreur
 --La méthode sert a definir quelle valeur pour le retour est prise en compte la Max Min ect
 ---@param hash integer
 ---@param logicType LogicType
