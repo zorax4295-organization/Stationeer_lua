@@ -282,7 +282,7 @@
 			"${1:parent}:element({",
 			"    id = \"${2:id}\", type = \"label\",",
 			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
-			"    props = { text = \"${7:Contenue}\", z_index = ${8:0} },",
+			"    props = { text = \"${7:label}\", z_index = ${8:0} },",
 			"    style = { font_size = ${9:taille de police}, color = \"#FFFFFF\", align = \"left\" },",
 			"})"
 		],
@@ -358,6 +358,32 @@
 			"        color = \"${8:#334155}\", --Arc color",
 			"        thickness = 2, --Épaisseur en pixels (2 par défaut)",
 			"    },",
+			"})"
+		],
+	},
+	"element.button": {
+		"prefix": "button",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"button\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { text = \"${7:label}\", z_index = ${8:0} },",
+			"    style = { bg = \"${9:#0334155F172A}\", text = \"${10:#FFFFFF}\", font_size = ${11:14} },",
+			"    on_click = function(playerName)$0",
+			"    end",
+			"})"
+		],
+	},
+	"element.checkbox": {
+		"prefix": "checkbox",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"checkbox\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { text = \"${7:label}\", checked = \"true\", z_index = ${8:0} },",
+			"    style = { bg = \"${9:#0334155F172A}\", text = \"${10:#FFFFFF}\", font_size = ${11:14} },",
+			"    on_click = function(playerName)$0",
+			"    end",
 			"})"
 		],
 	},
