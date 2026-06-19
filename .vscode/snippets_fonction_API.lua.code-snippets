@@ -299,4 +299,23 @@
 			"})"
 		],
 	},
+
+	"element.progress_bar": {
+		"prefix": "progress_bar",
+		"body": [
+			"${1:parent}:element({",
+			"    id = \"${2:id}\", type = \"progress\",",
+			"    rect = { unit = \"px\", x = ${3:x}, y = ${4:y}, w = ${5:weight}, h = ${6:height} },",
+			"    props = { value = ${8:value}, min = ${9:value}, max = ${10:value}, direction = ${11:direction}, z_index = ${12:0} },",
+			"    style = {",
+			"        bg = \"${13:#1E293B}\", -- Couleur d’arrière-plan du suivi",
+			"        fill = \"${14:#22C55E}\", -- Couleur de remplissage de base",
+			"        color_stops = {",
+			"            { 0.5, \"#EAB308\" }, -- yellow from 50%",
+			"            { 0.8, \"#EF4444\" }, -- red from 80%",
+			"        },",
+			"    },",
+			"})"
+		],
+	},
 }
