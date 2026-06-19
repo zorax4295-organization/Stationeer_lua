@@ -27,26 +27,26 @@ local centrifugesId = {
     A = {},
     B = {},
     C = {},
-    --D = {},
+    D = {},
 }
 -- Light qui affiche l'état de la centrifuge
 local centriLightId = {
     A = {},
     B = {},
     C = {},
-    --D = {},
+    D = {},
 }
 local centriGeneralPowerButtonId = {
     A = 0,
     B = 0,
     C = 0,
-    --D = 0,
+    D = 0,
 }
 local centriGeneralPowerLightId = {
     A = 0,
     B = 0,
     C = 0,
-    --D = 0,
+    D = 0,
 }
 ----------------------------
 -- Définition des données
@@ -67,7 +67,7 @@ local state = {
     auto = 2,
     debug = 3,
 }
-local currentState = state.manu
+local currentState = state.auto
 local debug = {
     getCentrifugeIds = false,
     getLightIds = false,
@@ -77,19 +77,19 @@ local centrifugesError = {
     A = {},
     B = {},
     C = {},
-    --D = {},
+    D = {},
 }
 local centrifugesPowerState = {
     A = {},
     B = {},
     C = {},
-    --D = {},
+    D = {},
 }
 local lightLastOn = {
     A = {},
     B = {},
     C = {},
-    --D = {},
+    D = {},
 }
 
 ----------------------------
@@ -271,14 +271,10 @@ local function automatedVidange()
         local isCentrifugesError = centrifugesError[key][i]
 
         if isCentrifugesError then
-
-
-
-
-            system.safe.writeId(centrifugesId, LT.Open, 1)
-            while system.safe.readSlotId(centrifugesId, 1, LST.Occupied, "centrifuge " .. key .. i) == 0 do yield() end --Patiente jusqu'a l'arrêt de la centrifuges
-            while system.safe.readSlotId(centrifugesId, 1, LST.Occupied, "centrifuge " .. key .. i) == 1 do yield() end --Patiente jusqu'a la vidange de la centrifuges
-            system.safe.writeId(centrifugesId, LT.Open, 0)
+            system.safe.writeId(centrifugesId, LT.Open, 1, "centrifuge " .. key .. i)
+            sleep(45)
+            system.safe.writeId(centrifugesId, LT.Open, 0, "centrifuge " .. key .. i)
+            yield()
         end
     end)
 end
@@ -293,11 +289,15 @@ getButtonGeneralPowerIds()
 getLightGeneralPowerIds()
 
 
-while true do
+function tick(dt) --S'execute a chaque tick du jeux
     getErrorCentrifuges()
     getPowerStateCentrifuges()
     actualiseLight()
     setPowerGeneral()
+end
+
+
+while true do
     automatedVidange()
     yield()
 end
