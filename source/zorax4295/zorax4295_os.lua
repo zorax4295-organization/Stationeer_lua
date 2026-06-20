@@ -1,5 +1,12 @@
 --Utilisation sur un programmable visor
+--Ma taille d'ecran physique : w=2226 | h=932
 
+
+local devices = device_list()
+
+for i, dev in ipairs(devices) do
+    print(string.format(i .. " name :" .. dev.display_name))
+end
 
 ----------------------------
 -- import de la librairie
@@ -45,9 +52,9 @@ local w, h = size.w , size.h
 print(system.log.time() .. "h " .. system.log.level("debug") .. " : w=" .. w .. " | h=" .. h)
 
 
------------------------------------------------------
+----------------------------
 -- Initialisation des ecran
------------------------------------------------------
+----------------------------
 
 ui.setting.clear()
 ui.setting.set()
@@ -65,9 +72,30 @@ ui.setting.set()
 local LT = ic.enums.LogicType
 
 
+----------------------------
+-- Déffinition des callbacks
+----------------------------
 
 ----------------------------
 -- Dessin de l'interface
+----------------------------
+
+local container = {}
+local subContainer = {}
+local elements = {
+    ui.setting.surface:element({
+        id = "background", type = "panel",
+        rect = { unit = "px", x = 0, y = 0, w = 400, h = 300 },
+        props = { z_index = 0 },
+        style = {
+            bg = "#1b1b1b",
+        },
+    }),
+}
+
+
+----------------------------
+-- Déffinition des functions
 ----------------------------
 
 while true do
