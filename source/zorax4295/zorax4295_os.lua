@@ -41,10 +41,9 @@ local ui = {
 
 local size = ui.setting.surface:size()
 
--- Déffinition de la taille de l'écran virtuelle
-local w = size.w
-local h = size.h
+local w, h = size.w , size.h
 print(system.log.time() .. "h " .. system.log.level("debug") .. " : w=" .. w .. " | h=" .. h)
+
 
 -----------------------------------------------------
 -- Initialisation des ecran
