@@ -41,7 +41,7 @@ local oresQuantity = {}
 -- Définition des functions réseaux
 ----------------------------
 
-local function handler(sujet, payload, fromId, fromName, isRetained)
+local function netGetOresQuantity(sujet, payload, fromId, fromName, isRetained)
     if type(payload) ~= "table" then
         print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Le payload du message réseaux [" .. system.utils.color("Yellow", sujet) .. "] n'est pas de type table")
         error("type(payload) != table")
@@ -67,7 +67,7 @@ local function handler(sujet, payload, fromId, fromName, isRetained)
         ::nextKey::
     end
 end
-ic.net.subscribe("silo/ores_quantity", handler) --Recupère les quantiter de minerais des silo
+ic.net.subscribe("silo/ores_quantity", netGetOresQuantity) --Recupère les quantiter de minerais des silo
 
 
 ----------------------------
