@@ -2,7 +2,7 @@
 -- Définition des constantes
 ----------------------------
 
-local oresMaxInSilo = 570
+local oresMaxInSilo = 570 --Quantité de minerais max accepter dans les silo avant que les valve se ferme
 
 
 ----------------------------
@@ -62,7 +62,7 @@ local function handler(sujet, payload, fromId, fromName, isRetained)
         if valve[key] ~= nil then --Test si la key recus par le message existe dans la table valve
             oresQuantity[key] = value
         else
-            print(system.log.time() .. "h " .. system.log.level("warn") .. " : La key n'est pas valide")
+            print(system.log.time() .. "h " .. system.log.level("warn") .. " : La key " .. tostring(key) .. " n'est pas valide")
         end
         ::nextKey::
     end
