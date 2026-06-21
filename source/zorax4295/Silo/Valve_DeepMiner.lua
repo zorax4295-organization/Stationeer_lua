@@ -84,22 +84,21 @@ end
 
 
 
-
+local a=1
 while true do
 
     for oreType, quantity in pairs(oresQuantity) do
         if quantity < oresMaxInSilo then
-            if valve[oreType].lastState == 0 then
+            if valve[oreType].lastState == 0 or system.safe.readId(valve[oreType].id, LT.Open, "Digital Valve - " .. oreType) == 0 then
                 system.safe.writeId(valve[oreType].id, LT.Open, 1, "Digital Valve - " .. oreType)
                 valve[oreType].lastState = 1
             end
         else
-            if valve[oreType].lastState == 1 then
+            if valve[oreType].lastState == 1 or system.safe.readId(valve[oreType].id, LT.Open, "Digital Valve - " .. oreType) == 1 then
                 system.safe.writeId(valve[oreType].id, LT.Open, 0, "Digital Valve - " .. oreType)
                 valve[oreType].lastState = 0
             end
         end
     end
-
     yield()
 end
