@@ -67,8 +67,7 @@ local function handler(sujet, payload, fromId, fromName, isRetained)
         ::nextKey::
     end
 end
-ic.net.subscribe("silo/ores_quantity", "handler") --Recupère les quantiter de minerais des silo
-
+ic.net.subscribe("silo/ores_quantity", handler) --Recupère les quantiter de minerais des silo
 
 
 ----------------------------
@@ -100,6 +99,9 @@ while true do
                 valve[oreType].lastState = 0
             end
         end
+    end
+    for oreType, quantity in pairs(oresQuantity) do
+        print(system.log.time() .. "h " .. system.log.level("debug") .. " : Type : " .. oreType .. " | quantity = " .. quantity)
     end
 
     yield()

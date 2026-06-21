@@ -204,10 +204,9 @@
 	"ic.net.listen": {
 		"prefix": "net.listen",
 		"body": [
-			"local function handler(fromId, fromName, payload)",
-			"    ${0}",
-			"end",
-			"ic.net.listen(${1:sujet}, ${2:\"handler\"})",
+			"ic.net.listen(${1:sujet}, function(fromId, fromName, payload)",
+			"    $0",
+			"end)",
 		],
 	},
 
@@ -223,14 +222,13 @@
 	"ic.net.subscribe": {
 		"prefix": "net.subscribe",
 		"body": [
-			"local function handler(sujet, payload, fromId, fromName, isRetained)",
+			"ic.net.subscribe(${1:sujet}, function (sujet, payload, fromId, fromName, isRetained)",
 			"    if type(payload) ~= \"table\" then",
 			"        print(system.log.time() .. \"h \" .. system.log.level(\"warn\") .. \" : Le payload du message réseaux [\" .. system.utils.color(\"Yellow\", sujet) .. \"] n'est pas de type table\")",
 			"        return",
 			"    end",
 			"    ${0}",
-			"end",
-			"ic.net.subscribe(${1:sujet}, ${2:\"handler\"})",
+			"end)",
 		],
 	},
 	"ic.net.unsubscribe": {
