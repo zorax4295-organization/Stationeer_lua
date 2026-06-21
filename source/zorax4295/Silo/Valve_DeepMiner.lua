@@ -100,9 +100,6 @@ while true do
             end
         end
     end
-    for oreType, quantity in pairs(oresQuantity) do
-        print(system.log.time() .. "h " .. system.log.level("debug") .. " : Type : " .. oreType .. " | quantity = " .. quantity)
-    end
 
     yield()
 end
