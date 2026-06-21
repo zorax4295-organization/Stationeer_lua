@@ -2,11 +2,7 @@
 --Ma taille d'ecran physique : w=2226 | h=932
 
 
-local devices = device_list()
 
-for i, dev in ipairs(devices) do
-    print(string.format(i .. " name :" .. dev.display_name))
-end
 
 ----------------------------
 -- import de la librairie
@@ -42,11 +38,11 @@ end
 
 --Liste toute les page 
 local ui = {
-    setting = createScreen("setting"),
+    settings = createScreen("setting"),
 }
 
 
-local size = ui.setting.surface:size()
+local size = ui.settings.surface:size()
 
 local w, h = size.w , size.h
 print(system.log.time() .. "h " .. system.log.level("debug") .. " : w=" .. w .. " | h=" .. h)
@@ -56,8 +52,8 @@ print(system.log.time() .. "h " .. system.log.level("debug") .. " : w=" .. w .. 
 -- Initialisation des ecran
 ----------------------------
 
-ui.setting.clear()
-ui.setting.set()
+ui.settings.clear()
+ui.settings.set()
 
 
 ----------------------------
@@ -83,14 +79,16 @@ local LT = ic.enums.LogicType
 local container = {}
 local subContainer = {}
 local elements = {
-    ui.setting.surface:element({
-        id = "background", type = "panel",
-        rect = { unit = "px", x = 0, y = 0, w = 400, h = 300 },
-        props = { z_index = 0 },
-        style = {
-            bg = "#1b1b1b",
-        },
-    }),
+    settings = {
+        background = ui.settings.surface:element({
+            id = "background", type = "panel",
+            rect = { unit = "px", x = (w/2) - 300, y = (h/2) - 250, w = 600, h = 500 },
+            props = { z_index = 0 },
+            style = {
+                bg = "#1b1b1b",
+            },
+        }),
+    }
 }
 
 

@@ -524,4 +524,21 @@
 			"})"
 		],
 	},
+
+	// =====================
+	// Set Elements
+	// =====================
+
+	"set.props": {
+		"prefix": "set_props",
+		"body": [
+			"${1:parent}:set_props({ $0 })",
+		],
+	},
+	"set.style": {
+		"prefix": "set_style",
+		"body": [
+			"${1:parent}:set_style({ $0 })",
+		],
+	},
 }
