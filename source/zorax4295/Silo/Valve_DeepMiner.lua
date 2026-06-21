@@ -84,7 +84,7 @@ end
 
 
 
-local a=1
+
 while true do
 
     for oreType, quantity in pairs(oresQuantity) do
