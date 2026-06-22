@@ -144,4 +144,38 @@ function scriptedScreen.calculateLabel(screenHauteur, raw_font_size, text, paren
     }
 end
 
+--Permet de transformer les pixel en pourcentage x et y peuvent être remplacer par w et h cela n'a pas d'importance
+---@param x number
+---@param y number
+---@param screenW number
+---@param screenH number
+function scriptedScreen.convertPixelToPourcentage(x, y, screenW, screenH)
+    do
+        if type(x) ~= "number" then
+            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction convertPixelToPourcentage [x] n'est pas de type number")
+            error("Fonction convertPixelToPourcentage [x] n'est pas de type number")
+        end
+        if type(y) ~= "number" then
+            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction convertPixelToPourcentage [y] n'est pas de type number")
+            error("Fonction convertPixelToPourcentage [y] n'est pas de type number")
+        end
+        if type(screenW) ~= "number" then
+            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction convertPixelToPourcentage [screeW] n'est pas de type number")
+            error("Fonction convertPixelToPourcentage [screeW] n'est pas de type number")
+        end
+        if type(screenH) ~= "number" then
+            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction convertPixelToPourcentage [screenH] n'est pas de type number")
+            error("Fonction convertPixelToPourcentage [screenH] n'est pas de type number")
+        end
+    end
+
+    local xPourcentage = x / screenW * 100
+    local yPourcentage = y / screenH * 100
+
+    return {
+        x = xPourcentage,
+        y = yPourcentage,
+    }
+end
+
 return scriptedScreen
