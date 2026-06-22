@@ -131,16 +131,16 @@ do
             local pos = { x = 0, y = 8,} --Position en pixel
             local size = { w = 150, h = 23,} --Taille en pixel
             local labelData = scriptedScreen.calculateLabel(h, 20, "MENU", ui.oresQuantity.surface, false, 0)
-            local labelPos = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, menuBackgroundSize.w, menuBackgroundSize.h) --Position en pourcentage par rapport au parent
-            local labelSize = scriptedScreen.convertPixelToPourcentage(size.w, size.h, menuBackgroundSize.w, menuBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, menuBackgroundSize.w, menuBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, menuBackgroundSize.w, menuBackgroundSize.h) --Taille en pourcentage par rapport au parent
             pages.oresQuantity.menu.title = pages.oresQuantity.menu.background:element({
                 id = "menu_title", type = "label",
                 rect = {
                     unit = "%",
-                    x = labelPos.x,
-                    y = labelPos.y,
-                    w = labelSize.x,
-                    h = labelSize.y,
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y,
                 },
                 props = {
                     text = labelData.text,
@@ -152,17 +152,31 @@ do
                     align = "center",
                 },
             })
-
-
-
+        end
+        do --Button menu ores quantity
+            local pos = { x = 0, y = 57,} --Position en pixel
+            local size = { w = menuBackgroundSize.w, h = 72,} --Taille en pixel
+            local buttonData = scriptedScreen.calculateLabel(h, 18, "quantité de minerais", ui.oresQuantity.surface, false, 0)
+            local buttonPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, menuBackgroundSize.w, menuBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local buttonSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, menuBackgroundSize.w, menuBackgroundSize.h) --Taille en pourcentage par rapport au parent
             pages.oresQuantity.menu.button_ores_Quantity = pages.oresQuantity.menu.background:element({
                 id = "menu_button_ores_quantity", type = "button",
-                rect = { unit = "px", x = 0, y = 57, w = menuBackgroundSize.w, h = 72 },
-                props = { text = "quantité de minerais", z_index = 0 },
-                style = { bg = "#7C3AED", text = "#FFFFFF", font_size = 18 },
+                rect = {
+                    unit = "%",
+                    x = buttonPosPourcentage.x,
+                    y = buttonPosPourcentage.y,
+                    w = buttonSizePourcentage.x,
+                    h = buttonSizePourcentage.y,
+                },
+                props = {
+                    text = buttonData.text,
+                    z_index = 0
+                },
+                style = { bg = "#7C3AED", text = "#FFFFFF", font_size = buttonData.font_size },
                 on_click = function(playerName)
                 end
             })
+            print("font size : " .. buttonData.font_size)
         end
     end
 end
