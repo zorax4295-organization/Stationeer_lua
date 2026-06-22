@@ -254,5 +254,79 @@ do
                 },
             })
         end
+
+        do --Contenue Ores tile
+            do --Iron
+                pages.oresQuantity.contenue.oresTiles = {}
+                pages.oresQuantity.contenue.oresTiles.iron = {}
+                local backgroundPos = { x = 31, y = 96} --En PX
+                local backgroundSize = { w = 120, h = 200} --En PX
+                local posPourcentage = scriptedScreen.convertPixelToPourcentage(backgroundPos.x, backgroundPos.y, reference_w, reference_h)
+                local sizePourcentage = scriptedScreen.convertPixelToPourcentage(backgroundSize.w, backgroundSize.h, reference_w, reference_h)
+                pages.oresQuantity.contenue.oresTiles.iron.background = pages.oresQuantity.contenue.background:element({
+                    id = "contenue_ironTile_background", type = "panel",
+                    rect = {
+                        unit = "%",
+                        x = posPourcentage.x,
+                        y = posPourcentage.y,
+                        w = sizePourcentage.x,
+                        h = sizePourcentage.y,
+                    },
+                    props = { z_index = 0 },
+                    style = {
+                        bg = "#5F85D9",
+                    },
+                })
+
+                do --Icon
+                    local pos = { x = 5, y = 5} --En PX
+                    local size = { w = 110, h = 110} --En PX
+                    local posPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, backgroundSize.w, backgroundSize.h)
+                    local sizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, backgroundSize.w, backgroundSize.h)
+                    pages.oresQuantity.contenue.oresTiles.iron.icon = pages.oresQuantity.contenue.oresTiles.iron.background:element({
+                        id = "contenue_tile_iron_icon", type = "icon",
+                        rect = {
+                            unit = "%",
+                            x = posPourcentage.x,
+                            y = posPourcentage.y,
+                            w = sizePourcentage.x,
+                            h = sizePourcentage.y,
+                        },
+                        props = {
+                            icon_type = "prefab",
+                            name = "ItemIronOre",
+                            z_index = 0
+                        },
+                        style = { tint = "#FFFFFF"},
+                    })
+                end
+                do --Label quantity
+                    local pos = { x = 0, y = 153,} --Position en pixel
+                    local size = { w = backgroundSize.w, h = 14,} --Taille en pixel
+                    local labelData = scriptedScreen.calculateLabel(h, 14, "Iron : 200", ui.oresQuantity.surface, false, 0)
+                    local posPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, backgroundSize.w, backgroundSize.h) --Position en pourcentage par rapport au parent
+                    local sizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, backgroundSize.w, backgroundSize.h) --Taille en pourcentage par rapport au parent
+                    pages.oresQuantity.contenue.oresTiles.iron.label = pages.oresQuantity.contenue.oresTiles.iron.background:element({
+                        id = "contenue_tile_iron_quantity", type = "label",
+                        rect = {
+                            unit = "%",
+                            x = posPourcentage.x,
+                            y = posPourcentage.y,
+                            w = sizePourcentage.x,
+                            h = sizePourcentage.y,
+                        },
+                        props = {
+                            text = labelData.text,
+                            z_index = 0,
+                        },
+                        style = {
+                            font_size = labelData.font_size,
+                            color = "#FFFFFF",
+                            align = "center",
+                        },
+                    })
+                end
+            end
+        end
     end
 end
