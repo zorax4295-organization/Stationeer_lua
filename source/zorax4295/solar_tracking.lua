@@ -71,7 +71,7 @@ local function autoTuning()
         local ratioDualPanelHeavy = ic.batch_read(dualPanelHeavyHash, LT.Ratio, LBM.Average)
 
 
-        if ratioPanel<0.95 or ratioDualPanel<0.95 or ratioPanelHeavy<0.95 or ratioDualPanelHeavy<0.95 then -- si un panneaux est absent ses pas grave comme NaN<0.95 = false
+        if ratioPanel<0.90 or ratioDualPanel<0.90 or ratioPanelHeavy<0.90 or ratioDualPanelHeavy<0.90 then -- si un panneaux est absent ses pas grave comme NaN<0.95 = false
             angleCorrectionHorizontal = (angleCorrectionHorizontal + 90) % 360 --Le % est le reste d'une division sa permet de garder l'angle entre 0 et 360
             consigneH = h + angleCorrectionHorizontal
 
