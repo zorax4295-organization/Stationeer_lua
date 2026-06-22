@@ -77,8 +77,8 @@ ui.oresQuantity.set()
 -- Déffinition des données
 -----------------------------------------------------
 
-local reference_w = 862
-local reference_h = 584
+local reference_w = 862 --Ecran de réference pour le calibrage du programme pour convertire en pourcentage
+local reference_h = 584 --Ecran de réference pour le calibrage du programme pour convertire en pourcentage
 
 
 
