@@ -138,8 +138,8 @@ function scriptedScreen.calculateLabel(screenHauteur, raw_font_size, text, paren
 
     return {
         font_size = font_size,
-        w = size.w + font_size * 0.4, -- longueur en px
-        h = size.h, -- hauteur en px
+        w = size.w + font_size * 1, -- longueur en px
+        h = size.h + font_size * 1, -- hauteur en px
         text = text -- Contenue de texte du label
     }
 end

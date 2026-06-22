@@ -86,7 +86,6 @@ ui.oresQuantity.set()
 
 
 
-
 -----------------------------------------------------
 -- Construction des ui
 -----------------------------------------------------
@@ -103,12 +102,58 @@ do
             bg = "#0F172A",
         },
     })
-    do
-        local label = scriptedScreen.calculateLabel(h, 50, "Bonjour je suis un technicien hautement qualifier", ui.oresQuantity.surface, true, 500)
+
+    do --Menu
+        pages.oresQuantity.menu = {}
+        pages.oresQuantity.menu.background = ui.oresQuantity.surface:element({
+            id = "menu_background", type = "panel",
+            rect = { unit = "px", x = 0, y = 0, w = 150, h = h },
+            props = { z_index = 0 },
+            style = {
+                bg = "#1F2940",
+            },
+        })
+
+        do
+            local labelData = scriptedScreen.calculateLabel(h, 20, "MENU", ui.oresQuantity.surface, false, 0)
+            pages.oresQuantity.menu.title = pages.oresQuantity.menu.background:element({
+                id = "menu_title", type = "label",
+                rect = {
+                    unit = "px",
+                    x = 0,
+                    y = 8,
+                    w = 150,
+                    h = 23,
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 4,
+                },
+                style = {
+                    font_size = labelData.font_size,
+                    color = "#FFFFFF",
+                    align = "center",
+                },
+            })
+        end
+
+        pages.oresQuantity.menu.button_ores_Quantity = pages.oresQuantity.menu.background:element({
+            id = "menu_button_ores_quantity", type = "button",
+            rect = { unit = "px", x = 0, y = 57, w = 150, h = 72 },
+            props = { text = "quanité de minerais", z_index = 0 },
+            style = { bg = "#0334155F172A", text = "#FFFFFF", font_size = 14 },
+            on_click = function(playerName)
+            end
+        })
+    end
+
+
+    do -- label title
+        local label = scriptedScreen.calculateLabel(h, 50, "quantité de minerais", ui.oresQuantity.surface, true, 500)
         local weightPourcent = label.w / w * 100 --taille du labelle en pourcentage par rapport a l'écran
         local heightPourcent = label.h / h * 100 --taille du labelle en pourcentage par rapport a l'écran
         pages.oresQuantity.title = ui.oresQuantity.surface:element({
-            id = "id", type = "label",
+            id = "temp", type = "label",
             rect = {
                 unit = "%",
                 x = 50 - weightPourcent/2,
@@ -117,7 +162,7 @@ do
                 h = heightPourcent },
             props = {
                 text = label.text,
-                z_index = 2,
+                z_index = 0,
             },
             style = {
                 font_size = label.font_size,
