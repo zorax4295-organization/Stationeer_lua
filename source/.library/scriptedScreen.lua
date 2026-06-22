@@ -147,9 +147,9 @@ end
 --Permet de transformer les pixel en pourcentage x et y peuvent être remplacer par w et h cela n'a pas d'importance
 ---@param x number
 ---@param y number
----@param screenW number
----@param screenH number
-function scriptedScreen.convertPixelToPourcentage(x, y, screenW, screenH)
+---@param parentW number
+---@param parentH number
+function scriptedScreen.convertPixelToPourcentage(x, y, parentW, parentH)
     do
         if type(x) ~= "number" then
             print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction convertPixelToPourcentage [x] n'est pas de type number")
@@ -159,18 +159,18 @@ function scriptedScreen.convertPixelToPourcentage(x, y, screenW, screenH)
             print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction convertPixelToPourcentage [y] n'est pas de type number")
             error("Fonction convertPixelToPourcentage [y] n'est pas de type number")
         end
-        if type(screenW) ~= "number" then
-            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction convertPixelToPourcentage [screeW] n'est pas de type number")
-            error("Fonction convertPixelToPourcentage [screeW] n'est pas de type number")
+        if type(parentW) ~= "number" then
+            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction convertPixelToPourcentage [parentW] n'est pas de type number")
+            error("Fonction convertPixelToPourcentage [parentW] n'est pas de type number")
         end
-        if type(screenH) ~= "number" then
-            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction convertPixelToPourcentage [screenH] n'est pas de type number")
-            error("Fonction convertPixelToPourcentage [screenH] n'est pas de type number")
+        if type(parentH) ~= "number" then
+            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction convertPixelToPourcentage [parentH] n'est pas de type number")
+            error("Fonction convertPixelToPourcentage [parentH] n'est pas de type number")
         end
     end
 
-    local xPourcentage = x / screenW * 100
-    local yPourcentage = y / screenH * 100
+    local xPourcentage = x / parentW * 100
+    local yPourcentage = y / parentH * 100
 
     return {
         x = xPourcentage,
