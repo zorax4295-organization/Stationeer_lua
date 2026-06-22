@@ -107,8 +107,8 @@ do
 
     do --Menu
         pages.oresQuantity.menu = {}
-        local menuBackgroundPos = { x = 0, y = 0} --En PX
-        local menuBackgroundSize = { w = 150, h = reference_h} --En PX
+        local menuBackgroundPos = { x = 5, y = 5} --En PX
+        local menuBackgroundSize = { w = 145, h = 574} --En PX
         local menuBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(menuBackgroundPos.x, menuBackgroundPos.y, reference_w, reference_h)
         local menuBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(menuBackgroundSize.w, menuBackgroundSize.h, reference_w, reference_h)
         pages.oresQuantity.menu.background = ui.oresQuantity.surface:element({
@@ -128,8 +128,8 @@ do
 
 
         do --Menu title
-            local pos = { x = 0, y = 8,} --Position en pixel
-            local size = { w = 150, h = 23,} --Taille en pixel
+            local pos = { x = 0, y = 23,} --Position en pixel
+            local size = { w = menuBackgroundSize.w, h = 23,} --Taille en pixel
             local labelData = scriptedScreen.calculateLabel(h, 20, "MENU", ui.oresQuantity.surface, false, 0)
             local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, menuBackgroundSize.w, menuBackgroundSize.h) --Position en pourcentage par rapport au parent
             local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, menuBackgroundSize.w, menuBackgroundSize.h) --Taille en pourcentage par rapport au parent
@@ -144,7 +144,7 @@ do
                 },
                 props = {
                     text = labelData.text,
-                    z_index = 2,
+                    z_index = 0,
                 },
                 style = {
                     font_size = labelData.font_size,
@@ -174,9 +174,85 @@ do
                 },
                 style = { bg = "#7C3AED", text = "#FFFFFF", font_size = buttonData.font_size },
                 on_click = function(playerName)
+                    ui.oresQuantity.set()
                 end
             })
             print("font size : " .. buttonData.font_size)
+        end
+    end
+
+    do --Contenue
+        pages.oresQuantity.contenue = {}
+        local contenueBackgroundPos = { x = 155, y = 5} --En PX
+        local contenueBackgroundSize = { w = 702, h = 574} --En PX
+        local contenueBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(contenueBackgroundPos.x, contenueBackgroundPos.y, reference_w, reference_h)
+        local contenueBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(contenueBackgroundSize.w, contenueBackgroundSize.h, reference_w, reference_h)
+        pages.oresQuantity.contenue.background = ui.oresQuantity.surface:element({
+            id = "contenue_background", type = "panel",
+            rect = {
+                unit = "%",
+                x = contenueBackgroundPosPourcentage.x,
+                y = contenueBackgroundPosPourcentage.y,
+                w = contenueBackgroundSizePourcentage.x,
+                h = contenueBackgroundSizePourcentage.y,
+            },
+            props = { z_index = 0 },
+            style = {
+                bg = "#1F2940",
+            },
+        })
+
+        do --Contenue title
+            local pos = { x = 0, y = 23,} --Position en pixel
+            local size = { w = contenueBackgroundSize.w, h = 23,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 30, "Silo OS", ui.oresQuantity.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueBackgroundSize.w, contenueBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueBackgroundSize.w, contenueBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresQuantity.contenue.title = pages.oresQuantity.contenue.background:element({
+                id = "contenue_title", type = "label",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y,
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 0,
+                },
+                style = {
+                    font_size = labelData.font_size,
+                    color = "#FFFFFF",
+                    align = "center",
+                },
+            })
+        end
+        do --Contenue version
+            local pos = { x = 652, y = 556,} --Position en pixel
+            local size = { w = 50, h = 16,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 14, "v0.1", ui.oresQuantity.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueBackgroundSize.w, contenueBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueBackgroundSize.w, contenueBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresQuantity.contenue.version = pages.oresQuantity.contenue.background:element({
+                id = "contenue_version", type = "label",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y,
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 0,
+                },
+                style = {
+                    font_size = labelData.font_size,
+                    color = "#FFFFFF",
+                    align = "center",
+                },
+            })
         end
     end
 end
