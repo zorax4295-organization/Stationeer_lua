@@ -1,4 +1,5 @@
 --@module scriptedScreen
+local system = require("system")
 
 ---@class RectElement
 ---@field x number
@@ -104,6 +105,43 @@ function scriptedScreen.element.createRect(parent, id, x, y, w, h, color, thickn
     end
 
     return rect
+end
+
+--Permet de calculer divers parametre d'un label pour qu'il se redimensionne en fonction du texte et de l'ecran
+---@param raw_font_size number
+---@param text string
+---@param isRetourLigne boolean
+---@param max_width number
+function scriptedScreen.calculateLabel(screenHauteur, raw_font_size, text, parent, isRetourLigne, max_width)
+    do
+        if type(raw_font_size) ~= "number" then
+            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction calculateLabel [raw_font_size] n'est pas de type number")
+            error("Fonction calculateLabel [raw_font_size] n'est pas de type number")
+        end
+        if type(text) ~= "string" then
+            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction calculateLabel [text] n'est pas de type string")
+            error("Fonction calculateLabel [text] n'est pas de type string")
+        end
+        if type(isRetourLigne) ~= "boolean" then
+            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction calculateLabel [isRetourLigne] n'est pas de type boolean")
+            error("Fonction calculateLabel [isRetourLigne] n'est pas de type boolean")
+        end
+        if type(max_width) ~= "number" then
+            print(system.log.time() .. "h " .. system.log.level("fatal") .. " : Fonction calculateLabel [max_width] n'est pas de type number")
+            error("Fonction calculateLabel [max_width] n'est pas de type number")
+        end
+    end
+
+    local REFERENCE_H = 584 --La taille d'ecran de referance avec lequel on a calibrer la fonction pour obtenir la taille du label en pourcentage
+    local font_size = math.floor(raw_font_size * (screenHauteur / REFERENCE_H)) --Permet d'obtenir la taille de font size pour n'importe quelle ecran grace a une lois proportionel
+    local size = parent:measure_text(text, max_width, font_size, isRetourLigne) --Permet de mesurer la taille du tecte en px
+
+    return {
+        font_size = font_size,
+        w = size.w + font_size * 0.4, -- longueur en px
+        h = size.h, -- hauteur en px
+        text = text -- Contenue de texte du label
+    }
 end
 
 return scriptedScreen

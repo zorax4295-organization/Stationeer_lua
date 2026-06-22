@@ -13,6 +13,7 @@
 -----------------------------------------------------
 
 local system = require("system")
+local scriptedScreen = require("scriptedScreen")
 
 
 -----------------------------------------------------
@@ -83,23 +84,7 @@ ui.oresQuantity.set()
 -- Déffinition des callbacks et des fonction pour le dessin
 -----------------------------------------------------
 
-local REFERENCE_H = 584 --La taille d'ecran de referance avec lequel on été fait les test pour obtenir la taille du label en pourcentage
---Permet de calculer divers parametre d'un label pour qu'il se redimensionne en fonction du texte et de l'ecran
----@param raw_font_size number
----@param text string
----@param isRetourLigne boolean
----@param max_width number
-local function calculateLabel(raw_font_size, text, parent, isRetourLigne, max_width)
-    local font_size = math.floor(raw_font_size * (h / REFERENCE_H)) --Permet d'obtenir la taille de font size pour n'importe quelle ecran grace a une lois proportionel
-    local size = parent:measure_text(text, max_width, font_size, isRetourLigne) --Permet de mesurer la taille du tecte en px
 
-    return {
-        font_size = font_size,
-        w = size.w + font_size * 0.4, -- longueur en px
-        h = size.h, -- hauteur en px
-        text = text -- Contenue de texte du label
-    }
-end
 
 
 -----------------------------------------------------
@@ -119,7 +104,7 @@ do
         },
     })
     do
-        local label = calculateLabel(50, "Bonjour je suis un technicien hautement qualifier", ui.oresQuantity.surface, true, 500)
+        local label = scriptedScreen.calculateLabel(h, 50, "Bonjour je suis un technicien hautement qualifier", ui.oresQuantity.surface, true, 500)
         local weightPourcent = label.w / w * 100 --taille du labelle en pourcentage par rapport a l'écran
         local heightPourcent = label.h / h * 100 --taille du labelle en pourcentage par rapport a l'écran
         pages.oresQuantity.title = ui.oresQuantity.surface:element({
