@@ -264,7 +264,7 @@ do
                 local posPourcentage = scriptedScreen.convertPixelToPourcentage(backgroundPos.x, backgroundPos.y, reference_w, reference_h)
                 local sizePourcentage = scriptedScreen.convertPixelToPourcentage(backgroundSize.w, backgroundSize.h, reference_w, reference_h)
                 pages.oresQuantity.contenue.oresTiles.iron.background = pages.oresQuantity.contenue.background:element({
-                    id = "contenue_ironTile_background", type = "panel",
+                    id = "contenue_tile_iron_background", type = "panel",
                     rect = {
                         unit = "%",
                         x = posPourcentage.x,
