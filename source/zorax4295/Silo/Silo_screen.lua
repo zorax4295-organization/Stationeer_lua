@@ -90,6 +90,11 @@ local oresQuantity = {
     silver = 0,
     cobalt = 0,
 }
+local popup = {
+    oresRequest = {
+        quantity = 0
+    }
+}
 
 local openPopupCommandeOres
 local closePopupCommandeOres
@@ -490,7 +495,25 @@ do
                     placeholder_color = "#475569",
                     font_size = labelData.font_size,
                 },
-                on_change = function(value, player)
+                on_change = function(rawValue, player)
+                    if rawValue == "" then
+                        popup.oresRequest.quantity = 0
+                        return
+                    end
+                    local value = tonumber(rawValue)
+                    if type(value) ~= "number" then
+                        print(system.log.time() .. "h " .. system.log.level("warn") .. " : Value du [popup_quantityInput] n'est pas de type number")
+                        pages.oresQuantity.popup.inputQuantity:set_props({ value = 0 })
+                        return
+                    end
+                    if value % 1 ~= 0 then -- Test si la quantity est bien un nombre entier
+                        print(system.log.time() .. "h " .. system.log.level("warn") .. " : Value du [popup_quantityInput] n'est pas un nombre entier")
+                        return
+                    end
+
+
+
+                    popup.oresRequest.quantity = value
                     pages.oresQuantity.popup.inputQuantity:set_props({ value = value })
                 end
             })
@@ -521,6 +544,12 @@ do
                     font_size = labelData.font_size,
                 },
                 on_click = function(playerName)
+                    if popup.oresRequest.quantity <= 9 then
+                        return
+                    end
+                    local quantity = popup.oresRequest.quantity - 10
+                    popup.oresRequest.quantity = quantity
+                    pages.oresQuantity.popup.inputQuantity:set_props({ value = tostring(quantity) })
                 end
             })
         end
@@ -550,6 +579,12 @@ do
                     font_size = labelData.font_size,
                 },
                 on_click = function(playerName)
+                    if popup.oresRequest.quantity <= 0 then
+                        return
+                    end
+                    local quantity = popup.oresRequest.quantity - 1
+                    popup.oresRequest.quantity = quantity
+                    pages.oresQuantity.popup.inputQuantity:set_props({ value = tostring(quantity) })
                 end
             })
         end
@@ -579,6 +614,9 @@ do
                     font_size = labelData.font_size,
                 },
                 on_click = function(playerName)
+                    local quantity = popup.oresRequest.quantity + 1
+                    popup.oresRequest.quantity = quantity
+                    pages.oresQuantity.popup.inputQuantity:set_props({ value = tostring(quantity) })
                 end
             })
         end
@@ -608,6 +646,9 @@ do
                     font_size = labelData.font_size,
                 },
                 on_click = function(playerName)
+                    local quantity = popup.oresRequest.quantity + 10
+                    popup.oresRequest.quantity = quantity
+                    pages.oresQuantity.popup.inputQuantity:set_props({ value = tostring(quantity) })
                 end
             })
         end
