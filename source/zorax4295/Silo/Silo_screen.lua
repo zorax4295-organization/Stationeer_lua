@@ -406,7 +406,7 @@ do
             },
             props = {
                 z_index = 10,
-                visible = true,
+                visible = false,
             },
             style = {
                 bg = "#000000E6",
@@ -428,7 +428,7 @@ do
             },
             props = {
                 z_index = 11,
-                visible = true
+                visible = false
             },
             style = {
                 bg = "#1F2940",
@@ -453,6 +453,7 @@ do
                 props = {
                     text = labelData.text,
                     z_index = 11,
+                    visible = false,
                 },
                 style = {
                     font_size = labelData.font_size,
@@ -481,6 +482,7 @@ do
                     placeholder = labelData.text,
                     title = "Name",
                     z_index = 11,
+                    visible = 0,
                 },
                 style = {
                     bg = "#FFFFFF",
@@ -489,7 +491,7 @@ do
                     font_size = labelData.font_size,
                 },
                 on_change = function(value, player)
-                    pages.oresQuantity.popup.title:set_props({ value = value })
+                    pages.oresQuantity.popup.inputQuantity:set_props({ value = value })
                 end
             })
         end
@@ -511,6 +513,7 @@ do
                 props = {
                     text = labelData.text,
                     z_index = 11,
+                    visible = false,
                 },
                 style = {
                     bg = "#AB0000",
@@ -539,6 +542,7 @@ do
                 props = {
                     text = labelData.text,
                     z_index = 11,
+                    visible = false,
                 },
                 style = {
                     bg = "#AB0000",
@@ -567,6 +571,7 @@ do
                 props = {
                     text = labelData.text,
                     z_index = 11,
+                    visible = false,
                 },
                 style = {
                     bg = "#00AB0F",
@@ -595,6 +600,7 @@ do
                 props = {
                     text = labelData.text,
                     z_index = 11,
+                    visible = false,
                 },
                 style = {
                     bg = "#00AB0F",
@@ -623,6 +629,7 @@ do
                 props = {
                     text = labelData.text,
                     z_index = 11,
+                    visible = false,
                 },
                 style = {
                     bg = "#FFFFFF",
@@ -652,6 +659,7 @@ do
                 props = {
                     text = labelData.text,
                     z_index = 11,
+                    visible = false,
                 },
                 style = {
                     bg = "#FFFFFF",
@@ -688,6 +696,7 @@ openPopupCommandeOres = function()
     pages.oresQuantity.popup.buttonRetirer1:set_props({ visible = true })
 end
 closePopupCommandeOres = function()
+    pages.oresQuantity.popup.inputQuantity:set_props({ value = "" })
     pages.oresQuantity.popup.backgroundSombre:set_props({ visible = false })
     pages.oresQuantity.popup.background:set_props({ visible = false })
     pages.oresQuantity.popup.title:set_props({ visible = false })
