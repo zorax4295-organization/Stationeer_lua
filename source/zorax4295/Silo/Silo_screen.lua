@@ -92,7 +92,8 @@ local oresQuantity = {
 }
 local popup = {
     oresRequest = {
-        quantity = 0
+        oreType = "", --Minerais actuellement selectionner dans la requete ores
+        quantity = 0, --Quantité de minerais actuellement selectionner dans la requete ores
     }
 }
 
@@ -384,7 +385,7 @@ do
                             font_size = labelData.font_size
                         },
                         on_click = function(playerName)
-                            openPopupCommandeOres()
+                            openPopupCommandeOres(oreType)
                         end
                     })
                 end
@@ -683,6 +684,13 @@ do
                 },
                 on_click = function(playerName)
                     closePopupCommandeOres()
+                    print(system.log.time() .. "h " .. system.log.level("debug") .. " : oresType = " .. popup.oresRequest.oreType)
+                    print(system.log.time() .. "h " .. system.log.level("debug") .. " : quantity = " .. popup.oresRequest.quantity)
+                    ic.net.request("Housing silo OS", "silo/ores_request", {{type = popup.oresRequest.oreType, quantity = popup.oresRequest.quantity}},
+                        function(payload, fromId, fromName)
+                        end,
+                        10
+                    )
                 end
             })
         end
@@ -728,7 +736,8 @@ local function refreshOresQuantity()
         pages.oresQuantity.contenue.oresTiles[oreType].label:set_props({ text = oreType:sub(1,1):upper() .. oreType:sub(2) .. " : " .. quantity * 50 })
     end
 end
-openPopupCommandeOres = function()
+openPopupCommandeOres = function(oreType)
+    popup.oresRequest.oreType = oreType
     pages.oresQuantity.popup.backgroundSombre:set_props({ visible = true })
     pages.oresQuantity.popup.background:set_props({ visible = true })
     pages.oresQuantity.popup.title:set_props({ visible = true })

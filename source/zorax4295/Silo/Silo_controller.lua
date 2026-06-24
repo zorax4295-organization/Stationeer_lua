@@ -20,6 +20,9 @@
 ---    {type = "iron", quantity = 50},
 ---    {type = "copper", quantity = 100},
 ---}
+---Sujet : "silo/ores_request"
+----------------------------------------------------------------------
+---Nom de la puce lua : Housing silo OS
 ----------------------------------------------------------------------
 
 
@@ -167,6 +170,11 @@ ic.net.register("silo/ores_request", function(payload, fromId, fromName)
     if type(payload) ~= "table" then
         print(system.log.time() .. "h " .. system.log.level("warn") .. " : Le programme " .. system.utils.color("Yellow", fromName) .. " n'a pas envoyer un payload de type " .. system.utils.color("Yellow", "table"))
         return nil
+    end
+    print(system.log.time() .. "h " .. system.log.level("debug") .. " : ores request reçue.")
+    for index, value in ipairs(payload) do
+        print(system.log.time() .. "h " .. system.log.level("debug") .. " : oresType = " .. value.type)
+        print(system.log.time() .. "h " .. system.log.level("debug") .. " : quantity = " .. value.quantity)
     end
 
     for index, value in ipairs(payload) do
