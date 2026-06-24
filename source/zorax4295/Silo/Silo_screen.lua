@@ -4,8 +4,8 @@
 -- Cette écran à été dimmensionné avec : https://www.figma.com
 ---------------------------------------Objectif-------------------------------------------------
 
-------------------------------------------------------------------------------------------------
-
+--------------------------------------Constante-------------------------------------------------
+local versionProgramme = "v0.2"
 
 
 -----------------------------------------------------
@@ -91,11 +91,8 @@ local oresQuantity = {
     cobalt = 0,
 }
 
-
------------------------------------------------------
--- Déffinition des callbacks et des fonction pour le dessin
------------------------------------------------------
-
+local openPopupCommandeOres
+local closePopupCommandeOres
 
 
 -----------------------------------------------------
@@ -241,7 +238,7 @@ do
         do --Contenue version
             local pos = { x = 652, y = 556,} --Position en pixel
             local size = { w = 50, h = 16,} --Taille en pixel
-            local labelData = scriptedScreen.calculateLabel(h, 14, "v0.1", ui.oresQuantity.surface, false, 0)
+            local labelData = scriptedScreen.calculateLabel(h, 14, versionProgramme, ui.oresQuantity.surface, false, 0)
             local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueBackgroundSize.w, contenueBackgroundSize.h) --Position en pourcentage par rapport au parent
             local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueBackgroundSize.w, contenueBackgroundSize.h) --Taille en pourcentage par rapport au parent
             pages.oresQuantity.contenue.version = pages.oresQuantity.contenue.background:element({
@@ -382,6 +379,7 @@ do
                             font_size = labelData.font_size
                         },
                         on_click = function(playerName)
+                            openPopupCommandeOres()
                         end
                     })
                 end
@@ -469,7 +467,7 @@ do
             local labelData = scriptedScreen.calculateLabel(h, 20, "Entré la quantité de minerais shouaité", ui.oresQuantity.surface, false, 0)
             local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
             local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
-            pages.oresQuantity.popup.title = pages.oresQuantity.popup.background:element({
+            pages.oresQuantity.popup.inputQuantity = pages.oresQuantity.popup.background:element({
                 id = "popup_quantityInput", type = "textinput",
                 rect = {
                     unit = "%",
@@ -557,7 +555,7 @@ do
             local labelData = scriptedScreen.calculateLabel(h, 12, "Ajouter 1", ui.oresQuantity.surface, false, 0)
             local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
             local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
-            pages.oresQuantity.popup.buttonAjouter10 = pages.oresQuantity.popup.background:element({
+            pages.oresQuantity.popup.buttonAjouter1 = pages.oresQuantity.popup.background:element({
                 id = "popup_buttonAjouter1", type = "button",
                 rect = {
                     unit = "%",
@@ -613,7 +611,7 @@ do
             local labelData = scriptedScreen.calculateLabel(h, 20, "Valider", ui.oresQuantity.surface, false, 0)
             local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
             local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
-            pages.oresQuantity.popup.buttonFermer = pages.oresQuantity.popup.background:element({
+            pages.oresQuantity.popup.buttonValider = pages.oresQuantity.popup.background:element({
                 id = "popup_buttonValider", type = "button",
                 rect = {
                     unit = "%",
@@ -632,6 +630,7 @@ do
                     font_size = labelData.font_size,
                 },
                 on_click = function(playerName)
+                    closePopupCommandeOres()
                 end
             })
         end
@@ -660,6 +659,7 @@ do
                     font_size = labelData.font_size,
                 },
                 on_click = function(playerName)
+                    closePopupCommandeOres()
                 end
             })
         end
@@ -672,8 +672,32 @@ end
 
 local function refreshOresQuantity()
     for oreType, quantity in pairs(oresQuantity) do
-        pages.oresQuantity.contenue.oresTiles[oreType].label:set_props({ text = oreType:sub(1,1):upper() .. oreType:sub(2) .. " : " .. quantity })
+        pages.oresQuantity.contenue.oresTiles[oreType].label:set_props({ text = oreType:sub(1,1):upper() .. oreType:sub(2) .. " : " .. quantity * 50 })
     end
+end
+openPopupCommandeOres = function()
+    pages.oresQuantity.popup.backgroundSombre:set_props({ visible = true })
+    pages.oresQuantity.popup.background:set_props({ visible = true })
+    pages.oresQuantity.popup.title:set_props({ visible = true })
+    pages.oresQuantity.popup.inputQuantity:set_props({ visible = true })
+    pages.oresQuantity.popup.buttonValider:set_props({ visible = true })
+    pages.oresQuantity.popup.buttonFermer:set_props({ visible = true })
+    pages.oresQuantity.popup.buttonAjouter10:set_props({ visible = true })
+    pages.oresQuantity.popup.buttonAjouter1:set_props({ visible = true })
+    pages.oresQuantity.popup.buttonRetirer10:set_props({ visible = true })
+    pages.oresQuantity.popup.buttonRetirer1:set_props({ visible = true })
+end
+closePopupCommandeOres = function()
+    pages.oresQuantity.popup.backgroundSombre:set_props({ visible = false })
+    pages.oresQuantity.popup.background:set_props({ visible = false })
+    pages.oresQuantity.popup.title:set_props({ visible = false })
+    pages.oresQuantity.popup.inputQuantity:set_props({ visible = false })
+    pages.oresQuantity.popup.buttonValider:set_props({ visible = false })
+    pages.oresQuantity.popup.buttonFermer:set_props({ visible = false })
+    pages.oresQuantity.popup.buttonAjouter10:set_props({ visible = false })
+    pages.oresQuantity.popup.buttonAjouter1:set_props({ visible = false })
+    pages.oresQuantity.popup.buttonRetirer10:set_props({ visible = false })
+    pages.oresQuantity.popup.buttonRetirer1:set_props({ visible = false })
 end
 
 -----------------------------------------------------
