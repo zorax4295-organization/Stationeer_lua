@@ -511,8 +511,9 @@ do
                         print(system.log.time() .. "h " .. system.log.level("warn") .. " : Value du [popup_quantityInput] n'est pas un nombre entier")
                         return
                     end
-                    if value >= 0 then -- Test si la quantity est bien un nombre entier
+                    if value < 0 then -- Test si la quantity est bien un nombre entier
                         print(system.log.time() .. "h " .. system.log.level("warn") .. " : Value du [popup_quantityInput] n'est pas un nombre superieur ou égal à 0")
+                        pages.oresQuantity.popup.inputQuantity:set_props({ value = 0 })
                         return
                     end
 
