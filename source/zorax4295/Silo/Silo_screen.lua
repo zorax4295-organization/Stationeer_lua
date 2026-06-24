@@ -398,7 +398,7 @@ do
         local popupBackgroundSombreSizePourcentage = scriptedScreen.convertPixelToPourcentage(popupBackgroundSombreSize.w, popupBackgroundSombreSize.h, reference_w, reference_h)
 
         pages.oresQuantity.popup.backgroundSombre = ui.oresQuantity.surface:element({
-            id = "oresQuantity_popup_backgroundSombre", type = "panel",
+            id = "popup_backgroundSombre", type = "panel",
             rect = {
                 unit = "%",
                 x = popupBackgroundSombrePosPourcentage.x,
@@ -420,7 +420,7 @@ do
         local popupBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(popupBackgroundPos.x, popupBackgroundPos.y, popupBackgroundSombreSize.w, popupBackgroundSombreSize.h)
         local popupBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(popupBackgroundSize.w, popupBackgroundSize.h, popupBackgroundSombreSize.w, popupBackgroundSombreSize.h)
         pages.oresQuantity.popup.background = pages.oresQuantity.popup.backgroundSombre:element({
-            id = "oresQuantity_popup_background", type = "panel",
+            id = "popup_background", type = "panel",
             rect = {
                 unit = "%",
                 x = popupBackgroundPosPourcentage.x,
@@ -444,7 +444,7 @@ do
             local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
             local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
             pages.oresQuantity.popup.title = pages.oresQuantity.popup.background:element({
-                id = "contenue_title", type = "label",
+                id = "popup_title", type = "label",
                 rect = {
                     unit = "%",
                     x = labelPosPourcentage.x,
@@ -461,6 +461,38 @@ do
                     color = "#FFFFFF",
                     align = "center",
                 },
+            })
+        end
+        do --Popup quantity input
+            local pos = { x = 146, y = 149,} --Position en pixel
+            local size = { w = 279, h = 46,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 20, "Entré la quantité de minerais shouaité", ui.oresQuantity.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresQuantity.popup.title = pages.oresQuantity.popup.background:element({
+                id = "id", type = "textinput",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y,
+                },
+                props = {
+                    value = "",
+                    placeholder = labelData.text,
+                    title = "Name",
+                    z_index = 11,
+                },
+                style = {
+                    bg = "#FFFFFF",
+                    text = "#000000",
+                    placeholder_color = "#475569",
+                    font_size = labelData.font_size,
+                },
+                on_change = function(value, player)
+                    pages.oresQuantity.popup.title:set_props({ value = value })
+                end
             })
         end
     end
