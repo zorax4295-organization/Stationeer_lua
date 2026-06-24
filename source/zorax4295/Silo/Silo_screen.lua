@@ -331,7 +331,7 @@ do
                     })
                 end
                 do --Label quantity
-                    local pos = { x = 0, y = 153,} --Position en pixel
+                    local pos = { x = 0, y = 138,} --Position en pixel
                     local size = { w = tileSize.w, h = 14,} --Taille en pixel
                     local labelText = oreType:sub(1,1):upper() .. oreType:sub(2) .. " : " .. quantity
                     local labelData = scriptedScreen.calculateLabel(h, 14, labelText, ui.oresQuantity.surface, false, 0)
@@ -357,7 +357,111 @@ do
                         },
                     })
                 end
+                do --Button commander
+                    local pos = { x = 5, y = 165,} --Position en pixel
+                    local size = { w = 110, h = 20,} --Taille en pixel
+                    local labelData = scriptedScreen.calculateLabel(h, 14, "Commander", ui.oresQuantity.surface, false, 0)
+                    local posPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, tileSize.w, tileSize.h) --Position en pourcentage par rapport au parent
+                    local sizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, tileSize.w, tileSize.h) --Taille en pourcentage par rapport au parent
+                    pages.oresQuantity.contenue.oresTiles[oreType].button = pages.oresQuantity.contenue.oresTiles.background["contenue_tile_" .. oreType .. "_background"]:element({
+                        id = "contenue_tile_" .. oreType .. "_button", type = "button",
+                        rect = {
+                            unit = "%",
+                            x = posPourcentage.x,
+                            y = posPourcentage.y,
+                            w = sizePourcentage.x,
+                            h = sizePourcentage.y
+                        },
+                        props = {
+                            text = labelData.text,
+                            z_index = 0,
+                        },
+                        style = {
+                            bg = "#2037B3",
+                            text = "#FFFFFF",
+                            font_size = labelData.font_size
+                        },
+                        on_click = function(playerName)
+                        end
+                    })
+                end
             end
+        end
+    end
+
+
+    do --Popup
+        pages.oresQuantity.popup = {}
+        local popupBackgroundSombrePos = { x = 0, y = 0} --En PX
+        local popupBackgroundSombreSize = { w = 862, h = 584} --En PX
+        local popupBackgroundSombrePosPourcentage = scriptedScreen.convertPixelToPourcentage(popupBackgroundSombrePos.x, popupBackgroundSombrePos.y, reference_w, reference_h)
+        local popupBackgroundSombreSizePourcentage = scriptedScreen.convertPixelToPourcentage(popupBackgroundSombreSize.w, popupBackgroundSombreSize.h, reference_w, reference_h)
+
+        pages.oresQuantity.popup.backgroundSombre = ui.oresQuantity.surface:element({
+            id = "oresQuantity_popup_backgroundSombre", type = "panel",
+            rect = {
+                unit = "%",
+                x = popupBackgroundSombrePosPourcentage.x,
+                y = popupBackgroundSombrePosPourcentage.y,
+                w = popupBackgroundSombreSizePourcentage.x,
+                h = popupBackgroundSombreSizePourcentage.y,
+            },
+            props = {
+                z_index = 10,
+                visible = true,
+            },
+            style = {
+                bg = "#000000E6",
+            },
+        })
+
+        local popupBackgroundPos = { x = 146, y = 120} --En PX
+        local popupBackgroundSize = { w = 570, h = 344} --En PX
+        local popupBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(popupBackgroundPos.x, popupBackgroundPos.y, popupBackgroundSombreSize.w, popupBackgroundSombreSize.h)
+        local popupBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(popupBackgroundSize.w, popupBackgroundSize.h, popupBackgroundSombreSize.w, popupBackgroundSombreSize.h)
+        pages.oresQuantity.popup.background = pages.oresQuantity.popup.backgroundSombre:element({
+            id = "oresQuantity_popup_background", type = "panel",
+            rect = {
+                unit = "%",
+                x = popupBackgroundPosPourcentage.x,
+                y = popupBackgroundPosPourcentage.y,
+                w = popupBackgroundSizePourcentage.x,
+                h = popupBackgroundSizePourcentage.y,
+            },
+            props = {
+                z_index = 11,
+                visible = true
+            },
+            style = {
+                bg = "#1F2940",
+            },
+        })
+
+        do --Popup title
+            local pos = { x = 141, y = 15,} --Position en pixel
+            local size = { w = 289, h = 35,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 25, "Commande de minerais", ui.oresQuantity.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresQuantity.popup.title = pages.oresQuantity.popup.background:element({
+                id = "contenue_title", type = "label",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y,
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 11,
+                },
+                style = {
+                    font_size = labelData.font_size,
+                    color = "#FFFFFF",
+                    align = "center",
+                },
+            })
         end
     end
 end
