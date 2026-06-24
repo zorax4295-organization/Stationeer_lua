@@ -221,6 +221,7 @@ end)
 ----------------------------
 
 system.safe.writeId(loaderId, LT.Mode, 1, "Loader")
+system.safe.writeId(loaderId, LT.On, 1, "Loader")
 
 for key, value in pairs(silo) do
     system.safe.writeId(value.id, LT.On, 1, "Silo - " .. key)
