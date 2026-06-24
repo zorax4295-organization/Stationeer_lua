@@ -470,7 +470,7 @@ do
             local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
             local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
             pages.oresQuantity.popup.title = pages.oresQuantity.popup.background:element({
-                id = "id", type = "textinput",
+                id = "popup_quantityInput", type = "textinput",
                 rect = {
                     unit = "%",
                     x = labelPosPourcentage.x,
@@ -492,6 +492,174 @@ do
                 },
                 on_change = function(value, player)
                     pages.oresQuantity.popup.title:set_props({ value = value })
+                end
+            })
+        end
+        do --Button retirer 10
+            local pos = { x = 175, y = 205,} --Position en pixel
+            local size = { w = 50, h = 30,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 12, "Retirer 10", ui.oresQuantity.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresQuantity.popup.buttonRetirer10 = pages.oresQuantity.popup.background:element({
+                id = "popup_buttonRetirer10", type = "button",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 11,
+                },
+                style = {
+                    bg = "#AB0000",
+                    text = "#FFFFFF",
+                    font_size = labelData.font_size,
+                },
+                on_click = function(playerName)
+                end
+            })
+        end
+        do --Button retirer 1
+            local pos = { x = 230, y = 205,} --Position en pixel
+            local size = { w = 50, h = 30,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 12, "Retirer 1", ui.oresQuantity.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresQuantity.popup.buttonRetirer1 = pages.oresQuantity.popup.background:element({
+                id = "popup_buttonRetirer1", type = "button",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 11,
+                },
+                style = {
+                    bg = "#AB0000",
+                    text = "#FFFFFF",
+                    font_size = labelData.font_size,
+                },
+                on_click = function(playerName)
+                end
+            })
+        end
+        do --Button ajouter 1
+            local pos = { x = 290, y = 205,} --Position en pixel
+            local size = { w = 50, h = 30,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 12, "Ajouter 1", ui.oresQuantity.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresQuantity.popup.buttonAjouter10 = pages.oresQuantity.popup.background:element({
+                id = "popup_buttonAjouter1", type = "button",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 11,
+                },
+                style = {
+                    bg = "#00AB0F",
+                    text = "#FFFFFF",
+                    font_size = labelData.font_size,
+                },
+                on_click = function(playerName)
+                end
+            })
+        end
+        do --Button ajouter 10
+            local pos = { x = 345, y = 205,} --Position en pixel
+            local size = { w = 50, h = 30,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 12, "Ajouter 10", ui.oresQuantity.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresQuantity.popup.buttonAjouter10 = pages.oresQuantity.popup.background:element({
+                id = "popup_buttonAjouter10", type = "button",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 11,
+                },
+                style = {
+                    bg = "#00AB0F",
+                    text = "#FFFFFF",
+                    font_size = labelData.font_size,
+                },
+                on_click = function(playerName)
+                end
+            })
+        end
+        do --Button valider
+            local pos = { x = 210, y = 261,} --Position en pixel
+            local size = { w = 150, h = 30,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 20, "Valider", ui.oresQuantity.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresQuantity.popup.buttonFermer = pages.oresQuantity.popup.background:element({
+                id = "popup_buttonValider", type = "button",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 11,
+                },
+                style = {
+                    bg = "#FFFFFF",
+                    text = "#000000",
+                    font_size = labelData.font_size,
+                },
+                on_click = function(playerName)
+                end
+            })
+        end
+        do --Button fermer
+            local pos = { x = 473, y = 14,} --Position en pixel
+            local size = { w = 79, h = 28,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 20, "Fermer", ui.oresQuantity.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, popupBackgroundSize.w, popupBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, popupBackgroundSize.w, popupBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresQuantity.popup.buttonFermer = pages.oresQuantity.popup.background:element({
+                id = "popup_buttonFermer", type = "button",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 11,
+                },
+                style = {
+                    bg = "#FFFFFF",
+                    text = "#000000",
+                    font_size = labelData.font_size,
+                },
+                on_click = function(playerName)
                 end
             })
         end
