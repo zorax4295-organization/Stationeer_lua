@@ -511,8 +511,6 @@ do
                         return
                     end
 
-
-
                     popup.oresRequest.quantity = value
                     pages.oresQuantity.popup.inputQuantity:set_props({ value = value })
                 end
