@@ -20,7 +20,7 @@ local scriptedScreen = require("scriptedScreen")
 -- Création des écran
 -----------------------------------------------------
 
-local currentUi = "auto"
+local currentUi = ""
 -- Déffinition des parametre de chaque écran
 ---@param name string
 local function createScreen(name)
@@ -79,7 +79,17 @@ ui.oresQuantity.set()
 
 local reference_w = 862 --Ecran de réference pour le calibrage du programme pour convertire en pourcentage
 local reference_h = 584 --Ecran de réference pour le calibrage du programme pour convertire en pourcentage
-
+local oresQuantity = {
+    iron = 0,
+    copper = 0,
+    gold = 0,
+    silicon = 0,
+    coal = 0,
+    lead = 0,
+    nickel = 0,
+    silver = 0,
+    cobalt = 0,
+}
 
 
 -----------------------------------------------------
@@ -256,35 +266,55 @@ do
         end
 
         do --Contenue Ores tile
-            do --Iron
-                pages.oresQuantity.contenue.oresTiles = {}
-                pages.oresQuantity.contenue.oresTiles.iron = {}
-                local backgroundPos = { x = 31, y = 96} --En PX
-                local backgroundSize = { w = 120, h = 200} --En PX
-                local posPourcentage = scriptedScreen.convertPixelToPourcentage(backgroundPos.x, backgroundPos.y, reference_w, reference_h)
-                local sizePourcentage = scriptedScreen.convertPixelToPourcentage(backgroundSize.w, backgroundSize.h, reference_w, reference_h)
-                pages.oresQuantity.contenue.oresTiles.iron.background = pages.oresQuantity.contenue.background:element({
-                    id = "contenue_tile_iron_background", type = "panel",
-                    rect = {
-                        unit = "%",
-                        x = posPourcentage.x,
-                        y = posPourcentage.y,
-                        w = sizePourcentage.x,
-                        h = sizePourcentage.y,
-                    },
-                    props = { z_index = 0 },
-                    style = {
-                        bg = "#5F85D9",
-                    },
-                })
+            local backgroundPos = { x = 186, y = 101} --En PX
+            local backgroundSize = { w = 640, h = 410} --En PX w=120 par tile et h=200 par tile
+            local backgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(backgroundPos.x, backgroundPos.y, reference_w, reference_h) --Convertion de la position en pourcentage
+            local backgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(backgroundSize.w, backgroundSize.h, reference_w, reference_h) --Convertion de la taille en pourcentage
+            local backgroundPosPixel = { --Reconvertion en pixel par rapport au pourcentage parceque visiblement sa bug si j'utilise des pourcentage
+                x = backgroundPosPourcentage.x / 100 * w,
+                y = backgroundPosPourcentage.y / 100 * h 
+            }
+            local backgroundSizePixel = { --Reconvertion en pixel par rapport au pourcentage parceque visiblement sa bug si j'utilise des pourcentage
+                w = backgroundSizePourcentage.x / 100 * w,
+                h = backgroundSizePourcentage.y / 100 * h
+            }
 
+
+            local lineH = 200
+            local lineHPourcent = scriptedScreen.convertPixelToPourcentage(0, lineH, 0, reference_h)
+            local lineHPixel = lineHPourcent.y / 100 * h
+
+            pages.oresQuantity.contenue.oresTiles = {}
+            ---@type { contenue_tile_iron_background: any, contenue_tile_copper_background: any, contenue_tile_gold_background: any, contenue_tile_silicon_background: any, contenue_tile_coal_background: any, contenue_tile_lead_background: any, contenue_tile_nickel_background: any, contenue_tile_silver_background: any, contenue_tile_cobalt_background: any, }
+            pages.oresQuantity.contenue.oresTiles.background = ui.oresQuantity.surface:layout({
+                layout = "grid",
+                rect = { unit = "px", x = backgroundPosPixel.x, y = backgroundPosPixel.y, w = backgroundSizePixel.w, h = backgroundSizePixel.h },
+                cols = 5,
+                row_height = lineHPixel, -- hauteur fixe de chaque ligne en px
+                gap = 10, -- espace entre chaque colonne en px
+                padding = 0, -- espace entre le bord du conteneur et les cellules en px
+                children = {
+                    { id = "contenue_tile_iron_background", type = "panel", style = { bg = "#5F85D9" } },
+                    { id = "contenue_tile_copper_background", type = "panel", style = { bg = "#5F85D9" } },
+                    { id = "contenue_tile_gold_background", type = "panel", style = { bg = "#5F85D9" } },
+                    { id = "contenue_tile_silicon_background", type = "panel", style = { bg = "#5F85D9" } },
+                    { id = "contenue_tile_coal_background", type = "panel", style = { bg = "#5F85D9" } },
+                    { id = "contenue_tile_lead_background", type = "panel", style = { bg = "#5F85D9" } },
+                    { id = "contenue_tile_nickel_background", type = "panel", style = { bg = "#5F85D9" } },
+                    { id = "contenue_tile_silver_background", type = "panel", style = { bg = "#5F85D9" } },
+                    { id = "contenue_tile_cobalt_background", type = "panel", style = { bg = "#5F85D9" } },
+                }
+            })
+            for oreType, quantity in pairs(oresQuantity) do
+                pages.oresQuantity.contenue.oresTiles[oreType] = {}
+                local tileSize = { w = 120, h = 200 } -- taille d'une tuile individuelle
                 do --Icon
                     local pos = { x = 5, y = 5} --En PX
                     local size = { w = 110, h = 110} --En PX
-                    local posPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, backgroundSize.w, backgroundSize.h)
-                    local sizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, backgroundSize.w, backgroundSize.h)
-                    pages.oresQuantity.contenue.oresTiles.iron.icon = pages.oresQuantity.contenue.oresTiles.iron.background:element({
-                        id = "contenue_tile_iron_icon", type = "icon",
+                    local posPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, tileSize.w, tileSize.h)
+                    local sizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, tileSize.w, tileSize.h)
+                    pages.oresQuantity.contenue.oresTiles[oreType].icon = pages.oresQuantity.contenue.oresTiles.background["contenue_tile_" .. oreType .. "_background"]:element({
+                        id = "contenue_tile_" .. oreType .. "_icon", type = "icon",
                         rect = {
                             unit = "%",
                             x = posPourcentage.x,
@@ -294,7 +324,7 @@ do
                         },
                         props = {
                             icon_type = "prefab",
-                            name = "ItemIronOre",
+                            name = "Item" .. oreType:sub(1,1):upper() .. oreType:sub(2) .. "Ore", --Transforme la première lettre du minerais en majuscule
                             z_index = 0
                         },
                         style = { tint = "#FFFFFF"},
@@ -302,12 +332,13 @@ do
                 end
                 do --Label quantity
                     local pos = { x = 0, y = 153,} --Position en pixel
-                    local size = { w = backgroundSize.w, h = 14,} --Taille en pixel
-                    local labelData = scriptedScreen.calculateLabel(h, 14, "Iron : 200", ui.oresQuantity.surface, false, 0)
-                    local posPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, backgroundSize.w, backgroundSize.h) --Position en pourcentage par rapport au parent
-                    local sizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, backgroundSize.w, backgroundSize.h) --Taille en pourcentage par rapport au parent
-                    pages.oresQuantity.contenue.oresTiles.iron.label = pages.oresQuantity.contenue.oresTiles.iron.background:element({
-                        id = "contenue_tile_iron_quantity", type = "label",
+                    local size = { w = tileSize.w, h = 14,} --Taille en pixel
+                    local labelText = oreType:sub(1,1):upper() .. oreType:sub(2) .. " : " .. quantity
+                    local labelData = scriptedScreen.calculateLabel(h, 14, labelText, ui.oresQuantity.surface, false, 0)
+                    local posPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, tileSize.w, tileSize.h) --Position en pourcentage par rapport au parent
+                    local sizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, tileSize.w, tileSize.h) --Taille en pourcentage par rapport au parent
+                    pages.oresQuantity.contenue.oresTiles[oreType].label = pages.oresQuantity.contenue.oresTiles.background["contenue_tile_" .. oreType .. "_background"]:element({
+                        id = "contenue_tile_" .. oreType .. "_quantity", type = "label",
                         rect = {
                             unit = "%",
                             x = posPourcentage.x,
@@ -329,4 +360,33 @@ do
             end
         end
     end
+end
+
+-----------------------------------------------------
+-- Déffinition des fonctions
+-----------------------------------------------------
+
+local function refreshOresQuantity()
+    for oreType, quantity in pairs(oresQuantity) do
+        pages.oresQuantity.contenue.oresTiles[oreType].label:set_props({ text = oreType:sub(1,1):upper() .. oreType:sub(2) .. " : " .. quantity })
+    end
+end
+
+-----------------------------------------------------
+-- Définition des functions réseaux
+-----------------------------------------------------
+
+ic.net.subscribe("silo/ores_quantity", function (sujet, payload, fromId, fromName, isRetained)
+    if type(payload) ~= "table" then
+        print(system.log.time() .. "h " .. system.log.level("warn") .. " : Le payload du message réseaux [" .. system.utils.color("Yellow", sujet) .. "] n'est pas de type table")
+        return
+    end
+    for oresType, quantity in pairs(payload) do
+        oresQuantity[oresType] = quantity
+    end
+end)
+
+while true do
+    refreshOresQuantity()
+    yield()
 end
