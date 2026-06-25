@@ -102,6 +102,7 @@ local colorMenuButton = {
 }
 local url = {
     panier = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/Panier.png",
+    envoyer = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/Envoyer.png",
 }
 
 
@@ -1031,6 +1032,52 @@ do
                         align = "right",
                     },
                 })
+            end
+
+            do --Recapitulatif button valider la commande
+                local buttonPos = { x = 5, y = 99,} --Position en pixel
+                local buttonSize = { w = 257, h = 36,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 16, "VALIDER LA COMMANDE", ui.oresRequest.surface, false, 0)
+                local buttonPosPourcentage = scriptedScreen.convertPixelToPourcentage(buttonPos.x, buttonPos.y, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local buttonSizePourcentage = scriptedScreen.convertPixelToPourcentage(buttonSize.w, buttonSize.h, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.recapitulatif.buttonValiderCommande = pages.oresRequest.contenue.recapitulatif.background:element({
+                    id = "oresRequest_recapitulatif_buttonValiderCommande", type = "button",
+                    rect = {
+                        unit = "%",
+                        x = buttonPosPourcentage.x,
+                        y = buttonPosPourcentage.y,
+                        w = buttonSizePourcentage.x,
+                        h = buttonSizePourcentage.y,
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                    },
+                    style = {
+                        bg = "#5F1EB1",
+                        text = "#FFFFFF",
+                        font_size = labelData.font_size,
+                    },
+                    on_click = function(playerName)
+                    end
+                })
+                do --image envoyer
+                    local pos = { x = 11, y = 8} --En PX
+                    local size = { w = 19, h = 19} --En PX
+                    local contenueRecapitulatifImageEnvoyerPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, buttonSize.w, buttonSize.h)
+                    local contenueRecapitulatifImageEnvoyerSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, buttonSize.w, buttonSize.h)
+                    pages.oresRequest.contenue.recapitulatif.buttonValiderCommande.imageEnvoyer = pages.oresRequest.contenue.recapitulatif.buttonValiderCommande:element({
+                        id = "oresRequest_recapitulatif_imageEnvoyer", type = "image",
+                        rect = {
+                            unit = "%",
+                            x = contenueRecapitulatifImageEnvoyerPosPourcentage.x,
+                            y = contenueRecapitulatifImageEnvoyerPosPourcentage.y,
+                            w = contenueRecapitulatifImageEnvoyerSizePourcentage.x,
+                            h = contenueRecapitulatifImageEnvoyerSizePourcentage.y,
+                        },
+                        props = { url = url.envoyer },
+                    })
+                end
             end
         end
     end
