@@ -240,7 +240,7 @@ do
         local contenueBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(contenueBackgroundPos.x, contenueBackgroundPos.y, reference_w, reference_h)
         local contenueBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(contenueBackgroundSize.w, contenueBackgroundSize.h, reference_w, reference_h)
         pages.oresQuantity.contenue.background = ui.oresQuantity.surface:element({
-            id = "contenue_background", type = "panel",
+            id = "oresQuantity_contenue_background", type = "panel",
             rect = {
                 unit = "%",
                 x = contenueBackgroundPosPourcentage.x,
@@ -261,7 +261,7 @@ do
             local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueBackgroundSize.w, contenueBackgroundSize.h) --Position en pourcentage par rapport au parent
             local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueBackgroundSize.w, contenueBackgroundSize.h) --Taille en pourcentage par rapport au parent
             pages.oresQuantity.contenue.title = pages.oresQuantity.contenue.background:element({
-                id = "contenue_title", type = "label",
+                id = "oresQuantity_contenue_title", type = "label",
                 rect = {
                     unit = "%",
                     x = labelPosPourcentage.x,
@@ -287,7 +287,7 @@ do
             local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueBackgroundSize.w, contenueBackgroundSize.h) --Position en pourcentage par rapport au parent
             local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueBackgroundSize.w, contenueBackgroundSize.h) --Taille en pourcentage par rapport au parent
             pages.oresQuantity.contenue.version = pages.oresQuantity.contenue.background:element({
-                id = "contenue_version", type = "label",
+                id = "oresQuantity_contenue_version", type = "label",
                 rect = {
                     unit = "%",
                     x = labelPosPourcentage.x,
@@ -777,6 +777,81 @@ do
     })
 
     pages.oresRequest.menu = createMenu(ui.oresRequest, pages.oresRequest)
+
+    do --Contenue
+        pages.oresRequest.contenue = {}
+        local contenueBackgroundPos = { x = 155, y = 5} --En PX
+        local contenueBackgroundSize = { w = 702, h = 574} --En PX
+        local contenueBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(contenueBackgroundPos.x, contenueBackgroundPos.y, reference_w, reference_h)
+        local contenueBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(contenueBackgroundSize.w, contenueBackgroundSize.h, reference_w, reference_h)
+        pages.oresRequest.contenue.background = ui.oresRequest.surface:element({
+            id = "oresRequest_contenue_background", type = "panel",
+            rect = {
+                unit = "%",
+                x = contenueBackgroundPosPourcentage.x,
+                y = contenueBackgroundPosPourcentage.y,
+                w = contenueBackgroundSizePourcentage.x,
+                h = contenueBackgroundSizePourcentage.y,
+            },
+            props = { z_index = 0 },
+            style = {
+                bg = "#1F2940",
+            },
+        })
+
+        do --Contenue title
+            local pos = { x = 0, y = 23,} --Position en pixel
+            local size = { w = contenueBackgroundSize.w, h = 23,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 30, "Silo OS", ui.oresRequest.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueBackgroundSize.w, contenueBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueBackgroundSize.w, contenueBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresRequest.contenue.title = pages.oresRequest.contenue.background:element({
+                id = "oresRequest_contenue_title", type = "label",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y,
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 0,
+                },
+                style = {
+                    font_size = labelData.font_size,
+                    color = "#FFFFFF",
+                    align = "center",
+                },
+            })
+        end
+        do --Contenue version
+            local pos = { x = 652, y = 556,} --Position en pixel
+            local size = { w = 50, h = 16,} --Taille en pixel
+            local labelData = scriptedScreen.calculateLabel(h, 14, versionProgramme, ui.oresRequest.surface, false, 0)
+            local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueBackgroundSize.w, contenueBackgroundSize.h) --Position en pourcentage par rapport au parent
+            local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueBackgroundSize.w, contenueBackgroundSize.h) --Taille en pourcentage par rapport au parent
+            pages.oresRequest.contenue.version = pages.oresRequest.contenue.background:element({
+                id = "oresRequest_contenue_version", type = "label",
+                rect = {
+                    unit = "%",
+                    x = labelPosPourcentage.x,
+                    y = labelPosPourcentage.y,
+                    w = labelSizePourcentage.x,
+                    h = labelSizePourcentage.y,
+                },
+                props = {
+                    text = labelData.text,
+                    z_index = 0,
+                },
+                style = {
+                    font_size = labelData.font_size,
+                    color = "#FFFFFF",
+                    align = "center",
+                },
+            })
+        end
+    end
 end
 
 -----------------------------------------------------
