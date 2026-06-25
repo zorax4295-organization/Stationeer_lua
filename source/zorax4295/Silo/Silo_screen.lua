@@ -420,8 +420,8 @@ do
 
     do --Contenue
         pages.oresRequest.contenue = {}
-        local contenueBackgroundPos = { x = 155, y = 5} --En PX
-        local contenueBackgroundSize = { w = 702, h = 574} --En PX
+        local contenueBackgroundPos = { x = 155, y = 5 } --En PX
+        local contenueBackgroundSize = { w = 702, h = 574 } --En PX
         local contenueBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(contenueBackgroundPos.x, contenueBackgroundPos.y, reference_w, reference_h)
         local contenueBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(contenueBackgroundSize.w, contenueBackgroundSize.h, reference_w, reference_h)
         pages.oresRequest.contenue.background = ui.oresRequest.surface:element({
@@ -1056,8 +1056,8 @@ do
 
         do -- list
             pages.oresRequest.contenue.list = {}
-            local contenueListBackgroundPos = { x = 300, y = 80} --En PX
-            local contenueListBackgroundSize = { w = 377, h = 439} --En PX
+            local contenueListBackgroundPos = { x = 300, y = 80 } --En PX
+            local contenueListBackgroundSize = { w = 377, h = 439 } --En PX
             local contenueListBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(contenueListBackgroundPos.x, contenueListBackgroundPos.y, contenueBackgroundSize.w, contenueBackgroundSize.h)
             local contenueListBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(contenueListBackgroundSize.w, contenueListBackgroundSize.h, contenueBackgroundSize.w, contenueBackgroundSize.h)
             pages.oresRequest.contenue.list.background = pages.oresRequest.contenue.background:element({
@@ -1245,6 +1245,32 @@ do
                         },
                     })
                 end
+            end
+            do --ScrollView votre commande
+                local pos = { x = 0, y = 74 } --En PX
+                local size = { w = 377, h = 365 } --En PX
+                local contenueListScrollViewPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueListBackgroundSize.w, contenueListBackgroundSize.h)
+                local contenueListScrollViewSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueListBackgroundSize.w, contenueListBackgroundSize.h)
+                pages.oresRequest.contenue.list.ScrollView = pages.oresRequest.contenue.list.background:element({
+                    id = "oresRequest_contenue_list_ScrollView", type = "scrollview",
+                    rect = {
+                        unit = "%",
+                        x = contenueListScrollViewPosPourcentage.x,
+                        y = contenueListScrollViewPosPourcentage.y,
+                        w = contenueListScrollViewSizePourcentage.x,
+                        h = contenueListScrollViewSizePourcentage.y,
+                    },
+                    props = {
+                        content_height = "345" --Hauteur totale du contenu déroulable en pixels (par défaut 500)
+                    },
+                    style = {
+                        bg = "#141224",
+                        scrollbar_bg = "#475569", --Couleur de la piste de la barre de défilement
+                        scrollbar_handle = "#FFFFFF", --Couleur de la poignée de la barre de défilement
+                        scroll_speed = "30", --Sensibilité au défilement (par défaut 20)
+                        padding_bottom = 20, --Rembourrage supplémentaire en bas du contenu (par défaut 20)
+                    },
+                })
             end
         end
     end
