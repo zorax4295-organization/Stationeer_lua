@@ -814,6 +814,17 @@ closePopupCommandeOres = function()
     pages.oresQuantity.popup.buttonRetirer10:set_props({ visible = false })
     pages.oresQuantity.popup.buttonRetirer1:set_props({ visible = false })
 end
+local function setColorMenuButton()
+    do --Ecran oresQuantity
+        pages.oresQuantity.menu.button_oresQuantity:set_style({ bg = colorMenuButton.enable })
+        pages.oresQuantity.menu.button_oresRequest:set_style({ bg = colorMenuButton.disable })
+    end
+
+    do --Ecran oresRequest
+        pages.oresRequest.menu.button_oresQuantity:set_style({ bg = colorMenuButton.disable })
+        pages.oresRequest.menu.button_oresRequest:set_style({ bg = colorMenuButton.enable })
+    end
+end
 
 -----------------------------------------------------
 -- Définition des functions réseaux
@@ -828,6 +839,14 @@ ic.net.subscribe("silo/ores_quantity", function (sujet, payload, fromId, fromNam
         oresQuantity[oresType] = quantity
     end
 end)
+
+
+-----------------------------------------------------
+-- Init du système
+-----------------------------------------------------
+
+setColorMenuButton()
+
 
 while true do
     refreshOresQuantity()
