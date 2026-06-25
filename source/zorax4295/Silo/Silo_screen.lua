@@ -1161,7 +1161,7 @@ do
                 })
             end
 
-            do --Popup quantity input
+            do --Commande quantity input
                 local pos = { x = 5, y = 187,} --Position en pixel
                 local size = { w = 257, h = 38,} --Taille en pixel
                 local labelData = scriptedScreen.calculateLabel(h, 16, "Entrez la quantité", ui.oresRequest.surface, false, 0)
@@ -1238,12 +1238,61 @@ do
                         visible = true,
                     },
                     style = {
-                        bg = "#2A1F47",
+                        bg = "#5e1eb0",
                         text = "#FFFFFF",
                         font_size = labelData.font_size,
                     },
                     on_click = function(playerName)
                     end
+                })
+            end
+        end
+
+        do --Recapitulatif
+            pages.oresRequest.contenue.recapitulatif = {}
+            local contenueRecapitulatifBackgroundPos = { x = 28, y = 374} --En PX
+            local contenueRecapitulatifBackgroundSize = { w = 267, h = 145} --En PX
+            local contenueRecapitulatifBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(contenueRecapitulatifBackgroundPos.x, contenueRecapitulatifBackgroundPos.y, contenueBackgroundSize.w, contenueBackgroundSize.h)
+            local contenueRecapitulatifBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h, contenueBackgroundSize.w, contenueBackgroundSize.h)
+            pages.oresRequest.contenue.recapitulatif.background = pages.oresRequest.contenue.background:element({
+                id = "oresRequest_contenue_recapitulatif_background", type = "panel",
+                rect = {
+                    unit = "%",
+                    x = contenueRecapitulatifBackgroundPosPourcentage.x,
+                    y = contenueRecapitulatifBackgroundPosPourcentage.y,
+                    w = contenueRecapitulatifBackgroundSizePourcentage.x,
+                    h = contenueRecapitulatifBackgroundSizePourcentage.y,
+                },
+                props = { z_index = 0 },
+                style = {
+                    bg = "#141224",
+                },
+            })
+
+            do --Recapitulatif label Résumer de la commande
+                local pos = { x = 5, y = 5,} --Position en pixel
+                local size = { w = 262, h = 26,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 16, "RÉSUMER DE LA COMMANDE", ui.oresRequest.surface, false, 0)
+                local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.recapitulatif.labelResumer = pages.oresRequest.contenue.recapitulatif.background:element({
+                    id = "oresRequest_recapitulatif_labelResumer", type = "label",
+                    rect = {
+                        unit = "%",
+                        x = labelPosPourcentage.x,
+                        y = labelPosPourcentage.y,
+                        w = labelSizePourcentage.x,
+                        h = labelSizePourcentage.y,
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                    },
+                    style = {
+                        font_size = labelData.font_size,
+                        color = "#7A48C9",
+                        align = "left",
+                    },
                 })
             end
         end
