@@ -72,7 +72,8 @@ print(system.log.time() .. "h " .. system.log.level("debug") .. " : w=" .. w .. 
 -----------------------------------------------------
 
 ui.oresQuantity.clear()
-ui.oresQuantity.set()
+ui.oresRequest.clear()
+ui.oresRequest.set()
 
 -----------------------------------------------------
 -- Déffinition des données
@@ -91,11 +92,9 @@ local oresQuantity = {
     silver = 0,
     cobalt = 0,
 }
-local popup = {
-    oresRequest = {
-        oreType = "", --Minerais actuellement selectionner dans la requete ores
-        quantity = 0, --Quantité de minerais actuellement selectionner dans la requete ores
-    }
+local oresRequest = {
+    oreType = "", --Minerais actuellement selectionner dans la requete ores
+    quantity = 0, --Quantité de minerais actuellement selectionner dans la requete ores
 }
 local colorMenuButton = {
     enable = "#4C1D95",
@@ -850,6 +849,314 @@ do
                     align = "center",
                 },
             })
+        end
+
+        do --Commande
+            pages.oresRequest.contenue.commande = {}
+            local contenueCommandeBackgroundPos = { x = 28, y = 79} --En PX
+            local contenueCommandeBackgroundSize = { w = 267, h = 285} --En PX
+            local contenueCommandeBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(contenueCommandeBackgroundPos.x, contenueCommandeBackgroundPos.y, contenueBackgroundSize.w, contenueBackgroundSize.h)
+            local contenueCommandeBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h, contenueBackgroundSize.w, contenueBackgroundSize.h)
+            pages.oresRequest.contenue.commande.background = pages.oresRequest.contenue.background:element({
+                id = "oresRequest_contenue_commande_background", type = "panel",
+                rect = {
+                    unit = "%",
+                    x = contenueCommandeBackgroundPosPourcentage.x,
+                    y = contenueCommandeBackgroundPosPourcentage.y,
+                    w = contenueCommandeBackgroundSizePourcentage.x,
+                    h = contenueCommandeBackgroundSizePourcentage.y,
+                },
+                props = { z_index = 0 },
+                style = {
+                    bg = "#141224",
+                },
+            })
+
+            do --Commande label choisir un minerais
+                local pos = { x = 5, y = 5,} --Position en pixel
+                local size = { w = 230, h = 26,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 16, "1. CHOISIR UN MINERAIS", ui.oresRequest.surface, false, 0)
+                local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.commande.labelChoisirMinerais = pages.oresRequest.contenue.commande.background:element({
+                    id = "oresRequest_contenue_commande_1", type = "label",
+                    rect = {
+                        unit = "%",
+                        x = labelPosPourcentage.x,
+                        y = labelPosPourcentage.y,
+                        w = labelSizePourcentage.x,
+                        h = labelSizePourcentage.y,
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                    },
+                    style = {
+                        font_size = labelData.font_size,
+                        color = "#7A48C9",
+                        align = "left",
+                    },
+                })
+            end
+            do --Liste deroulante selection minerais
+                local contenueBackgroundPos = { x = 5, y = 41} --En PX
+                local contenueBackgroundSize = { w = 257, h = 38} --En PX
+                local contenueBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(contenueBackgroundPos.x, contenueBackgroundPos.y, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h)
+                local contenueBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(contenueBackgroundSize.w, contenueBackgroundSize.h, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h)
+                pages.oresRequest.contenue.commande.selectOre = pages.oresRequest.contenue.commande.background:element({
+                    id = "oresRequest_contenue_commande_selectOre", type = "select",
+                    rect = {
+                        unit = "%",
+                        x = contenueBackgroundPosPourcentage.x,
+                        y = contenueBackgroundPosPourcentage.y,
+                        w = contenueBackgroundSizePourcentage.x,
+                        h = contenueBackgroundSizePourcentage.y,
+                    },
+                    props = {
+                        options = {
+                            "Iron",
+                            "Copper",
+                            "Gold",
+                            "Silicon",
+                            "Coal",
+                            "Lead",
+                            "Nickel",
+                            "Silver",
+                            "Cobalt",
+                        },
+                        selected = "0",
+                    },
+                    style = {
+                        bg = "#2A1F47",
+                        text = "#E2E8F0",
+                        font_size = 14
+                    },
+                    on_change = function(value, player)
+                        pages.oresRequest.contenue.commande.selectOre:set_props({ selected = value })
+                    end,
+                })
+            end
+
+            do --Commande label quantité
+                local pos = { x = 5, y = 89,} --Position en pixel
+                local size = { w = 120, h = 26,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 16, "2. QUANTITÉ", ui.oresRequest.surface, false, 0)
+                local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.commande.labelQuantite = pages.oresRequest.contenue.commande.background:element({
+                    id = "oresRequest_contenue_commande_2", type = "label",
+                    rect = {
+                        unit = "%",
+                        x = labelPosPourcentage.x,
+                        y = labelPosPourcentage.y,
+                        w = labelSizePourcentage.x,
+                        h = labelSizePourcentage.y,
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                    },
+                    style = {
+                        font_size = labelData.font_size,
+                        color = "#7A48C9",
+                        align = "left",
+                    },
+                })
+            end
+
+            do --Button retirer 10
+                local pos = { x = 10, y = 125,} --Position en pixel
+                local size = { w = 40, h = 30,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 16, "-10", ui.oresQuantity.surface, false, 0)
+                local buttonPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local buttonSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.commande.buttonRetirer10 = pages.oresRequest.contenue.commande.background:element({
+                    id = "oresRequest_contenue_commande_buttonRetirer10", type = "button",
+                    rect = {
+                        unit = "%",
+                        x = buttonPosPourcentage.x,
+                        y = buttonPosPourcentage.y,
+                        w = buttonSizePourcentage.x,
+                        h = buttonSizePourcentage.y
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                        visible = true,
+                    },
+                    style = {
+                        bg = "#2A1F47",
+                        text = "#FFFFFF",
+                        font_size = labelData.font_size,
+                    },
+                    on_click = function(playerName)
+                        if oresRequest.quantity <= 9 then
+                            return
+                        end
+                        local quantity = oresRequest.quantity - 10
+                        oresRequest.quantity = quantity
+                        pages.oresRequest.contenue.commande.buttonRetirer10:set_props({ value = tostring(quantity) })
+                    end
+                })
+            end
+            do --Button retirer 1
+                local pos = { x = 55, y = 125,} --Position en pixel
+                local size = { w = 40, h = 30,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 16, "-1", ui.oresQuantity.surface, false, 0)
+                local buttonPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local buttonSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.commande.buttonRetirer1 = pages.oresRequest.contenue.commande.background:element({
+                    id = "oresRequest_contenue_commande_buttonRetirer1", type = "button",
+                    rect = {
+                        unit = "%",
+                        x = buttonPosPourcentage.x,
+                        y = buttonPosPourcentage.y,
+                        w = buttonSizePourcentage.x,
+                        h = buttonSizePourcentage.y
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                        visible = true,
+                    },
+                    style = {
+                        bg = "#2A1F47",
+                        text = "#FFFFFF",
+                        font_size = labelData.font_size,
+                    },
+                    on_click = function(playerName)
+                        if oresRequest.quantity <= 0 then
+                            return
+                        end
+                        local quantity = oresRequest.quantity - 1
+                        oresRequest.quantity = quantity
+                        pages.oresRequest.contenue.commande.buttonRetirer10:set_props({ value = tostring(quantity) })
+                    end
+                })
+            end
+            do --Button mettre a 0
+                local pos = { x = 100, y = 125,} --Position en pixel
+                local size = { w = 67, h = 30,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 16, "0", ui.oresQuantity.surface, false, 0)
+                local buttonPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local buttonSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.commande.buttonMettreA0 = pages.oresRequest.contenue.commande.background:element({
+                    id = "oresRequest_contenue_commande_buttonMettreA0", type = "button",
+                    rect = {
+                        unit = "%",
+                        x = buttonPosPourcentage.x,
+                        y = buttonPosPourcentage.y,
+                        w = buttonSizePourcentage.x,
+                        h = buttonSizePourcentage.y
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                        visible = true,
+                    },
+                    style = {
+                        bg = "#0D0E1B",
+                        text = "#FFFFFF",
+                        font_size = labelData.font_size,
+                    },
+                    on_click = function(playerName)
+                        local quantity = 0
+                        oresRequest.quantity = quantity
+                        pages.oresRequest.contenue.commande.buttonRetirer10:set_props({ value = tostring(quantity) })
+                    end
+                })
+            end
+            do --Button ajouter 1
+                local pos = { x = 172, y = 125,} --Position en pixel
+                local size = { w = 40, h = 30,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 16, "+1", ui.oresQuantity.surface, false, 0)
+                local buttonPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local buttonSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.commande.buttonAjouter1 = pages.oresRequest.contenue.commande.background:element({
+                    id = "oresRequest_contenue_commande_buttonAjouter1", type = "button",
+                    rect = {
+                        unit = "%",
+                        x = buttonPosPourcentage.x,
+                        y = buttonPosPourcentage.y,
+                        w = buttonSizePourcentage.x,
+                        h = buttonSizePourcentage.y
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                        visible = true,
+                    },
+                    style = {
+                        bg = "#2A1F47",
+                        text = "#FFFFFF",
+                        font_size = labelData.font_size,
+                    },
+                    on_click = function(playerName)
+                        local quantity = oresRequest.quantity + 1
+                        oresRequest.quantity = quantity
+                        pages.oresRequest.contenue.commande.buttonRetirer10:set_props({ value = tostring(quantity) })
+                    end
+                })
+            end
+            do --Button ajouter 10
+                local pos = { x = 217, y = 125,} --Position en pixel
+                local size = { w = 40, h = 30,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 16, "+10", ui.oresQuantity.surface, false, 0)
+                local buttonPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local buttonSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.commande.buttonAjouter10 = pages.oresRequest.contenue.commande.background:element({
+                    id = "oresRequest_contenue_commande_buttonAjouter10", type = "button",
+                    rect = {
+                        unit = "%",
+                        x = buttonPosPourcentage.x,
+                        y = buttonPosPourcentage.y,
+                        w = buttonSizePourcentage.x,
+                        h = buttonSizePourcentage.y
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                        visible = true,
+                    },
+                    style = {
+                        bg = "#2A1F47",
+                        text = "#FFFFFF",
+                        font_size = labelData.font_size,
+                    },
+                    on_click = function(playerName)
+                        local quantity = oresRequest.quantity + 1
+                        oresRequest.quantity = quantity
+                        pages.oresRequest.contenue.commande.buttonRetirer10:set_props({ value = tostring(quantity) })
+                    end
+                })
+            end
+
+            do --Commande label ou saisir directement
+                local pos = { x = 5, y = 159,} --Position en pixel
+                local size = { w = 199, h = 26,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 16, "OU SAISIR DIRECTEMENT", ui.oresRequest.surface, false, 0)
+                local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueCommandeBackgroundSize.w, contenueCommandeBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.commande.labelSaisirDirectement = pages.oresRequest.contenue.commande.background:element({
+                    id = "oresRequest_contenue_commande_saisirDirectement", type = "label",
+                    rect = {
+                        unit = "%",
+                        x = labelPosPourcentage.x,
+                        y = labelPosPourcentage.y,
+                        w = labelSizePourcentage.x,
+                        h = labelSizePourcentage.y,
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                    },
+                    style = {
+                        font_size = labelData.font_size,
+                        color = "#7A48C9",
+                        align = "left",
+                    },
+                })
+            end
         end
     end
 end
