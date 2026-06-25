@@ -399,35 +399,6 @@ do
                         },
                     })
                 end
-                do --Button commander
-                    local pos = { x = 5, y = 165,} --Position en pixel
-                    local size = { w = 110, h = 20,} --Taille en pixel
-                    local labelData = scriptedScreen.calculateLabel(h, 14, "Commander", ui.oresQuantity.surface, false, 0)
-                    local posPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, tileSize.w, tileSize.h) --Position en pourcentage par rapport au parent
-                    local sizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, tileSize.w, tileSize.h) --Taille en pourcentage par rapport au parent
-                    pages.oresQuantity.contenue.oresTiles[oreType].button = pages.oresQuantity.contenue.oresTiles.background["contenue_tile_" .. oreType .. "_background"]:element({
-                        id = "contenue_tile_" .. oreType .. "_button", type = "button",
-                        rect = {
-                            unit = "%",
-                            x = posPourcentage.x,
-                            y = posPourcentage.y,
-                            w = sizePourcentage.x,
-                            h = sizePourcentage.y
-                        },
-                        props = {
-                            text = labelData.text,
-                            z_index = 0,
-                        },
-                        style = {
-                            bg = "#2037B3",
-                            text = "#FFFFFF",
-                            font_size = labelData.font_size
-                        },
-                        on_click = function(playerName)
-                            openPopupCommandeOres(oreType)
-                        end
-                    })
-                end
             end
         end
     end
