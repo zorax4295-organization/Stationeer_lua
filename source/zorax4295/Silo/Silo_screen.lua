@@ -103,6 +103,7 @@ local colorMenuButton = {
 local url = {
     panier = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/Panier.png",
     envoyer = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/Envoyer.png",
+    list = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/liste.png",
 }
 
 
@@ -1074,13 +1075,13 @@ do
             })
 
             do --List label Votre commande
-                local pos = { x = 43, y = 5,} --Position en pixel
-                local size = { w = 224, h = 26,} --Taille en pixel
+                local pos = { x = 47, y = 8,} --Position en pixel
+                local size = { w = 154, h = 26,} --Taille en pixel
                 local labelData = scriptedScreen.calculateLabel(h, 14, "VOTRE COMMANDE", ui.oresRequest.surface, false, 0)
                 local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueListBackgroundSize.w, contenueListBackgroundSize.h) --Position en pourcentage par rapport au parent
                 local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueListBackgroundSize.w, contenueListBackgroundSize.h) --Taille en pourcentage par rapport au parent
-                pages.oresRequest.contenue.recapitulatif.labelResumer = pages.oresRequest.contenue.list.background:element({
-                    id = "oresRequest_recapitulatif_labelResumer", type = "label",
+                pages.oresRequest.contenue.list.labelVotreCommande = pages.oresRequest.contenue.list.background:element({
+                    id = "oresRequest_list_labelVotreCommande", type = "label",
                     rect = {
                         unit = "%",
                         x = labelPosPourcentage.x,
@@ -1097,6 +1098,24 @@ do
                         color = "#7A48C9",
                         align = "left",
                     },
+                })
+            end
+
+            do --Recapitulatif image list
+                local pos = { x = 10, y = 10} --En PX
+                local size = { w = 26, h = 21} --En PX
+                local contenueListImageListPanierPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueListBackgroundSize.w, contenueListBackgroundSize.h)
+                local contenueListImageListSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueListBackgroundSize.w, contenueListBackgroundSize.h)
+                pages.oresRequest.contenue.list.imageList = pages.oresRequest.contenue.list.background:element({
+                    id = "oresRequest_list_imageList", type = "image",
+                    rect = {
+                        unit = "%",
+                        x = contenueListImageListPanierPosPourcentage.x,
+                        y = contenueListImageListPanierPosPourcentage.y,
+                        w = contenueListImageListSizePourcentage.x,
+                        h = contenueListImageListSizePourcentage.y,
+                    },
+                    props = { url = url.list },
                 })
             end
         end
