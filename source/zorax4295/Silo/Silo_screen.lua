@@ -1119,6 +1119,28 @@ do
                     props = { url = url.list },
                 })
             end
+
+            do --Entete
+                pages.oresRequest.contenue.list.entete = {}
+                local contenueListEnteteBackgroundPos = { x = 0, y = 44} --En PX
+                local contenueListEnteteBackgroundSize = { w = 377, h = 30} --En PX
+                local contenueListEnteteBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(contenueListEnteteBackgroundPos.x, contenueListEnteteBackgroundPos.y, contenueListBackgroundSize.w, contenueListBackgroundSize.h)
+                local contenueListEnteteBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(contenueListEnteteBackgroundSize.w, contenueListEnteteBackgroundSize.h, contenueListBackgroundSize.w, contenueListBackgroundSize.h)
+                pages.oresRequest.contenue.list.entete.background = pages.oresRequest.contenue.list.background:element({
+                    id = "oresRequest_contenue_list_entete_background", type = "panel",
+                    rect = {
+                        unit = "%",
+                        x = contenueListEnteteBackgroundPosPourcentage.x,
+                        y = contenueListEnteteBackgroundPosPourcentage.y,
+                        w = contenueListEnteteBackgroundSizePourcentage.x,
+                        h = contenueListEnteteBackgroundSizePourcentage.y,
+                    },
+                    props = { z_index = 0 },
+                    style = {
+                        bg = "#19132E",
+                    },
+                })
+            end
         end
     end
 end
