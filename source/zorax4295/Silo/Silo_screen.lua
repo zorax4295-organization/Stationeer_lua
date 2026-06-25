@@ -104,6 +104,7 @@ local url = {
     panier = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/Panier.png",
     envoyer = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/Envoyer.png",
     list = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/liste.png",
+    poubelle = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/poubelle.png",
 }
 
 
