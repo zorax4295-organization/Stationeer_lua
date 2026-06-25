@@ -100,6 +100,9 @@ local colorMenuButton = {
     enable = "#4C1D95",
     disable = "#7C3AED",
 }
+local url = {
+    panier = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/Panier.png",
+}
 
 
 -----------------------------------------------------
@@ -934,9 +937,9 @@ do
             })
 
             do --Recapitulatif label Résumer de la commande
-                local pos = { x = 5, y = 5,} --Position en pixel
-                local size = { w = 262, h = 26,} --Taille en pixel
-                local labelData = scriptedScreen.calculateLabel(h, 16, "RÉSUMER DE LA COMMANDE", ui.oresRequest.surface, false, 0)
+                local pos = { x = 43, y = 5,} --Position en pixel
+                local size = { w = 224, h = 26,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 14, "RÉSUMER DE LA COMMANDE", ui.oresRequest.surface, false, 0)
                 local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h) --Position en pourcentage par rapport au parent
                 local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h) --Taille en pourcentage par rapport au parent
                 pages.oresRequest.contenue.recapitulatif.labelResumer = pages.oresRequest.contenue.recapitulatif.background:element({
@@ -956,6 +959,76 @@ do
                         font_size = labelData.font_size,
                         color = "#7A48C9",
                         align = "left",
+                    },
+                })
+            end
+            do --Recapitulatif image panier
+                local pos = { x = 5, y = 5} --En PX
+                local size = { w = 30, h = 28} --En PX
+                local contenueRecapitulatifImagePanierPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h)
+                local contenueRecapitulatifImagePanierSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h)
+                pages.oresRequest.contenue.recapitulatif.imagePanier = pages.oresRequest.contenue.recapitulatif.background:element({
+                    id = "oresRequest_recapitulatif_imagePanier", type = "image",
+                    rect = {
+                        unit = "%",
+                        x = contenueRecapitulatifImagePanierPosPourcentage.x,
+                        y = contenueRecapitulatifImagePanierPosPourcentage.y,
+                        w = contenueRecapitulatifImagePanierSizePourcentage.x,
+                        h = contenueRecapitulatifImagePanierSizePourcentage.y,
+                    },
+                    props = { url = url.panier },
+                })
+            end
+
+            do --Recapitulatif label quantité total
+                local pos = { x = 5, y = 53,} --Position en pixel
+                local size = { w = 90, h = 20,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 13, "Quantité total", ui.oresRequest.surface, false, 0)
+                local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.recapitulatif.labelQuantityTotal = pages.oresRequest.contenue.recapitulatif.background:element({
+                    id = "oresRequest_recapitulatif_labelQuantityTotal", type = "label",
+                    rect = {
+                        unit = "%",
+                        x = labelPosPourcentage.x,
+                        y = labelPosPourcentage.y,
+                        w = labelSizePourcentage.x,
+                        h = labelSizePourcentage.y,
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                    },
+                    style = {
+                        font_size = labelData.font_size,
+                        color = "#FFFFFF",
+                        align = "left",
+                    },
+                })
+            end
+            do --Recapitulatif label valeur quantité total
+                local pos = { x = 212, y = 53,} --Position en pixel
+                local size = { w = 43, h = 20,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 13, "10000", ui.oresRequest.surface, false, 0)
+                local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueRecapitulatifBackgroundSize.w, contenueRecapitulatifBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.recapitulatif.labelQuantityTotalValue = pages.oresRequest.contenue.recapitulatif.background:element({
+                    id = "oresRequest_recapitulatif_labelQuantityTotalValue", type = "label",
+                    rect = {
+                        unit = "%",
+                        x = labelPosPourcentage.x,
+                        y = labelPosPourcentage.y,
+                        w = labelSizePourcentage.x,
+                        h = labelSizePourcentage.y,
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                    },
+                    style = {
+                        font_size = labelData.font_size,
+                        color = "#FFFFFF",
+                        align = "right",
                     },
                 })
             end
