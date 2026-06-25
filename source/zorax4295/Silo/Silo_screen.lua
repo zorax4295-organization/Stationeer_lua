@@ -1051,6 +1051,55 @@ do
                 end
             end
         end
+
+        do -- list
+            pages.oresRequest.contenue.list = {}
+            local contenueListBackgroundPos = { x = 300, y = 80} --En PX
+            local contenueListBackgroundSize = { w = 377, h = 439} --En PX
+            local contenueListBackgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(contenueListBackgroundPos.x, contenueListBackgroundPos.y, contenueBackgroundSize.w, contenueBackgroundSize.h)
+            local contenueListBackgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(contenueListBackgroundSize.w, contenueListBackgroundSize.h, contenueBackgroundSize.w, contenueBackgroundSize.h)
+            pages.oresRequest.contenue.list.background = pages.oresRequest.contenue.background:element({
+                id = "oresRequest_contenue_list_background", type = "panel",
+                rect = {
+                    unit = "%",
+                    x = contenueListBackgroundPosPourcentage.x,
+                    y = contenueListBackgroundPosPourcentage.y,
+                    w = contenueListBackgroundSizePourcentage.x,
+                    h = contenueListBackgroundSizePourcentage.y,
+                },
+                props = { z_index = 0 },
+                style = {
+                    bg = "#141224",
+                },
+            })
+
+            do --List label Votre commande
+                local pos = { x = 43, y = 5,} --Position en pixel
+                local size = { w = 224, h = 26,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 14, "VOTRE COMMANDE", ui.oresRequest.surface, false, 0)
+                local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueListBackgroundSize.w, contenueListBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueListBackgroundSize.w, contenueListBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.recapitulatif.labelResumer = pages.oresRequest.contenue.list.background:element({
+                    id = "oresRequest_recapitulatif_labelResumer", type = "label",
+                    rect = {
+                        unit = "%",
+                        x = labelPosPourcentage.x,
+                        y = labelPosPourcentage.y,
+                        w = labelSizePourcentage.x,
+                        h = labelSizePourcentage.y,
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                    },
+                    style = {
+                        font_size = labelData.font_size,
+                        color = "#7A48C9",
+                        align = "left",
+                    },
+                })
+            end
+        end
     end
 end
 
