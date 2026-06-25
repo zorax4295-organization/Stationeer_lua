@@ -1140,6 +1140,111 @@ do
                         bg = "#19132E",
                     },
                 })
+
+                do --Entete label Minerais
+                    local pos = { x = 0, y = 0,} --Position en pixel
+                    local size = { w = 95, h = 30,} --Taille en pixel
+                    local labelData = scriptedScreen.calculateLabel(h, 12, "Minerais", ui.oresRequest.surface, false, 0)
+                    local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueListEnteteBackgroundSize.w, contenueListEnteteBackgroundSize.h) --Position en pourcentage par rapport au parent
+                    local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueListEnteteBackgroundSize.w, contenueListEnteteBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                    pages.oresRequest.contenue.list.entete.labelMinerais = pages.oresRequest.contenue.list.entete.background:element({
+                        id = "oresRequest_list_entete_labelMinerais", type = "label",
+                        rect = {
+                            unit = "%",
+                            x = labelPosPourcentage.x,
+                            y = labelPosPourcentage.y,
+                            w = labelSizePourcentage.x,
+                            h = labelSizePourcentage.y,
+                        },
+                        props = {
+                            text = labelData.text,
+                            z_index = 0,
+                        },
+                        style = {
+                            font_size = labelData.font_size,
+                            color = "#FFFFFF",
+                            align = "center",
+                        },
+                    })
+                end
+                do --Entete label Quantité de stack
+                    local pos = { x = 107, y = 0,} --Position en pixel
+                    local size = { w = 104, h = 30,} --Taille en pixel
+                    local labelData = scriptedScreen.calculateLabel(h, 12, "Quantité de stack", ui.oresRequest.surface, false, 0)
+                    local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueListEnteteBackgroundSize.w, contenueListEnteteBackgroundSize.h) --Position en pourcentage par rapport au parent
+                    local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueListEnteteBackgroundSize.w, contenueListEnteteBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                    pages.oresRequest.contenue.list.entete.labelQuantiteStack = pages.oresRequest.contenue.list.entete.background:element({
+                        id = "oresRequest_list_entete_labelQuantiteStack", type = "label",
+                        rect = {
+                            unit = "%",
+                            x = labelPosPourcentage.x,
+                            y = labelPosPourcentage.y,
+                            w = labelSizePourcentage.x,
+                            h = labelSizePourcentage.y,
+                        },
+                        props = {
+                            text = labelData.text,
+                            z_index = 0,
+                        },
+                        style = {
+                            font_size = labelData.font_size,
+                            color = "#FFFFFF",
+                            align = "center",
+                        },
+                    })
+                end
+                do --Entete label Quantité
+                    local pos = { x = 236, y = 0,} --Position en pixel
+                    local size = { w = 54, h = 30,} --Taille en pixel
+                    local labelData = scriptedScreen.calculateLabel(h, 12, "Quantité", ui.oresRequest.surface, false, 0)
+                    local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueListEnteteBackgroundSize.w, contenueListEnteteBackgroundSize.h) --Position en pourcentage par rapport au parent
+                    local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueListEnteteBackgroundSize.w, contenueListEnteteBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                    pages.oresRequest.contenue.list.entete.labelQuantite = pages.oresRequest.contenue.list.entete.background:element({
+                        id = "oresRequest_list_entete_labelQuantite", type = "label",
+                        rect = {
+                            unit = "%",
+                            x = labelPosPourcentage.x,
+                            y = labelPosPourcentage.y,
+                            w = labelSizePourcentage.x,
+                            h = labelSizePourcentage.y,
+                        },
+                        props = {
+                            text = labelData.text,
+                            z_index = 0,
+                        },
+                        style = {
+                            font_size = labelData.font_size,
+                            color = "#FFFFFF",
+                            align = "center",
+                        },
+                    })
+                end
+                do --Entete label Action
+                    local pos = { x = 312, y = 0,} --Position en pixel
+                    local size = { w = 44, h = 30,} --Taille en pixel
+                    local labelData = scriptedScreen.calculateLabel(h, 12, "Action", ui.oresRequest.surface, false, 0)
+                    local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueListEnteteBackgroundSize.w, contenueListEnteteBackgroundSize.h) --Position en pourcentage par rapport au parent
+                    local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueListEnteteBackgroundSize.w, contenueListEnteteBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                    pages.oresRequest.contenue.list.entete.labelAction = pages.oresRequest.contenue.list.entete.background:element({
+                        id = "oresRequest_list_entete_labelAction", type = "label",
+                        rect = {
+                            unit = "%",
+                            x = labelPosPourcentage.x,
+                            y = labelPosPourcentage.y,
+                            w = labelSizePourcentage.x,
+                            h = labelSizePourcentage.y,
+                        },
+                        props = {
+                            text = labelData.text,
+                            z_index = 0,
+                        },
+                        style = {
+                            font_size = labelData.font_size,
+                            color = "#FFFFFF",
+                            align = "center",
+                        },
+                    })
+                end
             end
         end
     end
