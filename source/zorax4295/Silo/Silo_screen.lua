@@ -905,7 +905,7 @@ do
                         font_size = labelData.font_size,
                     },
                     on_click = function(playerName)
-                        addOresRequestInList()
+                        addOresRequestInList("gold", 50)
                     end
                 })
             end
@@ -1361,7 +1361,7 @@ addOresRequestInList = function(rawOreType, quantityStack)
         },
         props = { z_index = 0 },
         style = {
-            bg = "#FFFFFF",
+            bg = "#000000",
         },
     })
 
@@ -1406,15 +1406,111 @@ addOresRequestInList = function(rawOreType, quantityStack)
         },
         style = {
             font_size = labelData.font_size,
-            color = "#000000",
+            color = "#FFFFFF",
             align = "center",
         },
     })
+
+    local pos = { x = 143, y = yDecalage + 4,} --Position en pixel
+    local size = { w = 45, h = 30,} --Taille en pixel
+    local labelData = scriptedScreen.calculateLabel(h, 12, tostring(quantityStack), ui.oresRequest.surface, false, 0)
+    local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, scrollViewSize.w, scrollViewSize.h) --Position en pourcentage par rapport au parent
+    local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, scrollViewSize.w, scrollViewSize.h) --Taille en pourcentage par rapport au parent
+    local labelQuantityStack = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
+        id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_labelQuantityStack", type = "label",
+        rect = {
+            unit = "%",
+            x = labelPosPourcentage.x,
+            y = labelPosPourcentage.y,
+            w = labelSizePourcentage.x,
+            h = labelSizePourcentage.y,
+        },
+        props = {
+            text = labelData.text,
+            z_index = 0,
+        },
+        style = {
+            font_size = labelData.font_size,
+            color = "#FFFFFF",
+            align = "left",
+        },
+    })
+    local pos = { x = 243, y = yDecalage + 4,} --Position en pixel
+    local size = { w = 45, h = 30,} --Taille en pixel
+    local labelData = scriptedScreen.calculateLabel(h, 12, tostring(quantityStack * 50), ui.oresRequest.surface, false, 0)
+    local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, scrollViewSize.w, scrollViewSize.h) --Position en pourcentage par rapport au parent
+    local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, scrollViewSize.w, scrollViewSize.h) --Taille en pourcentage par rapport au parent
+    local labelQuantity = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
+        id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_labelQuantity", type = "label",
+        rect = {
+            unit = "%",
+            x = labelPosPourcentage.x,
+            y = labelPosPourcentage.y,
+            w = labelSizePourcentage.x,
+            h = labelSizePourcentage.y,
+        },
+        props = {
+            text = labelData.text,
+            z_index = 0,
+        },
+        style = {
+            font_size = labelData.font_size,
+            color = "#FFFFFF",
+            align = "left",
+        },
+    })
+
+    local pos = { x = 318, y = yDecalage + 4,} --Position en pixel
+    local size = { w = 36, h = 30,} --Taille en pixel
+    local buttonPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, scrollViewSize.w, scrollViewSize.h) --Position en pourcentage par rapport au parent
+    local buttonSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, scrollViewSize.w, scrollViewSize.h) --Taille en pourcentage par rapport au parent
+    local buttonPoubelle = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
+        id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_buttonPoubelle", type = "button",
+        rect = {
+            unit = "%",
+            x = buttonPosPourcentage.x,
+            y = buttonPosPourcentage.y,
+            w = buttonSizePourcentage.x,
+            h = buttonSizePourcentage.y,
+        },
+        props = {
+            text = "",
+            z_index = 0,
+        },
+        style = {
+            bg = "#00000000",
+            text = "#FFFFFF",
+            font_size = 14,
+        },
+        on_click = function(playerName)
+        end
+    })
+
+    local pos = { x = 318, y = yDecalage + 4,} --Position en pixel
+    local size = { w = 36, h = 30,} --Taille en pixel
+    local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, scrollViewSize.w, scrollViewSize.h) --Position en pourcentage par rapport au parent
+    local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, scrollViewSize.w, scrollViewSize.h) --Taille en pourcentage par rapport au parent
+    local imagePoubelle = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
+        id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_imagePoubelle", type = "image",
+        rect = {
+            unit = "%",
+            x = labelPosPourcentage.x,
+            y = labelPosPourcentage.y,
+            w = labelSizePourcentage.x,
+            h = labelSizePourcentage.y,
+        },
+        props = { url = url.poubelle },
+    })
+
 
     table.insert(pages.oresRequest.contenue.list.ScrollView.tableau, {
         background = background,
         iconOresType = iconOreType,
         labelOreType = labelOreType,
+        labelQuantityStack = labelQuantityStack,
+        labelQuantity = labelQuantity,
+        buttonPoubelle = buttonPoubelle,
+        imagePoubelle = imagePoubelle,
     })
 end
 
@@ -1438,7 +1534,7 @@ end)
 -----------------------------------------------------
 
 setColorMenuButton()
-addOresRequestInList("gold")
+addOresRequestInList("gold", 50)
 
 
 while true do
