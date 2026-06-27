@@ -106,6 +106,17 @@ local url = {
     list = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/liste.png",
     poubelle = "https://raw.githubusercontent.com/zorax4295-organization/Stationeer_lua/refs/heads/zorax4295/silo/source/zorax4295/Silo/Asset/poubelle.png",
 }
+local oreTypeToIcon = {
+    iron = {prefabName = "ItemIronOre", name = "Iron"},
+    copper = {prefabName = "ItemCopperOre", name = "Copper"},
+    gold = {prefabName = "ItemGoldOre", name = "Gold"},
+    silicon = {prefabName = "ItemSiliconOre", name = "Silicon"},
+    coal = {prefabName = "ItemCoalOre", name = "Coal"},
+    lead = {prefabName = "ItemLeadOre", name = "Lead"},
+    nickel = {prefabName = "ItemNickelOre", name = "Nickel"},
+    silver = {prefabName = "ItemSilverOre", name = "Silver"},
+    cobalt = {prefabName = "ItemCobaltOre", name = "Cobalt"},
+}
 
 
 -----------------------------------------------------
@@ -213,6 +224,7 @@ local function createMenu(parent, page)
     end
     return page.menu
 end
+local addOresRequestInList
 
 
 
@@ -574,6 +586,15 @@ do
                     },
                     on_change = function(value, player)
                         pages.oresRequest.contenue.commande.selectOre:set_props({ selected = value })
+                        if value==0 then oresRequest.oreType = "iron" end
+                        if value==1 then oresRequest.oreType = "copper" end
+                        if value==2 then oresRequest.oreType = "gold" end
+                        if value==3 then oresRequest.oreType = "silicon" end
+                        if value==4 then oresRequest.oreType = "coal" end
+                        if value==5 then oresRequest.oreType = "lead" end
+                        if value==6 then oresRequest.oreType = "nickel" end
+                        if value==7 then oresRequest.oreType = "silver" end
+                        if value==8 then oresRequest.oreType = "cobalt" end
                     end,
                 })
             end
@@ -884,6 +905,7 @@ do
                         font_size = labelData.font_size,
                     },
                     on_click = function(playerName)
+                        addOresRequestInList()
                     end
                 })
             end
@@ -1247,11 +1269,12 @@ do
                 end
             end
             do --ScrollView votre commande
+                pages.oresRequest.contenue.list.ScrollView = {}
                 local pos = { x = 0, y = 74 } --En PX
                 local size = { w = 377, h = 365 } --En PX
                 local contenueListScrollViewPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueListBackgroundSize.w, contenueListBackgroundSize.h)
                 local contenueListScrollViewSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueListBackgroundSize.w, contenueListBackgroundSize.h)
-                pages.oresRequest.contenue.list.ScrollView = pages.oresRequest.contenue.list.background:element({
+                pages.oresRequest.contenue.list.ScrollView.scrollViewElement = pages.oresRequest.contenue.list.background:element({
                     id = "oresRequest_contenue_list_ScrollView", type = "scrollview",
                     rect = {
                         unit = "%",
@@ -1296,6 +1319,104 @@ local function setColorMenuButton()
         pages.oresRequest.menu.button_oresRequest:set_style({ bg = colorMenuButton.enable })
     end
 end
+addOresRequestInList = function(rawOreType, quantityStack)
+    local scrollViewSize = { w = 377, h = 365 } --En PX
+    if not pages.oresRequest.contenue.list.ScrollView.tableau then --Créer le tableau si il n'existe pas encore
+        pages.oresRequest.contenue.list.ScrollView.tableau = {}
+    end
+    local nIndexInTableau = #pages.oresRequest.contenue.list.ScrollView.tableau -- Nombre d'index déja present dans le tableau en gros sa taille commentce a 0
+    local hauteurLine = 37 --Hauteur d'une ligne du tableau
+    local yDecalage = nIndexInTableau * hauteurLine --Position en hauteur de la ligne du tableau
+
+    --Definition de la taille du contenue de la scrollView
+    local contentHeightOriginal = 345
+    local contentHeight = math.max( contentHeightOriginal, yDecalage + hauteurLine) --Garde la plus grande valeur pour faire en sorte que contentHeight ne soit jamais inferieur a la taille de la scroll view
+    pages.oresRequest.contenue.list.ScrollView.scrollViewElement:set_props({ content_height = tostring(contentHeight) }) --Hauteur totale du contenu déroulable en pixels (par défaut 500)
+
+
+    --Permet d'attribuer la parametre rawOreType a l'element iconOreType
+    if rawOreType == nil then
+        print(system.log.time() .. "h " .. system.log.level("fatal") .. " : rawOreType dans la fonction [addOresRequestInList] est nil")
+        error("rawOreType dans la fonction [addOresRequestInList] est nil")
+    elseif not oreTypeToIcon[rawOreType] then
+        print(system.log.time() .. "h " .. system.log.level("fatal") .. " : rawOreType dans la fonction [addOresRequestInList] n'existe pas dans la table [oreTypeToIcon]")
+        error("rawOreType dans la fonction [addOresRequestInList] n'existe pas dans la table [oreTypeToIcon]")
+    end
+    local oreTypeIcon = oreTypeToIcon[rawOreType].prefabName
+    local oreName = oreTypeToIcon[rawOreType].name
+
+
+    local backgroundPos = { x = 0, y = yDecalage } --En PX
+    local backgroundSize = { w = 377, h = hauteurLine } --En PX
+    local backgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(backgroundPos.x, backgroundPos.y, scrollViewSize.w, scrollViewSize.h)
+    local backgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(backgroundSize.w, backgroundSize.h, scrollViewSize.w, scrollViewSize.h)
+    local background = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
+        id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_background", type = "panel",
+        rect = {
+            unit = "%",
+            x = backgroundPosPourcentage.x,
+            y = backgroundPosPourcentage.y,
+            w = backgroundSizePourcentage.x,
+            h = backgroundSizePourcentage.y,
+        },
+        props = { z_index = 0 },
+        style = {
+            bg = "#FFFFFF",
+        },
+    })
+
+    local iconPos = { x = 0, y = yDecalage + 4} --En PX
+    local iconSize = { w = 30, h = 30} --En PX
+    local iconPosPourcentage = scriptedScreen.convertPixelToPourcentage(iconPos.x, iconPos.y, scrollViewSize.w, scrollViewSize.h)
+    local iconSizePourcentage = scriptedScreen.convertPixelToPourcentage(iconSize.w, iconSize.h, scrollViewSize.w, scrollViewSize.h)
+    local iconOreType = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
+        id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_iconOresType", type = "icon",
+        rect = {
+            unit = "%",
+            x = iconPosPourcentage.x,
+            y = iconPosPourcentage.y,
+            w = iconSizePourcentage.x,
+            h = iconSizePourcentage.y,
+        },
+        props = {
+            icon_type = "prefab",
+            name = oreTypeIcon,
+            z_index = 0,
+        },
+        style = { tint = "#FFFFFF"},
+    })
+
+    local pos = { x = 30, y = yDecalage + 4,} --Position en pixel
+    local size = { w = 54, h = 30,} --Taille en pixel
+    local labelData = scriptedScreen.calculateLabel(h, 12, oreName, ui.oresRequest.surface, false, 0)
+    local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, scrollViewSize.w, scrollViewSize.h) --Position en pourcentage par rapport au parent
+    local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, scrollViewSize.w, scrollViewSize.h) --Taille en pourcentage par rapport au parent
+    local labelOreType = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
+        id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_labelOreType", type = "label",
+        rect = {
+            unit = "%",
+            x = labelPosPourcentage.x,
+            y = labelPosPourcentage.y,
+            w = labelSizePourcentage.x,
+            h = labelSizePourcentage.y,
+        },
+        props = {
+            text = labelData.text,
+            z_index = 0,
+        },
+        style = {
+            font_size = labelData.font_size,
+            color = "#000000",
+            align = "center",
+        },
+    })
+
+    table.insert(pages.oresRequest.contenue.list.ScrollView.tableau, {
+        background = background,
+        iconOresType = iconOreType,
+        labelOreType = labelOreType,
+    })
+end
 
 -----------------------------------------------------
 -- Définition des functions réseaux
@@ -1317,6 +1438,7 @@ end)
 -----------------------------------------------------
 
 setColorMenuButton()
+addOresRequestInList("gold")
 
 
 while true do
