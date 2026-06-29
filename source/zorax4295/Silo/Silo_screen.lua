@@ -1125,6 +1125,35 @@ do
                 })
             end
 
+            do --List button Tout supprimer
+                local pos = { x = 259, y = 8,} --Position en pixel
+                local size = { w = 118, h = 26,} --Taille en pixel
+                local labelData = scriptedScreen.calculateLabel(h, 12, "Tout supprimer", ui.oresRequest.surface, false, 0)
+                local buttonPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, contenueListBackgroundSize.w, contenueListBackgroundSize.h) --Position en pourcentage par rapport au parent
+                local buttonSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, contenueListBackgroundSize.w, contenueListBackgroundSize.h) --Taille en pourcentage par rapport au parent
+                pages.oresRequest.contenue.list.buttonToutSupprimer = pages.oresRequest.contenue.list.background:element({
+                    id = "oresRequest_list_buttonToutSupprimer", type = "button",
+                    rect = {
+                        unit = "%",
+                        x = buttonPosPourcentage.x,
+                        y = buttonPosPourcentage.y,
+                        w = buttonSizePourcentage.x,
+                        h = buttonSizePourcentage.y,
+                    },
+                    props = {
+                        text = labelData.text,
+                        z_index = 0,
+                    },
+                    style = {
+                        bg = "#2037B3",
+                        text = "#FFFFFF",
+                        font_size = labelData.font_size,
+                    },
+                    on_click = function(playerName)
+                    end
+                })
+            end
+
             do --Recapitulatif image list
                 local pos = { x = 10, y = 10} --En PX
                 local size = { w = 26, h = 21} --En PX
