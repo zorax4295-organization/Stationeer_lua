@@ -1291,7 +1291,7 @@ do
                         scrollbar_bg = "#475569", --Couleur de la piste de la barre de défilement
                         scrollbar_handle = "#FFFFFF", --Couleur de la poignée de la barre de défilement
                         scroll_speed = "30", --Sensibilité au défilement (par défaut 20)
-                        padding_bottom = 20, --Rembourrage supplémentaire en bas du contenu (par défaut 20)
+                        padding_bottom = 0, --Rembourrage supplémentaire en bas du contenu (par défaut 20)
                     },
                 })
             end
@@ -1329,7 +1329,9 @@ addOresRequestInList = function(rawOreType, quantityStack)
     local yDecalage = nIndexInTableau * hauteurLine --Position en hauteur de la ligne du tableau
 
     --Definition de la taille du contenue de la scrollView
-    local contentHeightOriginal = 345
+    local contentHeightOriginalReference = 345
+    local contentHeightPourcentage = contentHeightOriginalReference / reference_h * 100
+    local contentHeightOriginal = contentHeightPourcentage / 100 * h
     local contentHeight = math.max( contentHeightOriginal, yDecalage + hauteurLine) --Garde la plus grande valeur pour faire en sorte que contentHeight ne soit jamais inferieur a la taille de la scroll view
     pages.oresRequest.contenue.list.ScrollView.scrollViewElement:set_props({ content_height = tostring(contentHeight) }) --Hauteur totale du contenu déroulable en pixels (par défaut 500)
 
@@ -1350,14 +1352,22 @@ addOresRequestInList = function(rawOreType, quantityStack)
     local backgroundSize = { w = 377, h = hauteurLine } --En PX
     local backgroundPosPourcentage = scriptedScreen.convertPixelToPourcentage(backgroundPos.x, backgroundPos.y, scrollViewSize.w, scrollViewSize.h)
     local backgroundSizePourcentage = scriptedScreen.convertPixelToPourcentage(backgroundSize.w, backgroundSize.h, scrollViewSize.w, scrollViewSize.h)
+    local backgroundRePosPixel = {
+        x = backgroundPosPourcentage.x / 100 * scrollViewSize.w,  -- w = taille réelle de l'écran
+        y = backgroundPosPourcentage.y / 100 * scrollViewSize.h
+    }
+    local backgroundReSizePixel = {
+        w = backgroundSizePourcentage.x / 100 * scrollViewSize.w,
+        h = backgroundSizePourcentage.y / 100 * scrollViewSize.h
+    }
     local background = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
         id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_background", type = "panel",
         rect = {
-            unit = "%",
-            x = backgroundPosPourcentage.x,
-            y = backgroundPosPourcentage.y,
-            w = backgroundSizePourcentage.x,
-            h = backgroundSizePourcentage.y,
+            unit = "px",
+            x = backgroundRePosPixel.x,
+            y = backgroundRePosPixel.y,
+            w = backgroundReSizePixel.w,
+            h = backgroundReSizePixel.h,
         },
         props = { z_index = 0 },
         style = {
@@ -1369,14 +1379,22 @@ addOresRequestInList = function(rawOreType, quantityStack)
     local iconSize = { w = 30, h = 30} --En PX
     local iconPosPourcentage = scriptedScreen.convertPixelToPourcentage(iconPos.x, iconPos.y, scrollViewSize.w, scrollViewSize.h)
     local iconSizePourcentage = scriptedScreen.convertPixelToPourcentage(iconSize.w, iconSize.h, scrollViewSize.w, scrollViewSize.h)
+    local iconRePosPixel = {
+        x = iconPosPourcentage.x / 100 * scrollViewSize.w,  -- w = taille réelle de l'écran
+        y = iconPosPourcentage.y / 100 * scrollViewSize.h
+    }
+    local iconReSizePixel = {
+        w = iconSizePourcentage.x / 100 * scrollViewSize.w,
+        h = iconSizePourcentage.y / 100 * scrollViewSize.h
+    }
     local iconOreType = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
         id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_iconOresType", type = "icon",
         rect = {
-            unit = "%",
-            x = iconPosPourcentage.x,
-            y = iconPosPourcentage.y,
-            w = iconSizePourcentage.x,
-            h = iconSizePourcentage.y,
+            unit = "px",
+            x = iconRePosPixel.x,
+            y = iconRePosPixel.y,
+            w = iconReSizePixel.w,
+            h = iconReSizePixel.h,
         },
         props = {
             icon_type = "prefab",
@@ -1391,14 +1409,22 @@ addOresRequestInList = function(rawOreType, quantityStack)
     local labelData = scriptedScreen.calculateLabel(h, 12, oreName, ui.oresRequest.surface, false, 0)
     local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, scrollViewSize.w, scrollViewSize.h) --Position en pourcentage par rapport au parent
     local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, scrollViewSize.w, scrollViewSize.h) --Taille en pourcentage par rapport au parent
+    local labelRePosPixel = {
+        x = labelPosPourcentage.x / 100 * scrollViewSize.w,  -- w = taille réelle de l'écran
+        y = labelPosPourcentage.y / 100 * scrollViewSize.h
+    }
+    local labelReSizePixel = {
+        w = labelSizePourcentage.x / 100 * scrollViewSize.w,
+        h = labelSizePourcentage.y / 100 * scrollViewSize.h
+    }
     local labelOreType = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
         id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_labelOreType", type = "label",
         rect = {
-            unit = "%",
-            x = labelPosPourcentage.x,
-            y = labelPosPourcentage.y,
-            w = labelSizePourcentage.x,
-            h = labelSizePourcentage.y,
+            unit = "px",
+            x = labelRePosPixel.x,
+            y = labelRePosPixel.y,
+            w = labelReSizePixel.w,
+            h = labelReSizePixel.h,
         },
         props = {
             text = labelData.text,
@@ -1416,14 +1442,22 @@ addOresRequestInList = function(rawOreType, quantityStack)
     local labelData = scriptedScreen.calculateLabel(h, 12, tostring(quantityStack), ui.oresRequest.surface, false, 0)
     local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, scrollViewSize.w, scrollViewSize.h) --Position en pourcentage par rapport au parent
     local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, scrollViewSize.w, scrollViewSize.h) --Taille en pourcentage par rapport au parent
+    local labelRePosPixel = {
+        x = labelPosPourcentage.x / 100 * scrollViewSize.w,  -- w = taille réelle de l'écran
+        y = labelPosPourcentage.y / 100 * scrollViewSize.h
+    }
+    local labelReSizePixel = {
+        w = labelSizePourcentage.x / 100 * scrollViewSize.w,
+        h = labelSizePourcentage.y / 100 * scrollViewSize.h
+    }
     local labelQuantityStack = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
         id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_labelQuantityStack", type = "label",
         rect = {
-            unit = "%",
-            x = labelPosPourcentage.x,
-            y = labelPosPourcentage.y,
-            w = labelSizePourcentage.x,
-            h = labelSizePourcentage.y,
+            unit = "px",
+            x = labelRePosPixel.x,
+            y = labelRePosPixel.y,
+            w = labelReSizePixel.w,
+            h = labelReSizePixel.h,
         },
         props = {
             text = labelData.text,
@@ -1435,19 +1469,28 @@ addOresRequestInList = function(rawOreType, quantityStack)
             align = "left",
         },
     })
+
     local pos = { x = 243, y = yDecalage + 4,} --Position en pixel
     local size = { w = 45, h = 30,} --Taille en pixel
     local labelData = scriptedScreen.calculateLabel(h, 12, tostring(quantityStack * 50), ui.oresRequest.surface, false, 0)
     local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, scrollViewSize.w, scrollViewSize.h) --Position en pourcentage par rapport au parent
     local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, scrollViewSize.w, scrollViewSize.h) --Taille en pourcentage par rapport au parent
+    local labelRePosPixel = {
+        x = labelPosPourcentage.x / 100 * scrollViewSize.w,  -- w = taille réelle de l'écran
+        y = labelPosPourcentage.y / 100 * scrollViewSize.h
+    }
+    local labelReSizePixel = {
+        w = labelSizePourcentage.x / 100 * scrollViewSize.w,
+        h = labelSizePourcentage.y / 100 * scrollViewSize.h
+    }
     local labelQuantity = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
         id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_labelQuantity", type = "label",
         rect = {
-            unit = "%",
-            x = labelPosPourcentage.x,
-            y = labelPosPourcentage.y,
-            w = labelSizePourcentage.x,
-            h = labelSizePourcentage.y,
+            unit = "px",
+            x = labelRePosPixel.x,
+            y = labelRePosPixel.y,
+            w = labelReSizePixel.w,
+            h = labelReSizePixel.h,
         },
         props = {
             text = labelData.text,
@@ -1464,14 +1507,22 @@ addOresRequestInList = function(rawOreType, quantityStack)
     local size = { w = 36, h = 30,} --Taille en pixel
     local buttonPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, scrollViewSize.w, scrollViewSize.h) --Position en pourcentage par rapport au parent
     local buttonSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, scrollViewSize.w, scrollViewSize.h) --Taille en pourcentage par rapport au parent
+    local buttonRePosPixel = {
+        x = buttonPosPourcentage.x / 100 * scrollViewSize.w,  -- w = taille réelle de l'écran
+        y = buttonPosPourcentage.y / 100 * scrollViewSize.h
+    }
+    local buttonReSizePixel = {
+        w = buttonSizePourcentage.x / 100 * scrollViewSize.w,
+        h = buttonSizePourcentage.y / 100 * scrollViewSize.h
+    }
     local buttonPoubelle = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
         id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_buttonPoubelle", type = "button",
         rect = {
-            unit = "%",
-            x = buttonPosPourcentage.x,
-            y = buttonPosPourcentage.y,
-            w = buttonSizePourcentage.x,
-            h = buttonSizePourcentage.y,
+            unit = "px",
+            x = buttonRePosPixel.x,
+            y = buttonRePosPixel.y,
+            w = buttonReSizePixel.w,
+            h = buttonReSizePixel.h,
         },
         props = {
             text = "",
@@ -1488,16 +1539,24 @@ addOresRequestInList = function(rawOreType, quantityStack)
 
     local pos = { x = 318, y = yDecalage + 4,} --Position en pixel
     local size = { w = 36, h = 30,} --Taille en pixel
-    local labelPosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, scrollViewSize.w, scrollViewSize.h) --Position en pourcentage par rapport au parent
-    local labelSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, scrollViewSize.w, scrollViewSize.h) --Taille en pourcentage par rapport au parent
+    local imagePosPourcentage = scriptedScreen.convertPixelToPourcentage(pos.x, pos.y, scrollViewSize.w, scrollViewSize.h) --Position en pourcentage par rapport au parent
+    local imageSizePourcentage = scriptedScreen.convertPixelToPourcentage(size.w, size.h, scrollViewSize.w, scrollViewSize.h) --Taille en pourcentage par rapport au parent
+    local imageRePosPixel = {
+        x = imagePosPourcentage.x / 100 * scrollViewSize.w,  -- w = taille réelle de l'écran
+        y = imagePosPourcentage.y / 100 * scrollViewSize.h
+    }
+    local imageReSizePixel = {
+        w = imageSizePourcentage.x / 100 * scrollViewSize.w,
+        h = imageSizePourcentage.y / 100 * scrollViewSize.h
+    }
     local imagePoubelle = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
         id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_imagePoubelle", type = "image",
         rect = {
-            unit = "%",
-            x = labelPosPourcentage.x,
-            y = labelPosPourcentage.y,
-            w = labelSizePourcentage.x,
-            h = labelSizePourcentage.y,
+            unit = "px",
+            x = imageRePosPixel.x,
+            y = imageRePosPixel.y,
+            w = imageReSizePixel.w,
+            h = imageReSizePixel.h,
         },
         props = { url = url.poubelle },
     })
