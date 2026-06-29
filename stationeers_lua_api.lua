@@ -480,6 +480,13 @@ function bit_nor(a, b) end
 ---@return number
 function bit_not(a) end
 
+--Extrait la valeur d'un mot binaire a partir d'une plage de bit
+---@param value number
+---@param startPos integer
+---@param finalPos integer
+---@return number
+function bit_ext(value, startPos, finalPos) end
+
 
 
 
