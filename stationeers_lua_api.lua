@@ -480,13 +480,20 @@ function bit_nor(a, b) end
 ---@return number
 function bit_not(a) end
 
---Extrait la valeur d'un mot binaire a partir d'une plage de bit
+--Extrait la valeur d'un mot binaire a partir d'une plage de bits
 ---@param value number
 ---@param startPos integer
 ---@param finalPos integer
 ---@return number
 function bit_ext(value, startPos, finalPos) end
 
+--Insere la valeur binaire src dans dst dans une plage de bits
+---@param dst number
+---@param src number
+---@param pos integer
+---@param len integer
+---@return number
+function bit_ins(dst, src, pos, len) end
 
 
 
