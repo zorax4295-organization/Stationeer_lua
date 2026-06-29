@@ -93,7 +93,7 @@ local oresQuantity = {
     cobalt = 0,
 }
 local oresRequest = {
-    oreType = "", --Minerais actuellement selectionner dans la requete ores
+    oreType = "iron", --Minerais actuellement selectionner dans la requete ores
     quantity = 0, --Quantité de minerais actuellement selectionner dans la requete ores
 }
 local colorMenuButton = {
@@ -584,8 +584,9 @@ do
                         text = "#E2E8F0",
                         font_size = 14
                     },
-                    on_change = function(value, player)
-                        pages.oresRequest.contenue.commande.selectOre:set_props({ selected = value })
+                    on_change = function(rawValue, player)
+                        pages.oresRequest.contenue.commande.selectOre:set_props({ selected = rawValue })
+                        local value = tonumber(rawValue)
                         if value==0 then oresRequest.oreType = "iron" end
                         if value==1 then oresRequest.oreType = "copper" end
                         if value==2 then oresRequest.oreType = "gold" end
@@ -905,7 +906,7 @@ do
                         font_size = labelData.font_size,
                     },
                     on_click = function(playerName)
-                        addOresRequestInList("gold", 50)
+                        addOresRequestInList(oresRequest.oreType, oresRequest.quantity)
                     end
                 })
             end
