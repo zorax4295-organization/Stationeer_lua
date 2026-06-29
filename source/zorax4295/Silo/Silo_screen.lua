@@ -1329,7 +1329,7 @@ addOresRequestInList = function(rawOreType, quantityStack)
     local yDecalage = nIndexInTableau * hauteurLine --Position en hauteur de la ligne du tableau
 
     --Definition de la taille du contenue de la scrollView
-    local contentHeightOriginalReference = 345
+    local contentHeightOriginalReference = 345 -- valeur trouvée empiriquement sur l'écran de reference 862x584
     local contentHeightPourcentage = contentHeightOriginalReference / reference_h * 100
     local contentHeightOriginal = contentHeightPourcentage / 100 * h
     local contentHeight = math.max( contentHeightOriginal, yDecalage + hauteurLine) --Garde la plus grande valeur pour faire en sorte que contentHeight ne soit jamais inferieur a la taille de la scroll view
