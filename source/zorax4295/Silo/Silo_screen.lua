@@ -1561,6 +1561,30 @@ addOresRequestInList = function(rawOreType, quantityStack)
         props = { url = url.poubelle },
     })
 
+    local pos = { x1 = 0, y1 = yDecalage + hauteurLine, x2 = scrollViewSize.w, y2 = yDecalage + hauteurLine } --Position en pixel
+    local x1Pourcentage = pos.x1 / scrollViewSize.w * 100
+    local y1Pourcentage = pos.y1 / scrollViewSize.h * 100
+    local x2Pourcentage = pos.x2 / scrollViewSize.w * 100
+    local y2Pourcentage = pos.y2 / scrollViewSize.h * 100
+    local lineRePos = {
+        x1 = x1Pourcentage / 100 * scrollViewSize.w,
+        y1 = y1Pourcentage / 100 * scrollViewSize.h,
+        x2 = x2Pourcentage / 100 * scrollViewSize.w,
+        y2 = y2Pourcentage / 100 * scrollViewSize.h,
+    }
+    local lineSeparation = pages.oresRequest.contenue.list.ScrollView.scrollViewElement:element({
+        id = "oresRequest_contenue_list_ScrollView_commande_" .. nIndexInTableau + 1 .. "_separationLine", type = "line",
+        props = {
+            x1 = lineRePos.x1, y1 = lineRePos.y1,
+            x2 = lineRePos.x2, y2 = lineRePos.y2,
+            z_index = 1,
+        },
+        style = {
+            color = "#201A33", --Arc color
+            thickness = 2, --Épaisseur en pixels (2 par défaut)
+        },
+    })
+
 
     table.insert(pages.oresRequest.contenue.list.ScrollView.tableau, {
         background = background,
@@ -1570,6 +1594,7 @@ addOresRequestInList = function(rawOreType, quantityStack)
         labelQuantity = labelQuantity,
         buttonPoubelle = buttonPoubelle,
         imagePoubelle = imagePoubelle,
+        lineSeparation = lineSeparation,
     })
 end
 
@@ -1593,7 +1618,6 @@ end)
 -----------------------------------------------------
 
 setColorMenuButton()
-addOresRequestInList("gold", 50)
 
 
 while true do
