@@ -24,6 +24,10 @@ local pos = {
 }
 local nameLogTransmiteurA = "transmetteur de puissance A"
 local nameLogTransmiteurB = "transmetteur de puissance B"
+local horizontale_A
+local vertical_A
+local vertical_B
+local horizontale_B
 
 
 ----------------------------
@@ -50,18 +54,18 @@ do
     --Distance total
     local D = math.sqrt(dX^2 + dY^2 + dZ^2)
 
-    local angleV = math.atan(dY / Dh) + 90
-    print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle vertical A : " .. angleV)
-    system.safe.write(transmiter_A, LT.Vertical, angleV, nameLogTransmiteurA)
+    vertical_A = math.atan(dY / Dh) + 90
+    print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle vertical A : " .. vertical_A)
+    system.safe.write(transmiter_A, LT.Vertical, vertical_A, nameLogTransmiteurA)
 
 
 
-    local angleH = math.deg(math.atan2(dX, dZ))
-    if angleH < 0 then
-        angleH = angleH + 360
+    horizontale_A = math.deg(math.atan2(dX, dZ))
+    if horizontale_A < 0 then
+        horizontale_A = horizontale_A + 360
     end
-    print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle horizontale A : " .. angleH)
-    system.safe.write(transmiter_A, LT.Horizontal, angleH, nameLogTransmiteurA)
+    print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle horizontale A : " .. horizontale_A)
+    system.safe.write(transmiter_A, LT.Horizontal, horizontale_A, nameLogTransmiteurA)
 end
 
 print("------------------------------------------------------------------------------")
@@ -77,17 +81,110 @@ do
     --Distance total
     local D = math.sqrt(dX^2 + dY^2 + dZ^2)
 
-    local angleV = math.atan(dY / Dh) + 90
+    vertical_B = math.atan(dY / Dh) + 90
 
-    print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle vertical B : " .. angleV)
-    system.safe.write(transmiter_B, LT.Vertical, angleV, nameLogTransmiteurB)
+    print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle vertical B : " .. vertical_B)
+    system.safe.write(transmiter_B, LT.Vertical, vertical_B, nameLogTransmiteurB)
 
 
 
-    local angleH = math.deg(math.atan2(dX, dZ))
-    if angleH < 0 then
-        angleH = angleH + 360
+    horizontale_B = math.deg(math.atan2(dX, dZ))
+    if horizontale_B < 0 then
+        horizontale_B = horizontale_B + 360
     end
-    print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle horizontale B : " .. angleH)
-    system.safe.write(transmiter_B, LT.Horizontal, angleH + 180, nameLogTransmiteurB)
+    print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle horizontale B : " .. horizontale_B)
+    system.safe.write(transmiter_B, LT.Horizontal, horizontale_B, nameLogTransmiteurB)
 end
+
+local function autoTuningHorizontal()
+
+    -- On sauvegarde les angles calculés initialement
+    local angleInitialA = horizontale_A
+    local angleInitialB = horizontale_B
+
+    print(system.log.time() .. "h " .. system.log.level("info") .. " : Début de la recherche automatique")
+
+    for angleA = 0, 270, 90 do
+
+        -- Angle A = angle initial + déplacement
+        local testA = (angleInitialA + angleA) % 360
+
+        horizontale_A = testA
+
+        system.safe.write(
+            transmiter_A,
+            LT.Horizontal,
+            horizontale_A,
+            nameLogTransmiteurA
+        )
+
+        print(system.log.time() .. "h " .. system.log.level("debug") .. " : Test A = " .. testA .. "°")
+
+        -- Pour chaque nouvelle position de A,
+        -- on recommence B à son angle initial
+        for angleB = 0, 270, 90 do
+
+            local testB = (angleInitialB + angleB) % 360
+
+            horizontale_B = testB
+
+            system.safe.write(
+                transmiter_B,
+                LT.Horizontal,
+                horizontale_B,
+                nameLogTransmiteurB
+            )
+
+            print(
+                system.log.time() ..
+                "h " ..
+                system.log.level("debug") ..
+                " : Test combinaison A = " ..
+                testA ..
+                "° | B = " ..
+                testB ..
+                "°"
+            )
+
+            -- Attente avant le test
+            sleep(15)
+
+            -- Test de la liaison
+            local isAligned = toBolean(
+                system.safe.read(
+                    transmiter_A,
+                    LT.Mode,
+                    nameLogTransmiteurA
+                )
+            )
+
+            if isAligned then
+
+                print(
+                    system.log.time() ..
+                    "h " ..
+                    system.log.level("info") ..
+                    " : Liaison établie avec " ..
+                    system.utils.color("Green", "succès") ..
+                    " | A = " ..
+                    testA ..
+                    "° | B = " ..
+                    testB ..
+                    "°"
+                )
+
+                return
+            end
+        end
+    end
+
+    print(
+        system.log.time() ..
+        "h " ..
+        system.log.level("warn") ..
+        " : Aucune combinaison trouvée"
+    )
+end
+
+sleep(20)
+autoTuningHorizontal()
