@@ -152,6 +152,13 @@ ic.enums = {
         RecipeHash = {},
         Reagents = {},
         ReEntryAltitude = {},
+        PositionX = {},
+        PositionY = {},
+        PositionZ = {},
+        PowerPotential = {},
+        PowerActual = {},
+        Charge = {},
+        Power = {},
     },
     LogicBatchMethod = {
         Maximum = {},
