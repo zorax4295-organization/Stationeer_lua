@@ -186,5 +186,5 @@ local function autoTuningHorizontal()
     )
 end
 
-sleep(20)
+sleep(30)
 autoTuningHorizontal()
