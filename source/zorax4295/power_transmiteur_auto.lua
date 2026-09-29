@@ -51,10 +51,20 @@ do
     local D = math.sqrt(dX^2 + dY^2 + dZ^2)
 
     local angleV = math.atan(dY / Dh) + 90
-
     print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle vertical A : " .. angleV)
     system.safe.write(transmiter_A, LT.Vertical, angleV, nameLogTransmiteurA)
+
+
+
+    local angleH = math.deg(math.atan2(dX, dZ))
+    if angleH < 0 then
+        angleH = angleH + 360
+    end
+    print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle horizontale A : " .. angleH)
+    system.safe.write(transmiter_A, LT.Horizontal, angleH, nameLogTransmiteurA)
 end
+
+print("------------------------------------------------------------------------------")
 
 --Calcule d'angle pour le transmeteur B
 do
@@ -71,4 +81,13 @@ do
 
     print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle vertical B : " .. angleV)
     system.safe.write(transmiter_B, LT.Vertical, angleV, nameLogTransmiteurB)
+
+
+
+    local angleH = math.deg(math.atan2(dX, dZ))
+    if angleH < 0 then
+        angleH = angleH + 360
+    end
+    print(system.log.time() .. "h " .. system.log.level("debug") .. " : angle horizontale B : " .. angleH)
+    system.safe.write(transmiter_B, LT.Horizontal, angleH + 180, nameLogTransmiteurB)
 end
