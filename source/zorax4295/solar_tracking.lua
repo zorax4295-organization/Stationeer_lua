@@ -12,12 +12,12 @@ local system = require("system")
 local sensor = 0
 local panelHash = hash("StructureSolarPanel")
 local dualPanelHash = hash("StructureSolarPanelDual")
-local panel1X5Hash = hash("")
-local dualPanel1X5Hash = hash("")
+local panel1X5Hash = hash("StructureSolarPanel1x5Single")
+local dualPanel1X5Hash = hash("StructureSolarPanel1x5")
 local panelHeavyHash = hash("StructureSolarPanelReinforced")
 local dualPanelHeavyHash = hash("StructureSolarPanelDualReinforced")
-local panelHeavy1X5Hash = hash("")
-local dualPanelHeavy1X5Hash = hash("")
+local panelHeavy1X5Hash = hash("StructureSolarPanel1x5ReinforcedSingle")
+local dualPanelHeavy1X5Hash = hash("StructureSolarPanel1x5Reinforced")
 
 ----------------------------
 -- Définition des donnés
