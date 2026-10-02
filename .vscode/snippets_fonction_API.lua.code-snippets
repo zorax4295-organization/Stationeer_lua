@@ -22,8 +22,16 @@
 	"ic.persist.set": {
 		"prefix": "persist.set",
 		"body": [
+			"---@param key string",
+			"---@param value table | string | number | boolean",
 			"local function saveData(${1:key}, ${2:value})",
-			"    ic.persist.set(${3:key}, util.json.encode(${4:value}))",
+			"    local isOk, valueOrError = pcall(util.json.encode, value)",
+			"    if isOk then",
+			"        ic.persist.set(${3:key}, valueOrError)",
+			"    else",
+			"        print(system.log.time() .. \"h \" .. system.log.level(\"fatal\") .. \" : Echec de la sauvgarde des données\")",
+			"        error(valueOrError)",
+			"    end",
 			"end"
 		],
 	},
