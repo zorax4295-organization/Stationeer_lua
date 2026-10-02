@@ -12,8 +12,12 @@ local system = require("system")
 local sensor = 0
 local panelHash = hash("StructureSolarPanel")
 local dualPanelHash = hash("StructureSolarPanelDual")
+local panel1X5Hash = hash("")
+local dualPanel1X5Hash = hash("")
 local panelHeavyHash = hash("StructureSolarPanelReinforced")
 local dualPanelHeavyHash = hash("StructureSolarPanelDualReinforced")
+local panelHeavy1X5Hash = hash("")
+local dualPanelHeavy1X5Hash = hash("")
 
 ----------------------------
 -- Définition des donnés
@@ -76,7 +80,11 @@ local function sleepAngleTarget(consigne, marge)
         not system.utils.inRangeAngle(consigne, marge, ic.batch_read(panelHash, LT.Horizontal, LBM.Average)) and
         not system.utils.inRangeAngle(consigne, marge, ic.batch_read(dualPanelHash, LT.Horizontal, LBM.Average)) and
         not system.utils.inRangeAngle(consigne, marge, ic.batch_read(panelHeavyHash, LT.Horizontal, LBM.Average)) and
-        not system.utils.inRangeAngle(consigne, marge, ic.batch_read(dualPanelHeavyHash, LT.Horizontal, LBM.Average))
+        not system.utils.inRangeAngle(consigne, marge, ic.batch_read(dualPanelHeavyHash, LT.Horizontal, LBM.Average)) and
+        not system.utils.inRangeAngle(consigne, marge, ic.batch_read(panel1X5Hash, LT.Horizontal, LBM.Average)) and
+        not system.utils.inRangeAngle(consigne, marge, ic.batch_read(dualPanel1X5Hash, LT.Horizontal, LBM.Average)) and
+        not system.utils.inRangeAngle(consigne, marge, ic.batch_read(panelHeavy1X5Hash, LT.Horizontal, LBM.Average)) and
+        not system.utils.inRangeAngle(consigne, marge, ic.batch_read(dualPanelHeavy1X5Hash, LT.Horizontal, LBM.Average))
     do
         yield()
     end
@@ -91,11 +99,19 @@ local function updateSolarPanel()
     ic.batch_write(dualPanelHash, LT.Horizontal, consigneH)
     ic.batch_write(panelHeavyHash, LT.Horizontal, consigneH)
     ic.batch_write(dualPanelHeavyHash, LT.Horizontal, consigneH)
+    ic.batch_write(panel1X5Hash, LT.Horizontal, consigneH)
+    ic.batch_write(dualPanel1X5Hash, LT.Horizontal, consigneH)
+    ic.batch_write(panelHeavy1X5Hash, LT.Horizontal, consigneH)
+    ic.batch_write(dualPanelHeavy1X5Hash, LT.Horizontal, consigneH)
 
     ic.batch_write(panelHash, LT.Vertical, consigneV)
     ic.batch_write(dualPanelHash, LT.Vertical, consigneV)
     ic.batch_write(panelHeavyHash, LT.Vertical, consigneV)
     ic.batch_write(dualPanelHeavyHash, LT.Vertical, consigneV)
+    ic.batch_write(panel1X5Hash, LT.Vertical, consigneV)
+    ic.batch_write(dualPanel1X5Hash, LT.Vertical, consigneV)
+    ic.batch_write(panelHeavy1X5Hash, LT.Vertical, consigneV)
+    ic.batch_write(dualPanelHeavy1X5Hash, LT.Vertical, consigneV)
 end
 
 local function autoTuning()
@@ -106,9 +122,21 @@ local function autoTuning()
         local ratioDualPanel = ic.batch_read(dualPanelHash, LT.Ratio, LBM.Average)
         local ratioPanelHeavy = ic.batch_read(panelHeavyHash, LT.Ratio, LBM.Average)
         local ratioDualPanelHeavy = ic.batch_read(dualPanelHeavyHash, LT.Ratio, LBM.Average)
+        local ratioPanel1X5 = ic.batch_read(panel1X5Hash, LT.Ratio, LBM.Average)
+        local ratioDualPanel1X5 = ic.batch_read(dualPanel1X5Hash, LT.Ratio, LBM.Average)
+        local ratioPanelHeavy1X5 = ic.batch_read(panelHeavy1X5Hash, LT.Ratio, LBM.Average)
+        local ratioDualPanelHeavy1X5 = ic.batch_read(dualPanelHeavy1X5Hash, LT.Ratio, LBM.Average)
 
 
-        if ratioPanel<targetRatio or ratioDualPanel<targetRatio or ratioPanelHeavy<targetRatio or ratioDualPanelHeavy<targetRatio then -- si un panneaux est absent ses pas grave comme NaN<0.95 = false
+        if ratioPanel < targetRatio
+            or ratioDualPanel < targetRatio
+            or ratioPanelHeavy < targetRatio
+            or ratioDualPanelHeavy < targetRatio
+            or ratioPanel1X5 < targetRatio
+            or ratioDualPanel1X5 < targetRatio
+            or ratioPanelHeavy1X5 < targetRatio
+            or ratioDualPanelHeavy1X5 < targetRatio
+        then -- si un panneaux est absent ses pas grave comme NaN<0.95 = false
             angleCorrectionHorizontal = (angleCorrectionHorizontal + 90) % 360 --Le % est le reste d'une division sa permet de garder l'angle entre 0 et 360
             consigneH = h + angleCorrectionHorizontal
 
@@ -116,6 +144,10 @@ local function autoTuning()
             ic.batch_write(dualPanelHash, LT.Horizontal, consigneH)
             ic.batch_write(panelHeavyHash, LT.Horizontal, consigneH)
             ic.batch_write(dualPanelHeavyHash, LT.Horizontal, consigneH)
+            ic.batch_write(panel1X5Hash, LT.Horizontal, consigneH)
+            ic.batch_write(dualPanel1X5Hash, LT.Horizontal, consigneH)
+            ic.batch_write(panelHeavy1X5Hash, LT.Horizontal, consigneH)
+            ic.batch_write(dualPanelHeavy1X5Hash, LT.Horizontal, consigneH)
 
             sleepAngleTarget(consigneH, 1)
         else
