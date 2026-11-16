@@ -1,0 +1,240 @@
+{
+  "version": "1.0",
+  "createdWith": "grafcet.io",
+  "createdAt": "2026-11-16T16:31:50.409Z",
+  "nodes": [
+    {
+      "id": "initial-step-0",
+      "type": "initialStep",
+      "position": {
+        "x": 400,
+        "y": 100
+      },
+      "data": {
+        "label": "0"
+      }
+    },
+    {
+      "id": "transition-0",
+      "type": "transition",
+      "position": {
+        "x": 400,
+        "y": 160
+      },
+      "data": {
+        "label": "isCraftable * isStart",
+        "comment": ""
+      }
+    },
+    {
+      "id": "action-1794844836431-j1sa4y5w3",
+      "type": "action",
+      "position": {
+        "x": 490,
+        "y": 70
+      },
+      "data": {
+        "label": "STOP",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "step-1794844977519-eqg21db6a",
+      "type": "macroStep",
+      "position": {
+        "x": 400,
+        "y": 250
+      },
+      "data": {
+        "label": "1"
+      }
+    },
+    {
+      "id": "action-1794844996465-7vk5r83nx",
+      "type": "action",
+      "position": {
+        "x": 490,
+        "y": 220
+      },
+      "data": {
+        "label": "RUN",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "transition-1794845015507-3j77zujmk",
+      "type": "transition",
+      "position": {
+        "x": 400,
+        "y": 310
+      },
+      "data": {
+        "label": "NotIsCrafting"
+      }
+    },
+    {
+      "id": "step-1794845057459-n9k6iq5a9",
+      "type": "macroStep",
+      "position": {
+        "x": 400,
+        "y": 400
+      },
+      "data": {
+        "label": "2"
+      }
+    },
+    {
+      "id": "action-1794845058500-h8psmbh3v",
+      "type": "action",
+      "position": {
+        "x": 490,
+        "y": 370
+      },
+      "data": {
+        "label": "DONE",
+        "actionType": "limited",
+        "time": "5",
+        "condition": "x2",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "transition-1794845125299-1f7xsafdw",
+      "type": "transition",
+      "position": {
+        "x": 400,
+        "y": 460
+      },
+      "data": {
+        "label": "t1"
+      }
+    },
+    {
+      "id": "loopNode-1794845129212-7bvnyyo32",
+      "type": "loopNode",
+      "position": {
+        "x": 340,
+        "y": 280
+      },
+      "data": {
+        "label": ""
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-initial-step-0-transition-0",
+      "source": "initial-step-0",
+      "sourceHandle": "bottom",
+      "target": "transition-0",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-initial-step-0-action-1794844836431-j1sa4y5w3",
+      "source": "initial-step-0",
+      "sourceHandle": "right",
+      "target": "action-1794844836431-j1sa4y5w3",
+      "targetHandle": "left",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-transition-0-step-1794844977519-eqg21db6a",
+      "source": "transition-0",
+      "sourceHandle": "bottom",
+      "target": "step-1794844977519-eqg21db6a",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794844977519-eqg21db6a-action-1794844996465-7vk5r83nx",
+      "source": "step-1794844977519-eqg21db6a",
+      "sourceHandle": "right",
+      "target": "action-1794844996465-7vk5r83nx",
+      "targetHandle": "left",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794844977519-eqg21db6a-transition-1794845015507-3j77zujmk",
+      "source": "step-1794844977519-eqg21db6a",
+      "sourceHandle": "bottom",
+      "target": "transition-1794845015507-3j77zujmk",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-transition-1794845015507-3j77zujmk-step-1794845057459-n9k6iq5a9",
+      "source": "transition-1794845015507-3j77zujmk",
+      "sourceHandle": "bottom",
+      "target": "step-1794845057459-n9k6iq5a9",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794845057459-n9k6iq5a9-action-1794845058500-h8psmbh3v",
+      "source": "step-1794845057459-n9k6iq5a9",
+      "sourceHandle": "right",
+      "target": "action-1794845058500-h8psmbh3v",
+      "targetHandle": "left",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794845057459-n9k6iq5a9-transition-1794845125299-1f7xsafdw",
+      "source": "step-1794845057459-n9k6iq5a9",
+      "sourceHandle": "bottom",
+      "target": "transition-1794845125299-1f7xsafdw",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-transition-1794845125299-1f7xsafdw-loopNode-1794845129212-7bvnyyo32",
+      "source": "transition-1794845125299-1f7xsafdw",
+      "sourceHandle": "bottom",
+      "target": "loopNode-1794845129212-7bvnyyo32",
+      "targetHandle": "bottom",
+      "type": "loopEdge",
+      "selected": false
+    },
+    {
+      "id": "e-loopNode-1794845129212-7bvnyyo32-initial-step-0",
+      "source": "loopNode-1794845129212-7bvnyyo32",
+      "sourceHandle": "top",
+      "target": "initial-step-0",
+      "targetHandle": "top",
+      "type": "loopEdge",
+      "selected": false
+    }
+  ],
+  "counter": 3,
+  "liveSetup": {
+    "board": "uno-r4-wifi",
+    "connMode": "usb",
+    "assign": {},
+    "invert": {}
+  },
+  "exportSettings": {
+    "format": "grafcetio",
+    "scale": 100,
+    "transparentBg": false,
+    "includeDotGrid": false,
+    "paperSize": "a4",
+    "orientation": "portrait",
+    "titleBlock": {
+      "enabled": false,
+      "title": "",
+      "creator": "",
+      "date": "2026-11-16",
+      "project": "",
+      "company": "",
+      "filename": ""
+    }
+  }
+}

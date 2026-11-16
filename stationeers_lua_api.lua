@@ -400,7 +400,7 @@ function hash(nameHash) end
 ---@return string | nil
 function prefab_name(hash) end
 
---Permet d'encoder une chaine de caractère en ascii6 utile pour afficher du texte sur un led display
+--Permet d'encoder une chaine de caractère en ascii6 utile pour afficher du texte sur un led display 6 caractère max
 ---@param str string
 ---@return number
 function pack_ascii6(str) end

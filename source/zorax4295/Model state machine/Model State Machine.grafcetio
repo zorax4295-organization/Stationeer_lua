@@ -1,0 +1,695 @@
+{
+  "version": "1.0",
+  "createdWith": "grafcet.io",
+  "createdAt": "2026-11-16T15:55:43.990Z",
+  "nodes": [
+    {
+      "id": "initial-step-0",
+      "type": "initialStep",
+      "position": {
+        "x": 400,
+        "y": 100
+      },
+      "data": {
+        "label": "0"
+      }
+    },
+    {
+      "id": "action-1794842108864-i7y695nq5",
+      "type": "action",
+      "position": {
+        "x": 490,
+        "y": 70
+      },
+      "data": {
+        "label": "Lumière OFF",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "transition-1794842206467-43cmfvrc3",
+      "type": "transition",
+      "position": {
+        "x": 400,
+        "y": 260
+      },
+      "data": {
+        "label": "Selecteur = 1",
+        "comment": "Auto"
+      }
+    },
+    {
+      "id": "transition-1794842212382-b9b7ib5k8",
+      "type": "transition",
+      "position": {
+        "x": 1190,
+        "y": 260
+      },
+      "data": {
+        "label": "Selecteur = 2",
+        "comment": "Manu"
+      }
+    },
+    {
+      "id": "loopNode-1794842766747-j2usyxrsh",
+      "type": "loopNode",
+      "position": {
+        "x": 70,
+        "y": 400
+      },
+      "data": {
+        "label": "*"
+      }
+    },
+    {
+      "id": "andNode-1794842861524-tvdqcl2wi",
+      "type": "orNode",
+      "position": {
+        "x": 310,
+        "y": 350
+      },
+      "data": {
+        "label": "",
+        "width": 270
+      }
+    },
+    {
+      "id": "transition-1794842866439-hxkq8kk0s",
+      "type": "transition",
+      "position": {
+        "x": 280,
+        "y": 410
+      },
+      "data": {
+        "label": "Capteur = 0"
+      }
+    },
+    {
+      "id": "transition-1794842867796-qam8t4uyb",
+      "type": "transition",
+      "position": {
+        "x": 550,
+        "y": 410
+      },
+      "data": {
+        "label": "Capteur = 1"
+      }
+    },
+    {
+      "id": "step-1794842893055-1ppb8xd2e",
+      "type": "step",
+      "position": {
+        "x": 280,
+        "y": 500
+      },
+      "data": {
+        "label": "3"
+      }
+    },
+    {
+      "id": "action-1794842894730-1yeazdfqj",
+      "type": "action",
+      "position": {
+        "x": 340,
+        "y": 470
+      },
+      "data": {
+        "label": "Lumière = OFF",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "step-1794842928521-6g3lxdn2s",
+      "type": "step",
+      "position": {
+        "x": 550,
+        "y": 500
+      },
+      "data": {
+        "label": "4"
+      }
+    },
+    {
+      "id": "action-1794842972240-gh1goxlhv",
+      "type": "action",
+      "position": {
+        "x": 640,
+        "y": 470
+      },
+      "data": {
+        "label": "Lumière = ON",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "andNode-1794843008233-gipkvuyc0",
+      "type": "orNode",
+      "position": {
+        "x": 1060,
+        "y": 350
+      },
+      "data": {
+        "label": "",
+        "width": 310
+      }
+    },
+    {
+      "id": "transition-1794843012980-yyxwpw5ff",
+      "type": "transition",
+      "position": {
+        "x": 1030,
+        "y": 410
+      },
+      "data": {
+        "label": "Inter = 0"
+      }
+    },
+    {
+      "id": "step-1794843014703-2s43dzcm8",
+      "type": "step",
+      "position": {
+        "x": 1030,
+        "y": 500
+      },
+      "data": {
+        "label": "5"
+      }
+    },
+    {
+      "id": "action-1794843066180-uidsig5be",
+      "type": "action",
+      "position": {
+        "x": 1120,
+        "y": 470
+      },
+      "data": {
+        "label": "Lumière = OFF",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "transition-1794843069179-5f1ejssni",
+      "type": "transition",
+      "position": {
+        "x": 1340,
+        "y": 410
+      },
+      "data": {
+        "label": "Inter = 1"
+      }
+    },
+    {
+      "id": "step-1794843075334-k3x15d61z",
+      "type": "step",
+      "position": {
+        "x": 1340,
+        "y": 500
+      },
+      "data": {
+        "label": "6"
+      }
+    },
+    {
+      "id": "action-1794843078209-u3zmjim5s",
+      "type": "action",
+      "position": {
+        "x": 1430,
+        "y": 470
+      },
+      "data": {
+        "label": "Lumière = ON",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "boxNode-1794843127703-s2g59j81c",
+      "type": "boxNode",
+      "position": {
+        "x": 220,
+        "y": 260
+      },
+      "data": {
+        "label": "",
+        "width": 619,
+        "height": 529,
+        "bottomLabel": "AUTO"
+      },
+      "zIndex": -1
+    },
+    {
+      "id": "boxNode-1794843144997-7h8jaf3f3",
+      "type": "boxNode",
+      "position": {
+        "x": 960,
+        "y": 260
+      },
+      "data": {
+        "label": "",
+        "width": 688,
+        "height": 530,
+        "bottomLabel": "MANU"
+      },
+      "zIndex": -1
+    },
+    {
+      "id": "orNode-1794843253490-ppwv7q110",
+      "type": "orNode",
+      "position": {
+        "x": 310,
+        "y": 700
+      },
+      "data": {
+        "label": "",
+        "width": 270
+      }
+    },
+    {
+      "id": "transition-1794843331612-9zf3v92z7",
+      "type": "transition",
+      "position": {
+        "x": 280,
+        "y": 560
+      },
+      "data": {
+        "label": "Selecteur = 0",
+        "comment": "Arrêt"
+      }
+    },
+    {
+      "id": "transition-1794843332903-dhyz1fqlm",
+      "type": "transition",
+      "position": {
+        "x": 550,
+        "y": 560
+      },
+      "data": {
+        "label": "Selecteur = 0",
+        "comment": "Arrêt"
+      }
+    },
+    {
+      "id": "transition-1794844174345-smimjpfzs",
+      "type": "transition",
+      "position": {
+        "x": 1030,
+        "y": 560
+      },
+      "data": {
+        "label": "Selecteur = 0",
+        "comment": "Arrêt"
+      }
+    },
+    {
+      "id": "transition-1794844176201-8ubzknbrz",
+      "type": "transition",
+      "position": {
+        "x": 1340,
+        "y": 560
+      },
+      "data": {
+        "label": "Selecteur = 0",
+        "comment": "Arrêt"
+      }
+    },
+    {
+      "id": "andNode-1794844431941-0kk6kkhgp",
+      "type": "orNode",
+      "position": {
+        "x": 1060,
+        "y": 680
+      },
+      "data": {
+        "label": "",
+        "width": 310
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-initial-step-0-action-1794842108864-i7y695nq5",
+      "source": "initial-step-0",
+      "sourceHandle": "right",
+      "target": "action-1794842108864-i7y695nq5",
+      "targetHandle": "left",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "source": "transition-1794842206467-43cmfvrc3",
+      "sourceHandle": "top",
+      "target": "initial-step-0",
+      "targetHandle": "bottom",
+      "type": "defaultEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794842206467-43cmfvrc3top-initial-step-0bottom",
+      "selected": false
+    },
+    {
+      "source": "transition-1794842212382-b9b7ib5k8",
+      "sourceHandle": "top",
+      "target": "initial-step-0",
+      "targetHandle": "bottom",
+      "type": "defaultEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794842212382-b9b7ib5k8top-initial-step-0bottom",
+      "selected": false
+    },
+    {
+      "source": "loopNode-1794842766747-j2usyxrsh",
+      "sourceHandle": "top",
+      "target": "initial-step-0",
+      "targetHandle": "top",
+      "type": "loopEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-loopNode-1794842766747-j2usyxrshtop-initial-step-0top",
+      "selected": false
+    },
+    {
+      "id": "e-transition-1794842206467-43cmfvrc3-andNode-1794842861524-tvdqcl2wi",
+      "source": "transition-1794842206467-43cmfvrc3",
+      "sourceHandle": "bottom",
+      "target": "andNode-1794842861524-tvdqcl2wi",
+      "targetHandle": "handle-12",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-andNode-1794842861524-tvdqcl2wi-transition-1794842866439-hxkq8kk0s",
+      "source": "andNode-1794842861524-tvdqcl2wi",
+      "sourceHandle": "source-0",
+      "target": "transition-1794842866439-hxkq8kk0s",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-transition-1794842866439-hxkq8kk0s-step-1794842893055-1ppb8xd2e",
+      "source": "transition-1794842866439-hxkq8kk0s",
+      "sourceHandle": "bottom",
+      "target": "step-1794842893055-1ppb8xd2e",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794842893055-1ppb8xd2e-action-1794842894730-1yeazdfqj",
+      "source": "step-1794842893055-1ppb8xd2e",
+      "sourceHandle": "right",
+      "target": "action-1794842894730-1yeazdfqj",
+      "targetHandle": "left",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-transition-1794842867796-qam8t4uyb-step-1794842928521-6g3lxdn2s",
+      "source": "transition-1794842867796-qam8t4uyb",
+      "sourceHandle": "bottom",
+      "target": "step-1794842928521-6g3lxdn2s",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794842928521-6g3lxdn2s-action-1794842972240-gh1goxlhv",
+      "source": "step-1794842928521-6g3lxdn2s",
+      "sourceHandle": "right",
+      "target": "action-1794842972240-gh1goxlhv",
+      "targetHandle": "left",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-andNode-1794843008233-gipkvuyc0-transition-1794843012980-yyxwpw5ff",
+      "source": "andNode-1794843008233-gipkvuyc0",
+      "sourceHandle": "source-0",
+      "target": "transition-1794843012980-yyxwpw5ff",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-transition-1794843012980-yyxwpw5ff-step-1794843014703-2s43dzcm8",
+      "source": "transition-1794843012980-yyxwpw5ff",
+      "sourceHandle": "bottom",
+      "target": "step-1794843014703-2s43dzcm8",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794843014703-2s43dzcm8-action-1794843066180-uidsig5be",
+      "source": "step-1794843014703-2s43dzcm8",
+      "sourceHandle": "right",
+      "target": "action-1794843066180-uidsig5be",
+      "targetHandle": "left",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-transition-1794843069179-5f1ejssni-step-1794843075334-k3x15d61z",
+      "source": "transition-1794843069179-5f1ejssni",
+      "sourceHandle": "bottom",
+      "target": "step-1794843075334-k3x15d61z",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794843075334-k3x15d61z-action-1794843078209-u3zmjim5s",
+      "source": "step-1794843075334-k3x15d61z",
+      "sourceHandle": "right",
+      "target": "action-1794843078209-u3zmjim5s",
+      "targetHandle": "left",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "source": "transition-1794842867796-qam8t4uyb",
+      "sourceHandle": "top",
+      "target": "andNode-1794842861524-tvdqcl2wi",
+      "targetHandle": "handle-27",
+      "type": "defaultEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794842867796-qam8t4uybtop-andNode-1794842861524-tvdqcl2wihandle-27",
+      "selected": false
+    },
+    {
+      "source": "transition-1794843069179-5f1ejssni",
+      "sourceHandle": "top",
+      "target": "andNode-1794843008233-gipkvuyc0",
+      "targetHandle": "handle-31",
+      "type": "defaultEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794843069179-5f1ejssnitop-andNode-1794843008233-gipkvuyc0handle-31",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794842893055-1ppb8xd2e-transition-1794843331612-9zf3v92z7",
+      "source": "step-1794842893055-1ppb8xd2e",
+      "sourceHandle": "bottom",
+      "target": "transition-1794843331612-9zf3v92z7",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794842928521-6g3lxdn2s-transition-1794843332903-dhyz1fqlm",
+      "source": "step-1794842928521-6g3lxdn2s",
+      "sourceHandle": "bottom",
+      "target": "transition-1794843332903-dhyz1fqlm",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "source": "transition-1794843331612-9zf3v92z7",
+      "sourceHandle": "bottom",
+      "target": "orNode-1794843253490-ppwv7q110",
+      "targetHandle": "handle-0",
+      "type": "defaultEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794843331612-9zf3v92z7bottom-orNode-1794843253490-ppwv7q110handle-0",
+      "selected": false
+    },
+    {
+      "source": "transition-1794843332903-dhyz1fqlm",
+      "sourceHandle": "bottom",
+      "target": "orNode-1794843253490-ppwv7q110",
+      "targetHandle": "handle-27",
+      "type": "defaultEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794843332903-dhyz1fqlmbottom-orNode-1794843253490-ppwv7q110handle-27",
+      "selected": false
+    },
+    {
+      "source": "loopNode-1794842766747-j2usyxrsh",
+      "sourceHandle": "bottom",
+      "target": "orNode-1794843253490-ppwv7q110",
+      "targetHandle": "handle-14",
+      "type": "loopEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-loopNode-1794842766747-j2usyxrshbottom-orNode-1794843253490-ppwv7q110handle-14",
+      "selected": false,
+      "data": {
+        "waypoints": [
+          {
+            "x": 80,
+            "y": 860
+          },
+          {
+            "x": 450.00518798828125,
+            "y": 860
+          }
+        ]
+      }
+    },
+    {
+      "id": "e-step-1794843014703-2s43dzcm8-transition-1794844174345-smimjpfzs",
+      "source": "step-1794843014703-2s43dzcm8",
+      "sourceHandle": "bottom",
+      "target": "transition-1794844174345-smimjpfzs",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794843075334-k3x15d61z-transition-1794844176201-8ubzknbrz",
+      "source": "step-1794843075334-k3x15d61z",
+      "sourceHandle": "bottom",
+      "target": "transition-1794844176201-8ubzknbrz",
+      "targetHandle": "top",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-repair-transition-1794842212382-b9b7ib5k8-bottom-andNode-1794843008233-gipkvuyc0-handle-16",
+      "source": "transition-1794842212382-b9b7ib5k8",
+      "sourceHandle": "bottom",
+      "target": "andNode-1794843008233-gipkvuyc0",
+      "targetHandle": "handle-16",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "source": "transition-1794844174345-smimjpfzs",
+      "sourceHandle": "bottom",
+      "target": "andNode-1794844431941-0kk6kkhgp",
+      "targetHandle": "handle-0",
+      "type": "defaultEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794844174345-smimjpfzsbottom-andNode-1794844431941-0kk6kkhgphandle-0",
+      "selected": false
+    },
+    {
+      "source": "transition-1794844176201-8ubzknbrz",
+      "sourceHandle": "bottom",
+      "target": "andNode-1794844431941-0kk6kkhgp",
+      "targetHandle": "handle-31",
+      "type": "defaultEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794844176201-8ubzknbrzbottom-andNode-1794844431941-0kk6kkhgphandle-31",
+      "selected": false
+    },
+    {
+      "source": "loopNode-1794842766747-j2usyxrsh",
+      "sourceHandle": "bottom",
+      "target": "andNode-1794844431941-0kk6kkhgp",
+      "targetHandle": "handle-16",
+      "type": "loopEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-loopNode-1794842766747-j2usyxrshbottom-andNode-1794844431941-0kk6kkhgphandle-16",
+      "selected": false,
+      "data": {
+        "waypoints": [
+          {
+            "x": 80,
+            "y": 860
+          },
+          {
+            "x": 1220.0047908971608,
+            "y": 860
+          }
+        ]
+      }
+    }
+  ],
+  "counter": 3,
+  "liveSetup": {
+    "board": "uno-r4-wifi",
+    "connMode": "bt",
+    "assign": {},
+    "invert": {}
+  },
+  "exportSettings": {
+    "format": "grafcetio",
+    "scale": 100,
+    "transparentBg": false,
+    "includeDotGrid": false,
+    "paperSize": "a4",
+    "orientation": "portrait",
+    "titleBlock": {
+      "enabled": false,
+      "title": "",
+      "creator": "",
+      "date": "2026-11-16",
+      "project": "",
+      "company": "",
+      "filename": ""
+    }
+  }
+}
