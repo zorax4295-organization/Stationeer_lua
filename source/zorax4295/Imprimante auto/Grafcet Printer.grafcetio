@@ -1,0 +1,618 @@
+{
+  "version": "1.0",
+  "createdWith": "grafcet.io",
+  "createdAt": "2026-11-17T18:31:06.744Z",
+  "nodes": [
+    {
+      "id": "initial-step-0",
+      "type": "initialStep",
+      "position": {
+        "x": 400,
+        "y": 100
+      },
+      "data": {
+        "label": "0"
+      }
+    },
+    {
+      "id": "transition-0",
+      "type": "transition",
+      "position": {
+        "x": 400,
+        "y": 160
+      },
+      "data": {
+        "label": "BP_start * ObjectSelected",
+        "comment": ""
+      }
+    },
+    {
+      "id": "action-1794938650757-192bxt4yf",
+      "type": "action",
+      "position": {
+        "x": 490,
+        "y": 70
+      },
+      "data": {
+        "label": "Arrêt",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "step-1794938807591-poalq2vld",
+      "type": "step",
+      "position": {
+        "x": 400,
+        "y": 250
+      },
+      "data": {
+        "label": "1"
+      }
+    },
+    {
+      "id": "action-1794938831976-owckkz4g8",
+      "type": "action",
+      "position": {
+        "x": 490,
+        "y": 220
+      },
+      "data": {
+        "label": "State = RUN",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "action-1794938841833-pftn72rn7",
+      "type": "action",
+      "position": {
+        "x": 690,
+        "y": 220
+      },
+      "data": {
+        "label": "Printer start",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "orNode-1794938971324-uqvp6b51t",
+      "type": "orNode",
+      "position": {
+        "x": 310,
+        "y": 370
+      },
+      "data": {
+        "label": "",
+        "width": 900
+      }
+    },
+    {
+      "id": "transition-1794938974542-6tw0a3atw",
+      "type": "transition",
+      "position": {
+        "x": 280,
+        "y": 430
+      },
+      "data": {
+        "label": "IsEmpty"
+      }
+    },
+    {
+      "id": "step-1794939039447-lkuh9lg6z",
+      "type": "step",
+      "position": {
+        "x": 280,
+        "y": 520
+      },
+      "data": {
+        "label": "2"
+      }
+    },
+    {
+      "id": "action-1794939040304-712a1vj04",
+      "type": "action",
+      "position": {
+        "x": 370,
+        "y": 490
+      },
+      "data": {
+        "label": "State = EMPTY",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "transition-1794939055711-9km72gnw1",
+      "type": "transition",
+      "position": {
+        "x": 160,
+        "y": 740
+      },
+      "data": {
+        "label": "! IsEmpty"
+      }
+    },
+    {
+      "id": "loopNode-1794939060549-cil44j75m",
+      "type": "loopNode",
+      "position": {
+        "x": 140,
+        "y": 420
+      },
+      "data": {
+        "label": ""
+      }
+    },
+    {
+      "id": "action-1794939159769-ocggenzq8",
+      "type": "action",
+      "position": {
+        "x": 370,
+        "y": 570
+      },
+      "data": {
+        "label": "Printer Stop",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "transition-1794939214093-kmu74otdn",
+      "type": "transition",
+      "position": {
+        "x": 640,
+        "y": 430
+      },
+      "data": {
+        "label": "listIsFinish"
+      }
+    },
+    {
+      "id": "step-1794939216061-50f20qlps",
+      "type": "step",
+      "position": {
+        "x": 640,
+        "y": 520
+      },
+      "data": {
+        "label": "3"
+      }
+    },
+    {
+      "id": "transition-1794939487018-nojtagtgq",
+      "type": "transition",
+      "position": {
+        "x": 400,
+        "y": 740
+      },
+      "data": {
+        "label": "BP_stop"
+      }
+    },
+    {
+      "id": "action-1794939807685-5efl9revp",
+      "type": "action",
+      "position": {
+        "x": 870,
+        "y": 490
+      },
+      "data": {
+        "label": "State = DONE",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "action-1794939830470-yi9fkf8m9",
+      "type": "action",
+      "position": {
+        "x": 870,
+        "y": 570
+      },
+      "data": {
+        "label": "Printer Stop",
+        "lastMeasuredWidth": 189
+      }
+    },
+    {
+      "id": "action-1794939837863-30l3wzm1n",
+      "type": "action",
+      "position": {
+        "x": 870,
+        "y": 650
+      },
+      "data": {
+        "label": "Eject obtect in stacker",
+        "actionType": "continuous",
+        "time": "",
+        "condition": "",
+        "lastMeasuredWidth": 283
+      }
+    },
+    {
+      "id": "transition-1794939886637-2j72xysh4",
+      "type": "transition",
+      "position": {
+        "x": 640,
+        "y": 580
+      },
+      "data": {
+        "label": "tempo_5s"
+      }
+    },
+    {
+      "id": "transition-1794939957937-j53p19y84",
+      "type": "transition",
+      "position": {
+        "x": 1180,
+        "y": 430
+      },
+      "data": {
+        "label": "BP_stop"
+      }
+    },
+    {
+      "id": "loopNode-1794939974020",
+      "type": "loopNode",
+      "position": {
+        "x": 70,
+        "y": 420
+      },
+      "data": {
+        "label": ""
+      }
+    },
+    {
+      "id": "orNode-1794940229806-o9jygy8bx",
+      "type": "orNode",
+      "position": {
+        "x": 190,
+        "y": 680
+      },
+      "data": {
+        "label": "",
+        "width": 240
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-initial-step-0-transition-0",
+      "source": "initial-step-0",
+      "sourceHandle": "bottom",
+      "target": "transition-0",
+      "targetHandle": "top",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-initial-step-0-action-1794938650757-192bxt4yf",
+      "source": "initial-step-0",
+      "sourceHandle": "right",
+      "target": "action-1794938650757-192bxt4yf",
+      "targetHandle": "left",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-transition-0-step-1794938807591-poalq2vld",
+      "source": "transition-0",
+      "sourceHandle": "bottom",
+      "target": "step-1794938807591-poalq2vld",
+      "targetHandle": "top",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-step-1794938807591-poalq2vld-action-1794938831976-owckkz4g8",
+      "source": "step-1794938807591-poalq2vld",
+      "sourceHandle": "right",
+      "target": "action-1794938831976-owckkz4g8",
+      "targetHandle": "left",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-action-1794938831976-owckkz4g8-action-1794938841833-pftn72rn7",
+      "source": "action-1794938831976-owckkz4g8",
+      "sourceHandle": "right",
+      "target": "action-1794938841833-pftn72rn7",
+      "targetHandle": "left",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-step-1794938807591-poalq2vld-orNode-1794938971324-uqvp6b51t",
+      "source": "step-1794938807591-poalq2vld",
+      "sourceHandle": "bottom",
+      "target": "orNode-1794938971324-uqvp6b51t",
+      "targetHandle": "handle-12",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-orNode-1794938971324-uqvp6b51t-transition-1794938974542-6tw0a3atw",
+      "source": "orNode-1794938971324-uqvp6b51t",
+      "sourceHandle": "source-0",
+      "target": "transition-1794938974542-6tw0a3atw",
+      "targetHandle": "top",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-transition-1794938974542-6tw0a3atw-step-1794939039447-lkuh9lg6z",
+      "source": "transition-1794938974542-6tw0a3atw",
+      "sourceHandle": "bottom",
+      "target": "step-1794939039447-lkuh9lg6z",
+      "targetHandle": "top",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-step-1794939039447-lkuh9lg6z-action-1794939040304-712a1vj04",
+      "source": "step-1794939039447-lkuh9lg6z",
+      "sourceHandle": "right",
+      "target": "action-1794939040304-712a1vj04",
+      "targetHandle": "left",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-transition-1794939055711-9km72gnw1-loopNode-1794939060549-cil44j75m",
+      "source": "transition-1794939055711-9km72gnw1",
+      "sourceHandle": "bottom",
+      "target": "loopNode-1794939060549-cil44j75m",
+      "targetHandle": "bottom",
+      "type": "loopEdge",
+      "selected": false
+    },
+    {
+      "id": "e-loopNode-1794939060549-cil44j75m-step-1794938807591-poalq2vld",
+      "source": "loopNode-1794939060549-cil44j75m",
+      "sourceHandle": "top",
+      "target": "step-1794938807591-poalq2vld",
+      "targetHandle": "top",
+      "type": "loopEdge",
+      "selected": false,
+      "data": {
+        "waypoints": [
+          {
+            "x": 220,
+            "y": 220
+          },
+          {
+            "x": 430.0000719538205,
+            "y": 220
+          }
+        ]
+      }
+    },
+    {
+      "id": "e-step-1794939039447-lkuh9lg6z-action-1794939159769-ocggenzq8",
+      "source": "step-1794939039447-lkuh9lg6z",
+      "sourceHandle": "right",
+      "target": "action-1794939159769-ocggenzq8",
+      "targetHandle": "left",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-orNode-1794938971324-uqvp6b51t-transition-1794939214093-kmu74otdn",
+      "source": "orNode-1794938971324-uqvp6b51t",
+      "sourceHandle": "source-36",
+      "target": "transition-1794939214093-kmu74otdn",
+      "targetHandle": "top",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-transition-1794939214093-kmu74otdn-step-1794939216061-50f20qlps",
+      "source": "transition-1794939214093-kmu74otdn",
+      "sourceHandle": "bottom",
+      "target": "step-1794939216061-50f20qlps",
+      "targetHandle": "top",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-step-1794939216061-50f20qlps-action-1794939807685-5efl9revp",
+      "source": "step-1794939216061-50f20qlps",
+      "sourceHandle": "right",
+      "target": "action-1794939807685-5efl9revp",
+      "targetHandle": "left",
+      "type": "defaultEdge",
+      "selected": false
+    },
+    {
+      "id": "e-step-1794939216061-50f20qlps-action-1794939830470-yi9fkf8m9",
+      "source": "step-1794939216061-50f20qlps",
+      "sourceHandle": "right",
+      "target": "action-1794939830470-yi9fkf8m9",
+      "targetHandle": "left",
+      "type": "defaultEdge",
+      "selected": false,
+      "data": {
+        "waypoints": [
+          {
+            "x": 820,
+            "y": 549.999982919333
+          },
+          {
+            "x": 820,
+            "y": 629.9998546500933
+          }
+        ]
+      }
+    },
+    {
+      "id": "e-step-1794939216061-50f20qlps-action-1794939837863-30l3wzm1n",
+      "source": "step-1794939216061-50f20qlps",
+      "sourceHandle": "right",
+      "target": "action-1794939837863-30l3wzm1n",
+      "targetHandle": "left",
+      "type": "defaultEdge",
+      "selected": false,
+      "data": {
+        "waypoints": [
+          {
+            "x": 820,
+            "y": 549.999982919333
+          },
+          {
+            "x": 820,
+            "y": 709.9999059742129
+          }
+        ]
+      }
+    },
+    {
+      "id": "e-step-1794939216061-50f20qlps-transition-1794939886637-2j72xysh4",
+      "source": "step-1794939216061-50f20qlps",
+      "sourceHandle": "bottom",
+      "target": "transition-1794939886637-2j72xysh4",
+      "targetHandle": "top",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-orNode-1794938971324-uqvp6b51t-transition-1794939957937-j53p19y84",
+      "source": "orNode-1794938971324-uqvp6b51t",
+      "sourceHandle": "source-90",
+      "target": "transition-1794939957937-j53p19y84",
+      "targetHandle": "top",
+      "type": "defaultEdge"
+    },
+    {
+      "id": "e-initial-step-0-loopNode-1794939974020",
+      "source": "initial-step-0",
+      "sourceHandle": "top",
+      "target": "loopNode-1794939974020",
+      "targetHandle": "top",
+      "type": "loopEdge"
+    },
+    {
+      "source": "loopNode-1794939974020",
+      "sourceHandle": "bottom",
+      "target": "transition-1794939487018-nojtagtgq",
+      "targetHandle": "bottom",
+      "type": "loopEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-loopNode-1794939974020bottom-transition-1794939487018-nojtagtgqbottom",
+      "selected": false,
+      "data": {
+        "waypoints": [
+          {
+            "x": 80,
+            "y": 900
+          },
+          {
+            "x": 369.999982919333,
+            "y": 900
+          }
+        ]
+      }
+    },
+    {
+      "source": "transition-1794939957937-j53p19y84",
+      "sourceHandle": "bottom",
+      "target": "loopNode-1794939974020",
+      "targetHandle": "bottom",
+      "type": "loopEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794939957937-j53p19y84bottom-loopNode-1794939974020bottom",
+      "selected": false,
+      "data": {
+        "waypoints": [
+          {
+            "x": 1209.9999418403108,
+            "y": 900
+          },
+          {
+            "x": 80,
+            "y": 900
+          }
+        ]
+      }
+    },
+    {
+      "source": "transition-1794939886637-2j72xysh4",
+      "sourceHandle": "bottom",
+      "target": "loopNode-1794939974020",
+      "targetHandle": "bottom",
+      "type": "loopEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794939886637-2j72xysh4bottom-loopNode-1794939974020bottom",
+      "selected": false,
+      "data": {
+        "waypoints": [
+          {
+            "x": 669.999982919333,
+            "y": 900
+          },
+          {
+            "x": 80,
+            "y": 900
+          }
+        ]
+      }
+    },
+    {
+      "id": "e-step-1794939039447-lkuh9lg6z-orNode-1794940229806-o9jygy8bx",
+      "source": "step-1794939039447-lkuh9lg6z",
+      "sourceHandle": "bottom",
+      "target": "orNode-1794940229806-o9jygy8bx",
+      "targetHandle": "handle-12",
+      "type": "defaultEdge"
+    },
+    {
+      "source": "transition-1794939055711-9km72gnw1",
+      "sourceHandle": "top",
+      "target": "orNode-1794940229806-o9jygy8bx",
+      "targetHandle": "handle-0",
+      "type": "defaultEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794939055711-9km72gnw1top-orNode-1794940229806-o9jygy8bxhandle-0"
+    },
+    {
+      "source": "transition-1794939487018-nojtagtgq",
+      "sourceHandle": "top",
+      "target": "orNode-1794940229806-o9jygy8bx",
+      "targetHandle": "handle-24",
+      "type": "defaultEdge",
+      "animated": false,
+      "deletable": true,
+      "style": {
+        "stroke": "var(--edge-stroke)",
+        "strokeWidth": 3
+      },
+      "id": "reactflow__edge-transition-1794939487018-nojtagtgqtop-orNode-1794940229806-o9jygy8bxhandle-24"
+    }
+  ],
+  "counter": 4,
+  "liveSetup": {
+    "board": "uno-r4-wifi",
+    "connMode": "usb",
+    "assign": {},
+    "invert": {}
+  },
+  "exportSettings": {
+    "format": "grafcetio",
+    "scale": 100,
+    "transparentBg": false,
+    "includeDotGrid": false,
+    "paperSize": "a4",
+    "orientation": "portrait",
+    "titleBlock": {
+      "enabled": false,
+      "title": "",
+      "creator": "",
+      "date": "2026-11-16",
+      "project": "",
+      "company": "",
+      "filename": ""
+    }
+  }
+}
