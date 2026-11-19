@@ -6,8 +6,8 @@ local system = require("system")
 
 --- Entrées
 
-local bpStart = ic.find()
-local bpStop = ic.find()
+local bpStart = ic.find("Button start Autolathe")
+local bpStop = ic.find("Button stop Autolathe")
 
 --- Sortie
 
@@ -17,8 +17,9 @@ local displayId = {
     quantity = ic.find("Display quantity Autolathe"),
     progress = ic.find("Display progress Autolathe")
 }
-local printer = 0
-local stacker = 1
+local printerName = "Autolathe"
+local printer = ic.find(printerName)
+local stacker = ic.find("Stacker Autolathe")
 
 ----------------------------
 -- Définition des données
@@ -26,7 +27,7 @@ local stacker = 1
 
 local LT = ic.enums.LogicType
 local nextState
-local isDebugMode = false
+local isDebugMode = true
 --List les different état du système
 local state = {
     stop = "STOP",
@@ -44,6 +45,9 @@ local currentState = state.stop
 local stateMachine = {
     [state.stop] = {
         enter = function ()
+            system.safe.writeId(displayId.state, LT.Setting, pack_ascii6(state.stop), "Display state " .. printerName)
+            system.safe.writeId(displayId.state, LT.Color, 4, "Display state " .. printerName)
+            system.safe.writeId(printer, LT.Activate, 0, "printer " .. printerName)
         end,
 
         tick = function ()
@@ -93,6 +97,17 @@ end
 
 system.safe.writeId(displayId.state, LT.Mode, 10, "Display state Autolathe")
 system.safe.writeId(displayId.progress, LT.Mode, 1, "Display progress Autolathe")
+--Execute une première fois la fonction enter de l'étape initial
+if stateMachine[currentState].enter then
+    stateMachine[currentState].enter()
+else
+    print(system.log.time() .. "h " .. system.log.level("warn") .. " : la fonction " ..
+        system.utils.color("Yellow", "enter") ..
+        "de la state" ..
+        currentState ..
+        "n'existe pas !"
+    )
+end
 
 while true do
     --Permet d'executer la fonction tick de l'état actuel a chaque tick du jeux
