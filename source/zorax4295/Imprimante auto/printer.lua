@@ -28,6 +28,10 @@ local stacker = ic.find("Stacker Autolathe")
 local LT = ic.enums.LogicType
 local nextState
 local isDebugMode = true
+local bpStartIsActivate
+local bpStopIsActivate
+--Determine si des objet son présent dans la liste des objet à craft
+local objectSelected = false
 --List les different état du système
 local state = {
     stop = "STOP",
@@ -51,6 +55,9 @@ local stateMachine = {
         end,
 
         tick = function ()
+            if bpStartIsActivate and objectSelected then
+                return state.run
+            end
         end,
 
         exit = function ()
@@ -110,6 +117,9 @@ else
 end
 
 while true do
+    bpStartIsActivate = system.utils.toBolean(system.safe.readId(bpStart, LT.Activate, "BP Start " .. printerName))
+    bpStopIsActivate = system.utils.toBolean(system.safe.readId(bpStop, LT.Activate, "BP Stop " .. printerName))
+
     --Permet d'executer la fonction tick de l'état actuel a chaque tick du jeux
     if stateMachine[currentState].tick then
         nextState = stateMachine[currentState].tick()
