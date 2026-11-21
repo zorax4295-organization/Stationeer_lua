@@ -106,4 +106,45 @@ function scriptedScreen.element.createRect(parent, id, x, y, w, h, color, thickn
     return rect
 end
 
+--Permet de récupérer la taille de l'écran shouaiter
+---@param consoleType "Console Monitor"
+---@param path table
+---@return number w --Largeur de l'écran en PX
+---@return number h --Longueur de l'écran en PX
+function scriptedScreen.getScreenSize(path, consoleType)
+    local console = {}
+    if consoleType == "Console Monitor" then
+        console.w = 460
+        console.h = 460
+    end
+
+    path:get_resolution(console.w, console.w)
+    local size = path:size()
+
+    -- Renvoi de la taille de l'écran virtuelle
+    return size.w, size.h
+end
+
+--Déffinition des paramètre de chaque écran
+---@param name string --Nom de la page
+---@param currentUi string --La page initial a définire avant la fonction
+---@return table
+function scriptedScreen.createScreen(name, currentUi)
+    local surface = ss.ui.surface(name)
+    return {
+        -- Rend accessible la surface pour utilisation ulterieur
+        surface = surface,
+        -- Affiche l'écran
+        set = function()
+            -- Retourne l'id de la page acctuel
+            currentUi = name
+            ss.ui.activate(name)
+        end,
+        -- Retire tout les élément afficher a l'écran
+        clear = function ()
+            surface:clear()            
+        end,
+    }
+end
+
 return scriptedScreen
